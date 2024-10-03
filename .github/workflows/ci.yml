@@ -50,4 +50,4 @@ jobs:
         with:
           packagist-username: ${{ secrets.PACKAGIST_USERNAME }}
           api-token: ${{ secrets.PACKAGIST_TOKEN }}
-          github-repository-url: ${{ github.repository }}
+          github-repository-url: ${{ github.server_url }}/${{ github.repository }}
