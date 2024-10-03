@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/coverzen/yousign-client/compare/v1.0.0...v1.0.1) (2024-10-03)
+
+
+### Bug Fixes
+
+* fix repository url in ci workflow ([ce54e09](https://github.com/coverzen/yousign-client/commit/ce54e09c834d4fbeea2d83c8873618b4a059edda))
+
 # 1.0.0 (2024-10-03)
 
 
