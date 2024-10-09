@@ -21,6 +21,8 @@ use function in_array;
 
 /**
  * Class YousignTest.
+ *
+ * @coversDefaultClass \Coverzen\Components\YousignClient\Libs\Soa\v1\Yousign
  */
 final class YousignTest extends TestCase
 {
@@ -43,7 +45,7 @@ final class YousignTest extends TestCase
 
     /**
      * @test
-     *
+     * @covers      ::initiateSignature
      * @return void
      */
     public function it_initiates_a_procedure(): void

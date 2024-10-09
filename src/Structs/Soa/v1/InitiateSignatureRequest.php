@@ -22,6 +22,10 @@ final class InitiateSignatureRequest extends Struct
 
     /** {@inheritdoc} */
     protected $fillable = [
+        'name',
+        'delivery_mode',
+        'ordered_signers',
+        'timezone',
     ];
 
     /** @var array<array-key,mixed> */
