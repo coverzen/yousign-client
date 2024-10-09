@@ -9,8 +9,19 @@ parameters:
     excludePaths:
     tmpDir: ./.phpstan.cache
     ignoreErrors:
-#        -
-#             message: '#Parameter \#1 \$queue of method Coverzen\\Components\\QuoteEngine\\Jobs\\v1\\PersistQuoteResponse::onQueue\(\) expects string\|null, mixed given\.#'
-#             path: src/Jobs/v1/PersistQuoteResponse.php
-
-
+        -
+             message: '#Parameter \#1 \$array of static method Illuminate\\Support\\Arr::get\(\) expects array\|ArrayAccess, mixed given\.#'
+             paths:
+                 - src/Libs/Soa/v1/Soa.php
+                 - src/Libs/Soa/v1/Yousign.php
+        -
+             messages:
+                 - '#Parameter \#1 \$seconds of static method Illuminate\\Support\\Facades\\Http::connectTimeout\(\) expects int, mixed given\.#'
+                 - '#Parameter \#1 \$seconds of method Illuminate\\Http\\Client\\PendingRequest::timeout\(\) expects int, mixed given\.#'
+                 - '#Parameter \#1 \$value of static method Illuminate\\Support\\Str::finish\(\) expects string, mixed given\.#'
+                 - '#Parameter \#1 \$times of method Illuminate\\Http\\Client\\PendingRequest::retry\(\) expects array\|int, mixed given\.#'
+             path: src/Libs/Soa/v1/Yousign.php
+        -
+             messages:
+                 - '#Parameter \#1 \$value of static method Illuminate\\Support\\Str::finish\(\) expects string, mixed given\.#'
+             path: tests/Unit/Libs/Soa/v1/YousignTest.php
