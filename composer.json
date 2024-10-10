@@ -6,7 +6,8 @@
     "require": {
         "php": "^8.2",
         "ext-json": "*",
-        "guzzlehttp/guzzle": "^7.9"
+        "guzzlehttp/guzzle": "^7.9",
+        "spatie/laravel-enum": "^3.1"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.52",
@@ -41,7 +42,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Coverzen\\Components\\QuoteEngine\\YousignClientServiceProvider"
+                "Coverzen\\Components\\YousignClient\\YousignClientServiceProvider"
             ]
         }
     },
@@ -62,6 +63,7 @@
             "@phpinsights",
             "@phpmd",
             "@phpmnd",
+            "@phpmnd-test",
             "@phpstan",
             "@psalm"
         ],
@@ -71,7 +73,8 @@
         "phpcs": "./vendor/bin/phpcs",
         "phpinsights": "./vendor/bin/phpinsights -n",
         "phpmd": "./vendor/bin/phpmd --cache database,config,src,tests text phpmd.xml",
-        "phpmnd": "./vendor/bin/phpmnd --extensions=all,-property,-argument,-array --strings --allow-array-mapping database src tests",
+        "phpmnd": "./vendor/bin/phpmnd --extensions=all,-property,-argument,-array --strings --allow-array-mapping database src",
+        "phpmnd-test": "./vendor/bin/phpmnd --extensions=all,-property,-argument,-array --allow-array-mapping tests",
         "phpstan": "./vendor/bin/phpstan analyse --memory-limit=1G",
         "psalm": "./vendor/bin/psalm",
         "test": "./vendor/bin/pest"
