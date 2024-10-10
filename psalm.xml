@@ -31,11 +31,11 @@
                 <directory name="tests"/>
             </errorLevel>
         </UnusedParam>
-<!--        <TooManyTemplateParams>-->
-<!--            <errorLevel type="suppress">-->
-<!--                <file name="src/Jobs/v1/PersistQuoteResponse.php"/>-->
-<!--            </errorLevel>-->
-<!--        </TooManyTemplateParams>-->
+        <RiskyTruthyFalsyComparison>
+            <errorLevel type="suppress">
+                <file name="src/Libs/Soa/v1/Yousign.php"/>
+            </errorLevel>
+        </RiskyTruthyFalsyComparison>
     </issueHandlers>
 
     <plugins>

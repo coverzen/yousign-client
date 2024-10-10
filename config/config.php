@@ -1,5 +1,10 @@
 <?php declare(strict_types=1);
 
 return [
-    'test key' => 'test value',
+    'url' => env('YOUSIGN_URL'),
+    'api_key' => env('YOUSIGN_API_KEY'),
+    'connection_timeout_seconds' => 5,
+    'timeout_seconds' => 5,
+    'retry_count' => 1,
+    'retry_sleep' => 10,
 ];

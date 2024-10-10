@@ -5,7 +5,9 @@
     "license": "proprietary",
     "require": {
         "php": "^8.2",
-        "ext-json": "*"
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.9",
+        "spatie/laravel-enum": "^3.1"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.52",
@@ -27,7 +29,9 @@
     },
     "autoload": {
         "psr-4": {
-            "Coverzen\\Components\\YousignClient\\": "src/"
+            "Coverzen\\Components\\YousignClient\\": "src/",
+            "Coverzen\\Components\\YousignClient\\Database\\Constants\\": "database/constants",
+            "Coverzen\\Components\\YousignClient\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
@@ -38,7 +42,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Coverzen\\Components\\QuoteEngine\\YousignClientServiceProvider"
+                "Coverzen\\Components\\YousignClient\\YousignClientServiceProvider"
             ]
         }
     },
@@ -53,14 +57,24 @@
         }
     },
     "scripts": {
-        "analyse": "composer php-cs-fixer && composer phpcs && composer phpmd && composer phpmnd && composer phpstan && composer phpinsights -n && composer psalm",
+        "analyse": [
+            "@php-cs-fixer",
+            "@phpcs",
+            "@phpinsights",
+            "@phpmd",
+            "@phpmnd",
+            "@phpmnd-test",
+            "@phpstan",
+            "@psalm"
+        ],
         "phpcbf": "./vendor/bin/phpcbf",
         "php-cs-fixer": "./vendor/bin/php-cs-fixer fix --dry-run --diff --ansi",
         "php-cs-fixer-fix": "./vendor/bin/php-cs-fixer fix",
         "phpcs": "./vendor/bin/phpcs",
-        "phpinsights": "./vendor/bin/phpinsights",
-        "phpmd": "./vendor/bin/phpmd --cache src text phpmd.xml",
-        "phpmnd": "./vendor/bin/phpmnd --extensions=all,-property,-argument,-array --strings --allow-array-mapping database src tests",
+        "phpinsights": "./vendor/bin/phpinsights -n",
+        "phpmd": "./vendor/bin/phpmd --cache database,config,src,tests text phpmd.xml",
+        "phpmnd": "./vendor/bin/phpmnd --extensions=all,-property,-argument,-array --strings --allow-array-mapping database src",
+        "phpmnd-test": "./vendor/bin/phpmnd --extensions=all,-property,-argument,-array --allow-array-mapping tests",
         "phpstan": "./vendor/bin/phpstan analyse --memory-limit=1G",
         "psalm": "./vendor/bin/psalm",
         "test": "./vendor/bin/pest"
