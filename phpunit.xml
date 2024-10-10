@@ -18,6 +18,8 @@
     <php>
         <env name="APP_KEY" value="base64:2fl+Ktvkfl+Fuz4Qp/A75G2RTiWVA/ZoKZvp6fiiM10="/>
         <env name="CACHE_DRIVER" value="array"/>
+        <env name="YOUSIGN_URL" value="https://yousign.com/v3"/>
+        <env name="YOUSIGN_API_KEY" value="yousign-key"/>
     </php>
     <source>
         <include>
