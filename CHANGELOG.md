@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/coverzen/yousign-client/compare/v1.0.1...v1.1.0) (2024-10-10)
+
+
+### Features
+
+* add Yousign soa lib with initiateSignature function ([a847179](https://github.com/coverzen/yousign-client/commit/a8471797d6ab14dda64b3d1798bc43899b6a8243))
+
 ## [1.0.1](https://github.com/coverzen/yousign-client/compare/v1.0.0...v1.0.1) (2024-10-03)
 
 
