@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/coverzen/yousign-client/compare/v1.1.0...v1.2.0) (2024-10-11)
+
+
+### Features
+
+* add upload document function ([bd6a3a4](https://github.com/coverzen/yousign-client/commit/bd6a3a45b3d78d7d3aff63eabcc1bf528fd918d3))
+
 # [1.1.0](https://github.com/coverzen/yousign-client/compare/v1.0.1...v1.1.0) (2024-10-10)
 
 
