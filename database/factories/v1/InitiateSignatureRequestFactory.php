@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  * @template TModel of InitiateSignatureRequest
  * @extends Factory<TModel>
  */
-final class InitiateSignatureRequestFactory extends Factory
+final class InitiateSignatureRequestFactory extends AbstractFactory
 {
     /**
      * The name of the factory's corresponding model.
