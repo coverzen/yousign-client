@@ -57,6 +57,8 @@ final class UploadDocumentResponse extends Struct
         'is_protected' => false,
         'is_signed' => false,
         'is_locked' => false,
+        'total_pages' => 0,
+        'total_anchors' => 0,
     ];
 
     /** {@inheritdoc} */

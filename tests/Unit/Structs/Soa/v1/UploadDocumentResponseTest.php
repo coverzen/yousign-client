@@ -84,6 +84,12 @@ final class UploadDocumentResponseTest extends TestCase
 
         $this->assertIsBool($uploadDocumentResponse->is_locked);
         $this->assertFalse($uploadDocumentResponse->is_locked);
+
+        $this->assertIsInt($uploadDocumentResponse->total_pages);
+        $this->assertSame(0, $uploadDocumentResponse->total_pages);
+
+        $this->assertIsInt($uploadDocumentResponse->total_anchors);
+        $this->assertSame(0, $uploadDocumentResponse->total_anchors);
     }
 
     /**
