@@ -36,6 +36,16 @@
                 <file name="src/Libs/Soa/v1/Yousign.php"/>
             </errorLevel>
         </RiskyTruthyFalsyComparison>
+        <InternalClass>
+            <errorLevel type="suppress">
+                <file name="src/Fakes/v1/YousignFaker.php"/>
+            </errorLevel>
+        </InternalClass>
+        <InternalMethod>
+            <errorLevel type="suppress">
+                <file name="src/Fakes/v1/YousignFaker.php"/>
+            </errorLevel>
+        </InternalMethod>
     </issueHandlers>
 
     <plugins>
