@@ -1,0 +1,102 @@
+<?php declare(strict_types=1);
+
+namespace Coverzen\Components\YousignClient\Fakes\v1;
+
+use Coverzen\Components\YousignClient\Libs\Soa\v1\Soa;
+use Coverzen\Components\YousignClient\Libs\Soa\v1\Yousign;
+use Coverzen\Components\YousignClient\YousignClientServiceProvider;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
+use PHPUnit\Framework\Assert as PHPUnit;
+use PHPUnit\Framework\ExpectationFailedException;
+use RuntimeException;
+use function app;
+use function sprintf;
+
+/**
+ * Class YousignFaker.
+ *
+ * This class is swapped behind Yousign facade if `Yousign::fake()` method is
+ * called. It provides a series of assertion for tests and blocks sending HTTP
+ * requests outwards.
+ */
+class YousignFaker
+{
+    /**
+     * Failed assertion message.
+     *
+     * @var string
+     */
+    public const FAILED_ASSERTION_MESSAGE_DIFFERENT_FUNCTION = 'Failed asserting expected called function "%s" matches actual: "%s"';
+
+    /**
+     * Failed assertion message.
+     *
+     * @var string
+     */
+    public const FAILED_ASSERTION_MESSAGE_NO_CALLED = 'Failed asserting expected called function "%s" is called';
+
+    /**
+     * Name of the last called function.
+     *
+     * @see self::assertIsCalled()
+     *
+     * @var string|null
+     */
+    private ?string $calledFunctionName = null;
+
+    /**
+     * Constructor for `YousignFaker` class.
+     */
+    public function __construct()
+    {
+        if (!app()->runningUnitTests()) {
+            throw new RuntimeException('YousignFaker should only be used in tests');
+        }
+
+        Http::preventStrayRequests();
+
+        /** @var string $url */
+        $url = Str::finish(Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'), Soa::URL_SEPARATOR) . '*';
+
+        Http::fake(
+            [
+                $url => Http::response([]),
+            ]
+        );
+    }
+
+    /**
+     * @param string $function
+     * @param array<int,mixed> $arguments
+     *
+     * @return mixed
+     */
+    public function __call(string $function, array $arguments): mixed
+    {
+        $this->calledFunctionName = $function;
+
+        return (new Yousign())->{$function}(...$arguments);
+    }
+
+    /**
+     * Function to assert a facade method is called.
+     *
+     * @param string $expectedFunctionName
+     *
+     * @return void
+     */
+    public function assertIsCalled(string $expectedFunctionName): void
+    {
+        if (null === $this->calledFunctionName) {
+            throw new ExpectationFailedException(sprintf(self::FAILED_ASSERTION_MESSAGE_NO_CALLED, $expectedFunctionName));
+        }
+
+        PHPUnit::assertSame(
+            $expectedFunctionName,
+            $this->calledFunctionName,
+            sprintf(self::FAILED_ASSERTION_MESSAGE_DIFFERENT_FUNCTION, $expectedFunctionName, $this->calledFunctionName)
+        );
+    }
+}

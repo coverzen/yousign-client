@@ -22,7 +22,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $initials
  * @property int $total_anchors
  */
-final class UploadDocumentResponse extends Struct
+class UploadDocumentResponse extends Struct
 {
     use HasFactory;
 

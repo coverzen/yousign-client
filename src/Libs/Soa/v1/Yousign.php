@@ -19,7 +19,7 @@ use function is_array;
 /**
  * Class Yousign.
  */
-final class Yousign extends Soa
+class Yousign extends Soa
 {
     /** @var string */
     public const INITIATE_SIGNATURE_URL = 'signature_requests';

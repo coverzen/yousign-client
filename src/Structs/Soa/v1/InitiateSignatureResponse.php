@@ -32,7 +32,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $bulk_send_batch_id
  * @property array<array-key,mixed>|null $email_notification
  */
-final class InitiateSignatureResponse extends Struct
+class InitiateSignatureResponse extends Struct
 {
     use HasFactory;
 

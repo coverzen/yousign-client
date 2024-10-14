@@ -24,4 +24,6 @@ parameters:
         -
              messages:
                  - '#Parameter \#1 \$value of static method Illuminate\\Support\\Str::finish\(\) expects string, mixed given\.#'
-             path: tests/Unit/Libs/Soa/v1/YousignTest.php
+             paths:
+                 - tests/Unit/Libs/Soa/v1/YousignTest.php
+                 - src/Fakes/v1/YousignFaker.php
