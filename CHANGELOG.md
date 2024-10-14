@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/coverzen/yousign-client/compare/v1.2.0...v1.3.0) (2024-10-14)
+
+
+### Features
+
+* add facade to improve tests and package usage ([58eb30a](https://github.com/coverzen/yousign-client/commit/58eb30a3c02c70ec7ad3d7287d24ee72b68e821e))
+
 # [1.2.0](https://github.com/coverzen/yousign-client/compare/v1.1.0...v1.2.0) (2024-10-11)
 
 
