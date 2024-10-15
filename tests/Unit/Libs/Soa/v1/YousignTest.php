@@ -4,6 +4,7 @@ namespace Coverzen\Components\YousignClient\Tests\Unit\Libs\Soa\v1;
 
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Soa;
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Yousign;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
@@ -233,6 +234,20 @@ final class YousignTest extends TestCase
             $expectedUploadDocumentResponse->toArray(),
             $actualUploadDocumentResponse->toArray()
         );
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public static function it_add_signer()
+    {
+        /** @var AddSignerRequest $addSignerRequest */
+        $addSignerRequest = AddSignerRequest::factory()
+                                                      ->make();
+
+        (new Yousign())->addSigner($addSignerRequest);
     }
 
     /**

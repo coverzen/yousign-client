@@ -2,6 +2,7 @@
 
 namespace Coverzen\Components\YousignClient\Libs\Soa\v1;
 
+use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
@@ -112,5 +113,9 @@ class Yousign extends Soa
         }
 
         return new UploadDocumentResponse($response->json());
+    }
+
+    public function addSigner(AddSignerRequest $addSignerRequest)
+    {
     }
 }
