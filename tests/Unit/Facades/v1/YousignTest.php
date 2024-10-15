@@ -98,13 +98,33 @@ final class YousignTest extends TestCase
      *
      * @return void
      */
-    public function it_permits_assert_is_called(): void
+    public function it_permits_assert_initiate_signature_is_called(): void
     {
         Yousign::fake();
 
         Yousign::initiateSignature(new InitiateSignatureRequest());
 
         Yousign::assertIsCalled('initiateSignature');
+        Http::assertSentCount(1);
+    }
+
+    /**
+     * @test
+     * @covers \Coverzen\Components\YousignClient\Facades\v1\Yousign::fake
+     *
+     * @return void
+     */
+    public function it_permits_assert_upload_document_is_called(): void
+    {
+        Yousign::fake();
+
+        Yousign::uploadDocument(
+            'signature-id',
+            UploadDocumentRequest::factory()
+                                 ->make()
+        );
+
+        Yousign::assertIsCalled('uploadDocument');
         Http::assertSentCount(1);
     }
 }

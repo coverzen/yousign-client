@@ -4,7 +4,10 @@ namespace Coverzen\Components\YousignClient\Fakes\v1;
 
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Soa;
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Yousign;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentResponse;
 use Coverzen\Components\YousignClient\YousignClientServiceProvider;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -40,9 +43,8 @@ class YousignFaker
     /**
      * Name of the last called function.
      *
-     * @see self::assertIsCalled()
-     *
      * @var string|null
+     * @see self::assertIsCalled()
      */
     private ?string $calledFunctionName = null;
 
@@ -58,11 +60,22 @@ class YousignFaker
         Http::preventStrayRequests();
 
         /** @var string $url */
-        $url = Str::finish(Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'), Soa::URL_SEPARATOR) . '*';
+        $url = Str::finish(Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'), Soa::URL_SEPARATOR);
 
         Http::fake(
             [
-                $url => Http::response([]),
+                $url . Yousign::INITIATE_SIGNATURE_URL => Http::response(
+                    InitiateSignatureResponse::factory()
+                                             ->make()
+                                             ->toArray(),
+                    Response::HTTP_CREATED
+                ),
+                $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::UPLOAD_DOCUMENT_URL => Http::response(
+                    UploadDocumentResponse::factory()
+                                          ->make()
+                                          ->toArray(),
+                    Response::HTTP_CREATED
+                ),
             ]
         );
     }
