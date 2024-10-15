@@ -2,6 +2,8 @@
 
 namespace Coverzen\Components\YousignClient\Database\Factories\v1;
 
+use Coverzen\Components\YousignClient\Enums\v1\SignatureAuthenticationMode;
+use Coverzen\Components\YousignClient\Enums\v1\SignatureLevel;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\SignerField;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -38,7 +40,7 @@ final class AddSignerRequestFactory extends AbstractFactory
              * @retrun void
              */
             static function (AddSignerRequest $addSignerRequest): void {
-                $addSignerRequest->fields = SignerField::factory()
+                $addSignerRequest->fields = SignerField::factory(random_int(2, 5))
                                                        ->make();
             }
         );
@@ -51,8 +53,8 @@ final class AddSignerRequestFactory extends AbstractFactory
     {
         return [
             'info' => [],
-            'signature_level' => $this->faker->sentence,
-            'signature_authentication_mode' => $this->faker->sentence,
+            'signature_level' => $this->faker->randomEnumValue(SignatureLevel::class),
+            'signature_authentication_mode' => $this->faker->randomEnumValue(SignatureAuthenticationMode::class),
         ];
     }
 }

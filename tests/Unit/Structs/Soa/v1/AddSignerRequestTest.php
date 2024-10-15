@@ -2,9 +2,10 @@
 
 namespace Coverzen\Components\YousignClient\Tests\Unit\Structs\Soa\v1;
 
+use Coverzen\Components\YousignClient\Enums\v1\SignatureAuthenticationMode;
+use Coverzen\Components\YousignClient\Enums\v1\SignatureLevel;
 use Coverzen\Components\YousignClient\Exceptions\Structs\v1\StructSaveException;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
-use Coverzen\Components\YousignClient\Structs\Soa\v1\SignerField;
 
 /**
  * Class AddSignerRequestTest.
@@ -52,9 +53,9 @@ final class AddSignerRequestTest extends TestCase
                                           ->make();
 
         $this->assertIsArray($addSignerRequest->info);
-        $this->assertIsString($addSignerRequest->signature_level);
-        $this->assertIsString($addSignerRequest->signature_authentication_mode);
-        $this->assertInstanceOf(SignerField::class, $addSignerRequest->fields);
+        $this->assertInstanceOf(SignatureLevel::class, $addSignerRequest->signature_level);
+        $this->assertInstanceOf(SignatureAuthenticationMode::class, $addSignerRequest->signature_authentication_mode);
+        $this->assertIsIterable($addSignerRequest->fields);
     }
 
     /**

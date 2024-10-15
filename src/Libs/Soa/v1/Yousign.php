@@ -115,7 +115,7 @@ class Yousign extends Soa
         return new UploadDocumentResponse($response->json());
     }
 
-    public function addSigner(AddSignerRequest $addSignerRequest)
+    public function addSigner(AddSignerRequest $addSignerRequest): void
     {
     }
 }

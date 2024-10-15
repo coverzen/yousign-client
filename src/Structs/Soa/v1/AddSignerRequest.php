@@ -3,15 +3,17 @@
 namespace Coverzen\Components\YousignClient\Structs\Soa\v1;
 
 use Coverzen\Components\YousignClient\Database\Factories\v1\AddSignerRequestFactory;
+use Coverzen\Components\YousignClient\Enums\v1\SignatureAuthenticationMode;
+use Coverzen\Components\YousignClient\Enums\v1\SignatureLevel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class AddSignerRequest.
  *
  * @property array $info
- * @property string $signature_level
- * @property string $signature_authentication_mode
- * @property SignerField $fields
+ * @property SignatureLevel $signature_level
+ * @property SignatureAuthenticationMode|null $signature_authentication_mode
+ * @property array<int,SignerField> $fields
  */
 final class AddSignerRequest extends Struct
 {
@@ -21,18 +23,17 @@ final class AddSignerRequest extends Struct
     public $timestamps = false;
 
     /** {@inheritdoc} */
-    protected $fillable = [
-        'info',
-        'fields',
-    ];
-
-    /** @var array<array-key,mixed> */
-    protected $attributes = [
+    protected $casts = [
+        'signature_level' => SignatureLevel::class,
+        'signature_authentication_mode' => SignatureAuthenticationMode::class,
     ];
 
     /** {@inheritdoc} */
-    protected $casts = [
-        'fileds' => SignerField::class,
+    protected $fillable = [
+        'info',
+        'signature_level',
+        'signature_authentication_mode',
+        'fields',
     ];
 
     /**
