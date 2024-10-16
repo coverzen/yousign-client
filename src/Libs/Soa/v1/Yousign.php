@@ -2,6 +2,8 @@
 
 namespace Coverzen\Components\YousignClient\Libs\Soa\v1;
 
+use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
@@ -26,6 +28,9 @@ class Yousign extends Soa
 
     /** @var string */
     public const UPLOAD_DOCUMENT_URL = 'documents';
+
+    /** @var string */
+    public const ADD_SIGNER_URL = 'signers';
 
     /** @var string */
     public const FILE_PARAM = 'file';
@@ -112,5 +117,30 @@ class Yousign extends Soa
         }
 
         return new UploadDocumentResponse($response->json());
+    }
+
+    /**
+     * @param string $signatureRequestId
+     * @param AddSignerRequest $addSignerRequest
+     *
+     * @return AddSignerResponse
+     */
+    public function addSigner(string $signatureRequestId, AddSignerRequest $addSignerRequest): AddSignerResponse
+    {
+        if (!$addSignerRequest->info) {
+            throw new RuntimeException('Info is required.');
+        }
+
+        /** @var string $url */
+        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::ADD_SIGNER_URL;
+
+        /** @var Response $response */
+        $response = $this->apiClient->post($url, $addSignerRequest->toArray());
+
+        if (!is_array($response->json())) {
+            throw new RuntimeException('Yousign response is not an array.');
+        }
+
+        return new AddSignerResponse($response->json());
     }
 }
