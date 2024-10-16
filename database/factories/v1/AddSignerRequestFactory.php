@@ -7,7 +7,6 @@ use Coverzen\Components\YousignClient\Enums\v1\SignatureLevel;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\SignerField;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Arr;
 use Random\RandomException;
 
 /**
@@ -61,7 +60,7 @@ final class AddSignerRequestFactory extends AbstractFactory
                 'last_name' => $this->faker->lastName,
                 'email' => $this->faker->email,
                 'phone_number' => $this->faker->phoneNumber,
-                'locale' => 'it'
+                'locale' => 'it',
             ],
             'signature_level' => $this->faker->randomEnumValue(SignatureLevel::class),
             'signature_authentication_mode' => $this->faker->randomEnumValue(SignatureAuthenticationMode::class),

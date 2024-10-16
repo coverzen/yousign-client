@@ -137,6 +137,10 @@ class Yousign extends Soa
         /** @var Response $response */
         $response = $this->apiClient->post($url, $addSignerRequest->toArray());
 
+        if (!is_array($response->json())) {
+            throw new RuntimeException('Yousign response is not an array.');
+        }
+
         return new AddSignerResponse($response->json());
     }
 }

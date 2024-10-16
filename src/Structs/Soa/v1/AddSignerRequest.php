@@ -25,7 +25,7 @@ final class AddSignerRequest extends Struct
     /** {@inheritdoc} */
     protected $casts = [
         'signature_level' => SignatureLevel::class,
-        'signature_authentication_mode' => SignatureAuthenticationMode::class.':nullable',
+        'signature_authentication_mode' => SignatureAuthenticationMode::class . ':nullable',
     ];
 
     /** {@inheritdoc} */

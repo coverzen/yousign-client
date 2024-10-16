@@ -246,9 +246,9 @@ final class YousignTest extends TestCase
     {
         /** @var string $url */
         $url = Str::finish(
-                Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
-                Soa::URL_SEPARATOR
-            ) . Yousign::INITIATE_SIGNATURE_URL
+            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Soa::URL_SEPARATOR
+        ) . Yousign::INITIATE_SIGNATURE_URL
             . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ADD_SIGNER_URL;
 
         /** @var AddSignerResponse $expectedAddSignerResponse */
@@ -268,9 +268,8 @@ final class YousignTest extends TestCase
         /** @var AddSignerResponse $actualAddSignerResponse */
         $actualAddSignerResponse = (new Yousign())->addSigner(self::SIGNATURE_ID, $addSignerRequest);
 
-
         Http::assertSent(
-            static function (ClientRequest $request) use ($url, $addSignerRequest): bool {
+            static function (ClientRequest $request) use ($url): bool {
                 if ($request->method() !== Request::METHOD_POST) {
                     throw new ExpectationFailedException('Request method must be POST');
                 }
@@ -298,10 +297,10 @@ final class YousignTest extends TestCase
         $this->assertNotNull($actualAddSignerResponse);
         $this->assertInstanceOf(AddSignerResponse::class, $actualAddSignerResponse);
 
-//        $this->assertSame(
-//            $expectedAddSignerResponse->toArray(),
-//            $actualAddSignerResponse->toArray()
-//        );
+        //        $this->assertSame(
+        //            $expectedAddSignerResponse->toArray(),
+        //            $actualAddSignerResponse->toArray()
+        //        );
     }
 
     /**

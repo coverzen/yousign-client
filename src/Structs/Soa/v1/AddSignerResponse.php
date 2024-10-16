@@ -15,7 +15,7 @@ use Illuminate\Support\Carbon;
  * @property string $signature_level
  * @property string|null $signature_authentication_mode
  * @property string|null $signature_link
- * @property SignerField $fields
+ * @property array<int,SignerField> $fields
  * @property Carbon|null $signature_link_expiration_date
  * @property string|null $signature_image_preview
  * @property array $redirect_urls
@@ -23,7 +23,6 @@ use Illuminate\Support\Carbon;
  * @property string|null $delivery_mode
  * @property string|null $identification_attestation_id
  * @property array $sms_notification
- *
  */
 final class AddSignerResponse extends Struct
 {
@@ -52,7 +51,7 @@ final class AddSignerResponse extends Struct
 
     /** {@inheritdoc} */
     protected $casts = [
-        'signature_link_expiration_date' => 'datetime'
+        'signature_link_expiration_date' => 'datetime',
     ];
 
     /**

@@ -4,11 +4,9 @@ namespace Coverzen\Components\YousignClient\Database\Factories\v1;
 
 use Coverzen\Components\YousignClient\Enums\v1\SignatureAuthenticationMode;
 use Coverzen\Components\YousignClient\Enums\v1\SignatureLevel;
-use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\SignerField;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Arr;
 use Random\RandomException;
 
 /**
