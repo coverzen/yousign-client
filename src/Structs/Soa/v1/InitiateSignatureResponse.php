@@ -75,7 +75,7 @@ class InitiateSignatureResponse extends Struct
     /** @var array<array-key,mixed> */
     protected $attributes = [
         'ordered_signers' => false,
-        '$signers_allowed_to_decline' => false,
+        'signers_allowed_to_decline' => false,
     ];
 
     /** {@inheritdoc} */
