@@ -5,6 +5,7 @@ namespace Coverzen\Components\YousignClient\Tests\Unit\Libs\Soa\v1;
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Soa;
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Yousign;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
@@ -241,13 +242,66 @@ final class YousignTest extends TestCase
      *
      * @return void
      */
-    public static function it_add_signer()
+    public function it_add_signer()
     {
-        /** @var AddSignerRequest $addSignerRequest */
-        $addSignerRequest = AddSignerRequest::factory()
+        /** @var string $url */
+        $url = Str::finish(
+                Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+                Soa::URL_SEPARATOR
+            ) . Yousign::INITIATE_SIGNATURE_URL
+            . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ADD_SIGNER_URL;
+
+        /** @var AddSignerResponse $expectedAddSignerResponse */
+        $expectedAddSignerResponse = AddSignerResponse::factory()
                                                       ->make();
 
-        (new Yousign())->addSigner($addSignerRequest);
+        Http::fake(
+            [
+                $url => Http::response($expectedAddSignerResponse->toArray(), Response::HTTP_CREATED),
+            ]
+        );
+
+        /** @var AddSignerRequest $addSignerRequest */
+        $addSignerRequest = AddSignerRequest::factory()
+                                            ->make();
+
+        /** @var AddSignerResponse $actualAddSignerResponse */
+        $actualAddSignerResponse = (new Yousign())->addSigner(self::SIGNATURE_ID, $addSignerRequest);
+
+
+        Http::assertSent(
+            static function (ClientRequest $request) use ($url, $addSignerRequest): bool {
+                if ($request->method() !== Request::METHOD_POST) {
+                    throw new ExpectationFailedException('Request method must be POST');
+                }
+
+                if (
+                    $request->url() !== $url
+                ) {
+                    throw new ExpectationFailedException('Request URL must be ' . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url') . Yousign::INITIATE_SIGNATURE_URL);
+                }
+
+                if (
+                    !in_array(
+                        Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                        $request->header(Soa::AUTHORIZATION_HEADER),
+                        true
+                    )
+                ) {
+                    throw new ExpectationFailedException(Soa::AUTHORIZATION_HEADER . ' header missing or with wrong value.');
+                }
+
+                return true;
+            }
+        );
+
+        $this->assertNotNull($actualAddSignerResponse);
+        $this->assertInstanceOf(AddSignerResponse::class, $actualAddSignerResponse);
+
+//        $this->assertSame(
+//            $expectedAddSignerResponse->toArray(),
+//            $actualAddSignerResponse->toArray()
+//        );
     }
 
     /**

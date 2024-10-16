@@ -56,7 +56,13 @@ final class AddSignerRequestFactory extends AbstractFactory
     public function definition(): array
     {
         return [
-            'info' => [],
+            'info' => [
+                'first_name' => $this->faker->name,
+                'last_name' => $this->faker->lastName,
+                'email' => $this->faker->email,
+                'phone_number' => $this->faker->phoneNumber,
+                'locale' => 'it'
+            ],
             'signature_level' => $this->faker->randomEnumValue(SignatureLevel::class),
             'signature_authentication_mode' => $this->faker->randomEnumValue(SignatureAuthenticationMode::class),
         ];
