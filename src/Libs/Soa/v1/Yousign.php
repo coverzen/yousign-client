@@ -117,5 +117,6 @@ class Yousign extends Soa
 
     public function addSigner(AddSignerRequest $addSignerRequest): void
     {
+        unset($addSignerRequest);
     }
 }

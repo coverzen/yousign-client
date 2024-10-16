@@ -55,7 +55,7 @@ final class AddSignerRequestTest extends TestCase
         $this->assertIsArray($addSignerRequest->info);
         $this->assertInstanceOf(SignatureLevel::class, $addSignerRequest->signature_level);
         $this->assertInstanceOf(SignatureAuthenticationMode::class, $addSignerRequest->signature_authentication_mode);
-        $this->assertIsIterable($addSignerRequest->fields);
+        $this->assertIsArray($addSignerRequest->fields);
     }
 
     /**
