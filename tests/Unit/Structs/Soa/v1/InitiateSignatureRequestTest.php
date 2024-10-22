@@ -2,6 +2,7 @@
 
 namespace Coverzen\Components\YousignClient\Tests\Unit\Structs\Soa\v1;
 
+use Coverzen\Components\YousignClient\Enums\v1\DeliveryMode;
 use Coverzen\Components\YousignClient\Exceptions\Structs\v1\StructSaveException;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 
@@ -52,9 +53,23 @@ final class InitiateSignatureRequestTest extends TestCase
                                                             ->make();
 
         $this->assertIsString($initiateSignatureRequest->name);
-        $this->assertIsString($initiateSignatureRequest->delivery_mode);
+        $this->assertInstanceOf(DeliveryMode::class, $initiateSignatureRequest->delivery_mode);
         $this->assertIsBool($initiateSignatureRequest->ordered_signers);
         $this->assertIsString($initiateSignatureRequest->timezone);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_has_default_properties_values(): void
+    {
+        /** @var InitiateSignatureRequest $initiateSignatureRequest */
+        $initiateSignatureRequest = InitiateSignatureRequest::factory()
+                                                            ->make();
+
+        $this->assertSame(DeliveryMode::none(), $initiateSignatureRequest->delivery_mode);
     }
 
     /**
