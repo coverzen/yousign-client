@@ -46,7 +46,7 @@ abstract class Struct extends Model
     protected static function booted(): void
     {
         static::saving(
-            static function (): void {
+            static function () {
                 throw new StructSaveException();
             }
         );

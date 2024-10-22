@@ -66,8 +66,7 @@ final class InitiateSignatureRequestTest extends TestCase
     public function it_has_default_properties_values(): void
     {
         /** @var InitiateSignatureRequest $initiateSignatureRequest */
-        $initiateSignatureRequest = InitiateSignatureRequest::factory()
-                                                            ->make();
+        $initiateSignatureRequest = new InitiateSignatureRequest();
 
         $this->assertSame(DeliveryMode::none(), $initiateSignatureRequest->delivery_mode);
     }
