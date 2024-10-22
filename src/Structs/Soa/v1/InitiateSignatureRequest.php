@@ -28,7 +28,7 @@ final class InitiateSignatureRequest extends Struct
         'timezone',
     ];
 
-    /** @var array<array-key,mixed> */
+    /** {@inheritdoc} */
     protected $attributes = [
         'name' => null,
         'delivery_mode' => null,
