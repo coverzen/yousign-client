@@ -52,7 +52,7 @@ class UploadDocumentResponse extends Struct
         'total_anchors',
     ];
 
-    /** @var array<array-key,mixed> */
+    /** {@inheritdoc} */
     protected $attributes = [
         'is_protected' => false,
         'is_signed' => false,

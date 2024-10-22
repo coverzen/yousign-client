@@ -25,6 +25,16 @@ use RuntimeException;
 final class Yousign extends Facade
 {
     /**
+     * Replace the bound instance with a fake.
+     *
+     * @return void
+     */
+    public static function fake(): void
+    {
+        self::swap(new YousignFaker());
+    }
+
+    /**
      * Get the registered name of the component.
      *
      * @throws RuntimeException
@@ -34,15 +44,5 @@ final class Yousign extends Facade
     protected static function getFacadeAccessor(): string
     {
         return YousignSoaLib::class;
-    }
-
-    /**
-     * Replace the bound instance with a fake.
-     *
-     * @return void
-     */
-    public static function fake(): void
-    {
-        self::swap(new YousignFaker());
     }
 }

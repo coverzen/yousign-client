@@ -107,8 +107,6 @@ class Yousign extends Soa
                                         ]
                                     );
 
-        //        dd($response->json());
-
         if (!is_array($response->json())) {
             throw new RuntimeException('Yousign response is not an array.');
         }

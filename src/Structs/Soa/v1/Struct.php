@@ -17,8 +17,9 @@ abstract class Struct extends Model
     /**
      * Set of validation rules used on Struct.
      *
-     * @var array<string,mixed>
      * @see ValidateModel
+     *
+     * @var array<string,mixed>
      */
     protected array $rules = [];
 
@@ -39,6 +40,7 @@ abstract class Struct extends Model
      * Used to throw `StructSaveException` if someone try to save a struct.
      *
      * @see StructSaveException
+     *
      * @return void
      */
     protected static function booted(): void

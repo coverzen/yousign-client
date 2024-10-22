@@ -43,8 +43,9 @@ class YousignFaker
     /**
      * Name of the last called function.
      *
-     * @var string|null
      * @see self::assertIsCalled()
+     *
+     * @var string|null
      */
     private ?string $calledFunctionName = null;
 
