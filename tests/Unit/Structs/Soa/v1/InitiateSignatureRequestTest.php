@@ -56,6 +56,7 @@ final class InitiateSignatureRequestTest extends TestCase
         $this->assertInstanceOf(DeliveryMode::class, $initiateSignatureRequest->delivery_mode);
         $this->assertIsBool($initiateSignatureRequest->ordered_signers);
         $this->assertIsString($initiateSignatureRequest->timezone);
+        $this->assertIsArray($initiateSignatureRequest->email_notification);
     }
 
     /**
@@ -96,5 +97,57 @@ final class InitiateSignatureRequestTest extends TestCase
         $this->expectException(StructSaveException::class);
 
         (new InitiateSignatureRequest())->save();
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_has_payload_accessor(): void
+    {
+        /** @var InitiateSignatureRequest $initiateSignatureRequest */
+        $initiateSignatureRequest = InitiateSignatureRequest::factory()
+                                                            ->make();
+
+        $this->assertNotNull($initiateSignatureRequest->payload);
+        $this->assertIsArray($initiateSignatureRequest->payload);
+
+        $this->assertArrayNotHasKey('payload', $initiateSignatureRequest->payload);
+
+        $this->assertArrayHasKey('name', $initiateSignatureRequest->payload);
+        $this->assertArrayHasKey('delivery_mode', $initiateSignatureRequest->payload);
+        $this->assertArrayHasKey('ordered_signers', $initiateSignatureRequest->payload);
+        $this->assertArrayHasKey('timezone', $initiateSignatureRequest->payload);
+        $this->assertArrayHasKey('email_notification', $initiateSignatureRequest->payload);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_removes_null_values_in_payload_accessor(): void
+    {
+        /** @var InitiateSignatureRequest $initiateSignatureRequest */
+        $initiateSignatureRequest = InitiateSignatureRequest::factory()
+                                                            ->make(
+                                                                [
+                                                                    'name' => null,
+                                                                    'ordered_signers' => null,
+                                                                    'timezone' => null,
+                                                                    'email_notification' => null,
+                                                                ]
+                                                            );
+
+        $this->assertNotNull($initiateSignatureRequest->payload);
+        $this->assertIsArray($initiateSignatureRequest->payload);
+
+        $this->assertArrayNotHasKey('payload', $initiateSignatureRequest->payload);
+
+        $this->assertArrayNotHasKey('name', $initiateSignatureRequest->payload);
+        $this->assertArrayNotHasKey('ordered_signers', $initiateSignatureRequest->payload);
+        $this->assertArrayNotHasKey('timezone', $initiateSignatureRequest->payload);
+        $this->assertArrayNotHasKey('email_notification', $initiateSignatureRequest->payload);
     }
 }

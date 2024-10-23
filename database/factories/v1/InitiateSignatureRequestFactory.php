@@ -30,6 +30,12 @@ final class InitiateSignatureRequestFactory extends AbstractFactory
             'delivery_mode' => $this->faker->randomEnumValue(DeliveryMode::class),
             'ordered_signers' => $this->faker->boolean(),
             'timezone' => $this->faker->timezone(),
+            'email_notification' => [
+                'sender' => [
+                    'type' => 'organization',
+                ],
+                'custom_note' => $this->faker->sentence(),
+            ],
         ];
     }
 }
