@@ -8,6 +8,7 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
 use Illuminate\Support\Facades\Http;
+use function head;
 
 /**
  * Class YousignTest.
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Http;
  */
 final class YousignTest extends TestCase
 {
+    public const SIGNATURE_ID = 'signature-id';
+
     /**
      * @test
      * @covers \Coverzen\Components\YousignClient\Facades\v1\Yousign::getFacadeAccessor
@@ -110,6 +113,36 @@ final class YousignTest extends TestCase
 
     /**
      * @test
+     * @covers       \Coverzen\Components\YousignClient\Facades\v1\Yousign::fake
+     *
+     * @return void
+     */
+    public function it_permits_assert_initiate_signature_with_inspection_is_called(): void
+    {
+        Yousign::fake();
+
+        /** @var InitiateSignatureRequest $request */
+        $request = InitiateSignatureRequest::factory()
+                                           ->make();
+
+        Yousign::initiateSignature($request);
+
+        Yousign::assertIsCalled(
+            'initiateSignature',
+            function (...$args) use ($request): bool {
+                $this->assertCount(1, $args);
+                $this->assertInstanceOf(InitiateSignatureRequest::class, head($args));
+                $this->assertSame($request->name, head($args)->name);
+
+                return true;
+            }
+        );
+
+        Http::assertSentCount(1);
+    }
+
+    /**
+     * @test
      * @covers \Coverzen\Components\YousignClient\Facades\v1\Yousign::fake
      *
      * @return void
@@ -119,12 +152,47 @@ final class YousignTest extends TestCase
         Yousign::fake();
 
         Yousign::uploadDocument(
-            'signature-id',
+            self::SIGNATURE_ID,
             UploadDocumentRequest::factory()
                                  ->make()
         );
 
         Yousign::assertIsCalled('uploadDocument');
+        Http::assertSentCount(1);
+    }
+
+    /**
+     * @test
+     * @covers \Coverzen\Components\YousignClient\Facades\v1\Yousign::fake
+     *
+     * @return void
+     */
+    public function it_permits_assert_upload_with_inspection_document_is_called(): void
+    {
+        Yousign::fake();
+
+        /** @var UploadDocumentRequest $uploadDocumentRequest */
+        $uploadDocumentRequest = UploadDocumentRequest::factory()
+                                                      ->make();
+
+        Yousign::uploadDocument(
+            self::SIGNATURE_ID,
+            $uploadDocumentRequest
+        );
+
+        Yousign::assertIsCalled(
+            'uploadDocument',
+            function (...$args) use ($uploadDocumentRequest): bool {
+                $this->assertCount(2, $args);
+                $this->assertSame(self::SIGNATURE_ID, $args[0]);
+
+                $this->assertInstanceOf(UploadDocumentRequest::class, $args[1]);
+                $this->assertSame($uploadDocumentRequest->file_name, $args[1]->file_name);
+
+                return true;
+            }
+        );
+
         Http::assertSentCount(1);
     }
 }

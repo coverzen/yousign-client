@@ -70,7 +70,7 @@ class Yousign extends Soa
     public function initiateSignature(InitiateSignatureRequest $initiateSignatureRequest): InitiateSignatureResponse
     {
         /** @var Response $response */
-        $response = $this->apiClient->post(self::INITIATE_SIGNATURE_URL, $initiateSignatureRequest->toArray());
+        $response = $this->apiClient->post(self::INITIATE_SIGNATURE_URL, $initiateSignatureRequest->payload);
 
         if (!is_array($response->json())) {
             throw new RuntimeException('Yousign response is not an array.');

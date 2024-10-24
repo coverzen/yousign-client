@@ -27,3 +27,7 @@ parameters:
              paths:
                  - tests/Unit/Libs/Soa/v1/YousignTest.php
                  - src/Fakes/v1/YousignFaker.php
+
+        -
+             message: '#Property Coverzen\\Components\\YousignClient\\Structs\\Soa\\v1\\InitiateSignatureRequest::\$custom_experience_id \(string\|null\) does not accept mixed\.#'
+             path: src/Structs/Soa/v1/InitiateSignatureRequest.php
