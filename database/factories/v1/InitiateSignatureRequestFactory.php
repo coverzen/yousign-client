@@ -36,6 +36,7 @@ final class InitiateSignatureRequestFactory extends AbstractFactory
                 ],
                 'custom_note' => $this->faker->sentence(),
             ],
+            'custom_experience_id' => $this->faker->uuid(),
         ];
     }
 }

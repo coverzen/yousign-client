@@ -4,8 +4,10 @@ namespace Coverzen\Components\YousignClient\Structs\Soa\v1;
 
 use Coverzen\Components\YousignClient\Database\Factories\v1\InitiateSignatureRequestFactory;
 use Coverzen\Components\YousignClient\Enums\v1\DeliveryMode;
+use Coverzen\Components\YousignClient\YousignClientServiceProvider;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Config;
 use function collect;
 
 /**
@@ -16,6 +18,7 @@ use function collect;
  * @property bool $ordered_signers
  * @property string|null $timezone
  * @property array|null $email_notification
+ * @property string|null $custom_experience_id
  * @property-read array $payload
  */
 final class InitiateSignatureRequest extends Struct
@@ -54,9 +57,10 @@ final class InitiateSignatureRequest extends Struct
      */
     public function __construct(array $attributes = [])
     {
-        $this->delivery_mode = DeliveryMode::none();
-
         parent::__construct($attributes);
+
+        $this->delivery_mode = DeliveryMode::none();
+        $this->custom_experience_id = Config::get(YousignClientServiceProvider::CONFIG_KEY . '.custom_experience_id');
     }
 
     /**
