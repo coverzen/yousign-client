@@ -1,3 +1,13 @@
+# [1.4.0](https://github.com/coverzen/yousign-client/compare/v1.3.1...v1.4.0) (2024-10-28)
+
+
+### Features
+
+* add custom experience id management ([1d5baea](https://github.com/coverzen/yousign-client/commit/1d5baea028e7e15e4f7e1e1a329af0552e758764))
+* add enum for delivery mode ([4c826d7](https://github.com/coverzen/yousign-client/commit/4c826d7716dd37445931a5322484181519b85667))
+* improve fake facade with inspection ([4d7fd8e](https://github.com/coverzen/yousign-client/commit/4d7fd8ebdf3519fce993be1acd8a7c395064719e))
+* improve InitiateSignatureRequest ([7631044](https://github.com/coverzen/yousign-client/commit/7631044c53469b50062630d9bd48c99bee586981))
+
 ## [1.3.1](https://github.com/coverzen/yousign-client/compare/v1.3.0...v1.3.1) (2024-10-22)
 
 
