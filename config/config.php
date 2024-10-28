@@ -7,4 +7,6 @@ return [
     'timeout_seconds' => 5,
     'retry_count' => 1,
     'retry_sleep' => 10,
+
+    'custom_experience_id' => env('YOUSIGN_CUSTOM_EXPERIENCE_ID'),
 ];

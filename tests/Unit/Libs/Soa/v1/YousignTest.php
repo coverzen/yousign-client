@@ -33,12 +33,22 @@ final class YousignTest extends TestCase
     /** @var string */
     private const SIGNATURE_ID = '0da2b825-3682-4d42-bcd0-d01f791940ff';
 
-    /** @var array<int,string> */
-    private const INITIATE_PROCEDURE_REQUIRED_PROPERTIES = [
-        'name',
-        'delivery_mode',
-        'timezone',
-    ];
+    /**
+     * Provides a set of properties to set null.
+     *
+     * @return array<string,array<string,mixed>>
+     */
+    public static function nullPropertiesProvider(): array
+    {
+        return [
+            'no ordered_signers' => [
+                'nullProperty' => 'ordered_signers',
+            ],
+            'no email_notification' => [
+                'nullProperty' => 'email_notification',
+            ],
+        ];
+    }
 
     /**
      * @test
@@ -53,9 +63,13 @@ final class YousignTest extends TestCase
     /**
      * @test
      * @covers      ::initiateSignature
+     * @dataProvider nullPropertiesProvider
+     *
+     * @param string $nullProperty
+     *
      * @return void
      */
-    public function it_initiates_a_procedure(): void
+    public function it_initiates_a_procedure(string $nullProperty): void
     {
         /** @var string $url */
         $url = Str::finish(
@@ -75,43 +89,40 @@ final class YousignTest extends TestCase
 
         /** @var InitiateSignatureRequest $initiateSignatureRequest */
         $initiateSignatureRequest = InitiateSignatureRequest::factory()
-                                                            ->make();
+                                                            ->make(
+                                                                [
+                                                                    $nullProperty => null,
+                                                                ]
+                                                            );
 
         /** @var InitiateSignatureResponse|null $actualSignatureResponse */
         $actualSignatureResponse = (new Yousign())->initiateSignature($initiateSignatureRequest);
 
         Http::assertSent(
-            static function (ClientRequest $request) use ($initiateSignatureRequest, $url): bool {
-                if ($request->method() !== Request::METHOD_POST) {
-                    throw new ExpectationFailedException('Request method must be POST');
-                }
+            function (ClientRequest $request) use ($initiateSignatureRequest, $url, $nullProperty): bool {
+                $this->assertSame(Request::METHOD_POST, $request->method());
+                $this->assertSame($url, $request->url());
 
-                if (
-                    $request->url() !== $url
-                ) {
-                    throw new ExpectationFailedException('Request URL must be ' . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url') . Yousign::INITIATE_SIGNATURE_URL);
-                }
+                $this->assertSame(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
+                );
 
-                if (
-                    !in_array(
-                        Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
-                        $request->header(Soa::AUTHORIZATION_HEADER),
-                        true
-                    )
-                ) {
-                    throw new ExpectationFailedException(Soa::AUTHORIZATION_HEADER . ' header missing or with wrong value.');
-                }
+                $this->assertContains(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    $request->header(Soa::AUTHORIZATION_HEADER)
+                );
 
-                /** @var string $property */
-                foreach (self::INITIATE_PROCEDURE_REQUIRED_PROPERTIES as $property) {
-                    if (!Arr::has($request->data(), $property)) {
-                        throw new ExpectationFailedException("Property {$property} missing in request payload.");
-                    }
+                $this->assertArrayNotHasKey($nullProperty, $request->data());
 
-                    if (Arr::get($request->data(), $property) !== $initiateSignatureRequest->{$property}) {
-                        throw new ExpectationFailedException("Property {$property} in request payload has wrong value " . Arr::get($request->data(), $property) . '.');
-                    }
-                }
+                $this->assertArrayHasKey('name', $request->data());
+                $this->assertSame($initiateSignatureRequest->name, $request->data()['name']);
+
+                $this->assertArrayHasKey('timezone', $request->data());
+                $this->assertSame($initiateSignatureRequest->timezone, $request->data()['timezone']);
+
+                $this->assertArrayHasKey('delivery_mode', $request->data());
+                $this->assertSame($initiateSignatureRequest->delivery_mode->value, $request->data()['delivery_mode']);
 
                 return true;
             }

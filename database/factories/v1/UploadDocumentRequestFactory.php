@@ -4,14 +4,13 @@ namespace Coverzen\Components\YousignClient\Database\Factories\v1;
 
 use Coverzen\Components\YousignClient\Enums\v1\DocumentNature;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use function base64_encode;
 
 /**
  * Class UploadDocumentRequestFactory.
  *
  * @template TModel of UploadDocumentRequest
- * @extends Factory<TModel>
+ * @extends AbstractFactory<TModel>
  */
 final class UploadDocumentRequestFactory extends AbstractFactory
 {

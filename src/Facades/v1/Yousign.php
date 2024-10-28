@@ -2,6 +2,7 @@
 
 namespace Coverzen\Components\YousignClient\Facades\v1;
 
+use Closure;
 use Coverzen\Components\YousignClient\Fakes\v1\YousignFaker;
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Yousign as YousignSoaLib;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
@@ -20,22 +21,10 @@ use RuntimeException;
  *
  * @method static InitiateSignatureResponse initiateSignature(InitiateSignatureRequest $initiateSignatureRequest)
  * @method static UploadDocumentResponse uploadDocument(string $signatureRequestId, UploadDocumentRequest $uploadDocumentRequest)
- * @method static void assertIsCalled(string $functionName)
+ * @method static void assertIsCalled(string $functionName, ?Closure $callback = null)
  */
 final class Yousign extends Facade
 {
-    /**
-     * Get the registered name of the component.
-     *
-     * @throws RuntimeException
-     *
-     * @return string
-     */
-    protected static function getFacadeAccessor(): string
-    {
-        return YousignSoaLib::class;
-    }
-
     /**
      * Replace the bound instance with a fake.
      *
@@ -44,5 +33,17 @@ final class Yousign extends Facade
     public static function fake(): void
     {
         self::swap(new YousignFaker());
+    }
+
+    /**
+     * Get the registered name of the component.
+     *
+     * @throws RuntimeException
+     *
+     * @return class-string<YousignSoaLib>
+     */
+    protected static function getFacadeAccessor(): string
+    {
+        return YousignSoaLib::class;
     }
 }
