@@ -2,6 +2,7 @@
 
 namespace Coverzen\Components\YousignClient\Database\Factories\v1;
 
+use Coverzen\Components\YousignClient\Enums\v1\DeliveryMode;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 
 /**
@@ -26,9 +27,16 @@ final class InitiateSignatureRequestFactory extends AbstractFactory
     {
         return [
             'name' => $this->faker->name(),
-            'delivery_mode' => 'none',
+            'delivery_mode' => $this->faker->randomEnumValue(DeliveryMode::class),
             'ordered_signers' => $this->faker->boolean(),
             'timezone' => $this->faker->timezone(),
+            'email_notification' => [
+                'sender' => [
+                    'type' => 'organization',
+                ],
+                'custom_note' => $this->faker->sentence(),
+            ],
+            'custom_experience_id' => $this->faker->uuid(),
         ];
     }
 }

@@ -46,6 +46,11 @@
                 <file name="src/Fakes/v1/YousignFaker.php"/>
             </errorLevel>
         </InternalMethod>
+        <TooManyTemplateParams>
+            <errorLevel type="suppress">
+                <file name="src/Structs/Soa/v1/InitiateSignatureRequest.php"/>
+            </errorLevel>
+        </TooManyTemplateParams>
     </issueHandlers>
 
     <plugins>
