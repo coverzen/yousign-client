@@ -280,7 +280,7 @@ final class YousignTest extends TestCase
         $actualAddSignerResponse = (new Yousign())->addSigner(self::SIGNATURE_ID, $addSignerRequest);
 
         Http::assertSent(
-            static function (ClientRequest $request) use ($url): bool {
+            function (ClientRequest $request) use ($addSignerRequest, $url): bool {
                 if ($request->method() !== Request::METHOD_POST) {
                     throw new ExpectationFailedException('Request method must be POST');
                 }
@@ -301,6 +301,16 @@ final class YousignTest extends TestCase
                     throw new ExpectationFailedException(Soa::AUTHORIZATION_HEADER . ' header missing or with wrong value.');
                 }
 
+                $this->assertArrayHasKey('info', $request->data());
+                $this->assertSame($addSignerRequest->info, $request->data()['info']);
+
+                $this->assertArrayHasKey('signature_level', $request->data());
+                $this->assertSame($addSignerRequest->signature_level, $request->data()['signature_level']);
+                //@todo non torna il valore di signature level
+
+                $this->assertArrayHasKey('fields', $request->data());
+                $this->assertSame($addSignerRequest->fields, $request->data()['fields']);
+
                 return true;
             }
         );
@@ -308,10 +318,10 @@ final class YousignTest extends TestCase
         $this->assertNotNull($actualAddSignerResponse);
         $this->assertInstanceOf(AddSignerResponse::class, $actualAddSignerResponse);
 
-        //        $this->assertSame(
-        //            $expectedAddSignerResponse->toArray(),
-        //            $actualAddSignerResponse->toArray()
-        //        );
+        $this->assertSame(
+            $expectedAddSignerResponse->toArray(),
+            $actualAddSignerResponse->toArray()
+        );
     }
 
     /**
