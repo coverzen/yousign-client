@@ -151,7 +151,10 @@ final class InitiateSignatureRequestTest extends TestCase
         $this->assertArrayNotHasKey('payload', $initiateSignatureRequest->payload);
 
         $this->assertArrayHasKey('name', $initiateSignatureRequest->payload);
+
         $this->assertArrayHasKey('delivery_mode', $initiateSignatureRequest->payload);
+        $this->assertIsString($initiateSignatureRequest->payload['delivery_mode']);
+
         $this->assertArrayHasKey('ordered_signers', $initiateSignatureRequest->payload);
         $this->assertArrayHasKey('timezone', $initiateSignatureRequest->payload);
         $this->assertArrayHasKey('email_notification', $initiateSignatureRequest->payload);

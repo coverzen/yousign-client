@@ -14,8 +14,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property SignatureLevel $signature_level
  * @property SignatureAuthenticationMode|null $signature_authentication_mode
  * @property array<int,SignerField> $fields
+ * @property-read array $payload
  */
-final class AddSignerRequest extends Struct
+final class AddSignerRequest extends Request
 {
     use HasFactory;
 

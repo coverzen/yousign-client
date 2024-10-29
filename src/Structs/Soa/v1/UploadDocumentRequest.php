@@ -12,8 +12,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string|null $file_content
  * @property string|null $file_name
  * @property DocumentNature $nature
+ * @property-read array $payload
  */
-final class UploadDocumentRequest extends Struct
+final class UploadDocumentRequest extends Request
 {
     use HasFactory;
 
