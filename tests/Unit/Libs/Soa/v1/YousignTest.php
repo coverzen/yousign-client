@@ -170,26 +170,19 @@ final class YousignTest extends TestCase
         $actualUploadDocumentResponse = (new Yousign())->uploadDocument(self::SIGNATURE_ID, $uploadDocumentRequest);
 
         Http::assertSent(
-            static function (ClientRequest $request) use ($url, $uploadDocumentRequest): bool {
-                if ($request->method() !== Request::METHOD_POST) {
-                    throw new ExpectationFailedException('Request method must be POST');
-                }
+            function (ClientRequest $request) use ($url, $uploadDocumentRequest): bool {
+                $this->assertSame(Request::METHOD_POST, $request->method());
+                $this->assertSame($url, $request->url());
 
-                if (
-                    $request->url() !== $url
-                ) {
-                    throw new ExpectationFailedException('Request URL must be ' . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url') . Yousign::INITIATE_SIGNATURE_URL);
-                }
+                $this->assertSame(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
+                );
 
-                if (
-                    !in_array(
-                        Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
-                        $request->header(Soa::AUTHORIZATION_HEADER),
-                        true
-                    )
-                ) {
-                    throw new ExpectationFailedException(Soa::AUTHORIZATION_HEADER . ' header missing or with wrong value.');
-                }
+                $this->assertContains(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    $request->header(Soa::AUTHORIZATION_HEADER)
+                );
 
                 if (
                     !Arr::first(
@@ -328,21 +321,24 @@ final class YousignTest extends TestCase
             $actualAddSignerResponse->toArray()['signature_level']
         );
 
+        /** @var array<int,SignerField> $actualFields */
+        $actualFields = Arr::get($actualAddSignerResponse->toArray(), 'fields');
+
         /**
          * @var SignerField $expectedField
          */
         foreach (Arr::get($expectedAddSignerResponse->toArray(), 'fields') as $key => $expectedField) {
             $this->assertSame(
                 $expectedField->page,
-                Arr::get(Arr::get($actualAddSignerResponse->toArray(), 'fields'), $key)->page
+                Arr::get($actualFields, $key)->page
             );
             $this->assertSame(
                 $expectedField->type,
-                Arr::get(Arr::get($actualAddSignerResponse->toArray(), 'fields'), $key)->type
+                Arr::get($actualFields, $key)->type
             );
             $this->assertSame(
                 $expectedField->height,
-                Arr::get(Arr::get($actualAddSignerResponse->toArray(), 'fields'), $key)->height
+                Arr::get($actualFields, $key)->height
             );
         }
     }

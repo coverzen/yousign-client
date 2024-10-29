@@ -93,7 +93,8 @@ final class AddSignerResponseTest extends TestCase
     {
         /** @var array<array-key,mixed> $signerResponseData */
         $signerResponseData = AddSignerResponse::factory()
-                                               ->make()->toArray();
+                                               ->make()
+                                               ->toArray();
 
         $signerResponseData['fields'][] = SignerField::factory()
                                                      ->make()
