@@ -8,6 +8,7 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\SignerField;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentResponse;
 use Coverzen\Components\YousignClient\YousignClientServiceProvider;
@@ -310,10 +311,40 @@ final class YousignTest extends TestCase
         $this->assertNotNull($actualAddSignerResponse);
         $this->assertInstanceOf(AddSignerResponse::class, $actualAddSignerResponse);
 
-//        $this->assertSame(
-//            $expectedAddSignerResponse->toArray(),
-//            $actualAddSignerResponse->toArray()
-//        );
+        $this->assertIsArray($actualAddSignerResponse->fields);
+
+        /** @var SignerField $field */
+        foreach ($actualAddSignerResponse->fields as $field) {
+            $this->assertInstanceOf(SignerField::class, $field);
+        }
+
+        $this->assertSame(
+            $expectedAddSignerResponse->toArray()['info'],
+            $actualAddSignerResponse->toArray()['info']
+        );
+
+        $this->assertSame(
+            $expectedAddSignerResponse->toArray()['signature_level'],
+            $actualAddSignerResponse->toArray()['signature_level']
+        );
+
+        /**
+         * @var SignerField $expectedField
+         */
+        foreach (Arr::get($expectedAddSignerResponse->toArray(), 'fields') as $key => $expectedField) {
+            $this->assertSame(
+                $expectedField->page,
+                Arr::get(Arr::get($actualAddSignerResponse->toArray(), 'fields'), $key)->page
+            );
+            $this->assertSame(
+                $expectedField->type,
+                Arr::get(Arr::get($actualAddSignerResponse->toArray(), 'fields'), $key)->type
+            );
+            $this->assertSame(
+                $expectedField->height,
+                Arr::get(Arr::get($actualAddSignerResponse->toArray(), 'fields'), $key)->height
+            );
+        }
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Coverzen\Components\YousignClient\Tests\Unit\Structs\Soa\v1;
 
 use Coverzen\Components\YousignClient\Exceptions\Structs\v1\StructSaveException;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\SignerField;
 
 /**
  * Class AddSignerResponseTest.
@@ -34,7 +35,7 @@ final class AddSignerResponseTest extends TestCase
     {
         /** @var AddSignerResponse $addSignerResponse */
         $addSignerResponse = AddSignerResponse::factory()
-                                            ->make();
+                                              ->make();
 
         $this->assertInstanceOf(AddSignerResponse::class, $addSignerResponse);
     }
@@ -48,7 +49,7 @@ final class AddSignerResponseTest extends TestCase
     {
         /** @var AddSignerResponse $addSignerResponse */
         $addSignerResponse = AddSignerResponse::factory()
-                                          ->make();
+                                              ->make();
 
         $this->assertIsArray($addSignerResponse->info);
         $this->assertIsString($addSignerResponse->signature_level);
@@ -67,7 +68,7 @@ final class AddSignerResponseTest extends TestCase
         $this->expectException(StructSaveException::class);
 
         AddSignerResponse::factory()
-                             ->create();
+                         ->create();
     }
 
     /**
@@ -81,5 +82,36 @@ final class AddSignerResponseTest extends TestCase
         $this->expectException(StructSaveException::class);
 
         (new AddSignerResponse())->save();
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_creates_add_signer_response_with_fields_from_array(): void
+    {
+        /** @var array<array-key,mixed> $signerResponseData */
+        $signerResponseData = AddSignerResponse::factory()
+                                               ->make()->toArray();
+
+        $signerResponseData['fields'][] = SignerField::factory()
+                                                     ->make()
+                                                     ->toArray();
+
+        $signerResponseData['fields'][] = SignerField::factory()
+                                                     ->make()
+                                                     ->toArray();
+
+        /** @var AddSignerResponse $addSignerResponse */
+        $addSignerResponse = new AddSignerResponse($signerResponseData);
+
+        $this->assertInstanceOf(AddSignerResponse::class, $addSignerResponse);
+        $this->assertIsArray($addSignerResponse->fields);
+
+        /** @var SignerField $field */
+        foreach ($addSignerResponse->fields as $field) {
+            $this->assertInstanceOf(SignerField::class, $field);
+        }
     }
 }

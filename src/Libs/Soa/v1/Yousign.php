@@ -131,7 +131,7 @@ class Yousign extends Soa
         $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::ADD_SIGNER_URL;
 
         /** @var Response $response */
-        $response = $this->apiClient->post($url, $addSignerRequest->toArray());
+        $response = $this->apiClient->post($url, $addSignerRequest->payload);
 
         if (!is_array($response->json())) {
             throw new RuntimeException('Yousign response is not an array.');

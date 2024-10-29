@@ -4,7 +4,9 @@ namespace Coverzen\Components\YousignClient\Structs\Soa\v1;
 
 use Coverzen\Components\YousignClient\Database\Factories\v1\AddSignerResponseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
+use function collect;
 
 /**
  * Class AddSignerRequest.
@@ -53,6 +55,25 @@ final class AddSignerResponse extends Struct
     protected $casts = [
         'signature_link_expiration_date' => 'datetime',
     ];
+
+    public function __construct(array $attributes = [])
+    {
+        /** @var array<int,SignerField> $mappedFields */
+        $mappedFields = collect(Arr::get($attributes, 'fields', []))->map(
+            static function (SignerField|array $field): SignerField {
+                if ($field instanceof SignerField) {
+                    return $field;
+                }
+
+                return new SignerField($field);
+            }
+        )
+                                                                    ->all();
+
+        Arr::set($attributes, 'fields', $mappedFields);
+
+        parent::__construct($attributes);
+    }
 
     /**
      * Set the proper factory for model.
