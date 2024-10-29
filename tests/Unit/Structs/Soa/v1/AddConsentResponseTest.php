@@ -4,10 +4,9 @@ namespace Coverzen\Components\YousignClient\Tests\Unit\Structs\Soa\v1;
 
 use Coverzen\Components\YousignClient\Exceptions\Structs\v1\StructSaveException;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
-use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
 
 /**
- * Class InitiateSignatureResponseTest.
+ * Class AddConsentResponseTest.
  *
  * @coversDefaultClass \Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse
  */
@@ -28,7 +27,7 @@ final class AddConsentResponseTest extends TestCase
 
     /**
      * @test
-     * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse::factory
+     * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse::factory
      *
      * @return void
      */
@@ -36,7 +35,7 @@ final class AddConsentResponseTest extends TestCase
     {
         /** @var AddConsentResponse $addConsentResponse */
         $addConsentResponse = AddConsentResponse::factory()
-                                              ->make();
+                                                ->make();
 
         $this->assertInstanceOf(AddConsentResponse::class, $addConsentResponse);
     }
@@ -50,7 +49,7 @@ final class AddConsentResponseTest extends TestCase
     {
         /** @var AddConsentResponse $addConsentResponse */
         $addConsentResponse = AddConsentResponse::factory()
-                                              ->make();
+                                                ->make();
 
         $this->assertNotNull($addConsentResponse->type);
         $this->assertIsString($addConsentResponse->type);
@@ -84,7 +83,7 @@ final class AddConsentResponseTest extends TestCase
 
     /**
      * @test
-     * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse::factory
+     * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse::factory
      *
      * @return void
      */
@@ -92,13 +91,13 @@ final class AddConsentResponseTest extends TestCase
     {
         $this->expectException(StructSaveException::class);
 
-        InitiateSignatureResponse::factory()
-                                ->create();
+        AddConsentResponse::factory()
+                          ->create();
     }
 
     /**
      * @test
-     * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse::save
+     * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse::save
      *
      * @return void
      */
@@ -106,6 +105,6 @@ final class AddConsentResponseTest extends TestCase
     {
         $this->expectException(StructSaveException::class);
 
-        (new InitiateSignatureResponse())->save();
+        (new AddConsentResponse())->save();
     }
 }

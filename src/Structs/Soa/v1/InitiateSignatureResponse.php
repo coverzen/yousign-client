@@ -36,9 +36,6 @@ class InitiateSignatureResponse extends Struct
 {
     use HasFactory;
 
-    /** {@inheritdoc} */
-    public $timestamps = false;
-
     /**
      * The data type of the primary key ID.
      *

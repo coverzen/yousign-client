@@ -21,10 +21,11 @@ final class AddConsentRequest extends Struct
     public const DEFAULT_TYPE = 'checkbox';
 
     /** {@inheritdoc} */
-    public $timestamps = false;
-
-    /** {@inheritdoc} */
     protected $fillable = [
+        'type',
+        'settings',
+        'optional',
+        'signer_ids',
     ];
 
     /** {@inheritdoc} */

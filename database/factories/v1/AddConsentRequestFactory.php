@@ -5,7 +5,7 @@ namespace Coverzen\Components\YousignClient\Database\Factories\v1;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
 
 /**
- * Class InitiateSignatureRequestFactory.
+ * Class AddConsentRequestFactory.
  *
  * @template TModel of AddConsentRequest
  * @extends AbstractFactory<TModel>

@@ -26,9 +26,6 @@ final class InitiateSignatureRequest extends Struct
     use HasFactory;
 
     /** {@inheritdoc} */
-    public $timestamps = false;
-
-    /** {@inheritdoc} */
     protected $fillable = [
         'name',
         'delivery_mode',

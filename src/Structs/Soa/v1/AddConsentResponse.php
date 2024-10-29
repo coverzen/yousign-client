@@ -19,10 +19,12 @@ final class AddConsentResponse extends Struct
     use HasFactory;
 
     /** {@inheritdoc} */
-    public $timestamps = false;
-
-    /** {@inheritdoc} */
     protected $fillable = [
+        'id',
+        'type',
+        'settings',
+        'optional',
+        'signer_ids',
     ];
 
     /** {@inheritdoc} */

@@ -4,10 +4,9 @@ namespace Coverzen\Components\YousignClient\Tests\Unit\Structs\Soa\v1;
 
 use Coverzen\Components\YousignClient\Exceptions\Structs\v1\StructSaveException;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
-use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 
 /**
- * Class InitiateSignatureRequestTest.
+ * Class AddConsentRequestTest.
  *
  * @coversDefaultClass \Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest
  */
@@ -28,7 +27,7 @@ final class AddConsentRequestTest extends TestCase
 
     /**
      * @test
-     * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest::factory
+     * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest::factory
      *
      * @return void
      */
@@ -84,7 +83,7 @@ final class AddConsentRequestTest extends TestCase
 
     /**
      * @test
-     * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest::factory
+     * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest::factory
      *
      * @return void
      */
@@ -92,13 +91,13 @@ final class AddConsentRequestTest extends TestCase
     {
         $this->expectException(StructSaveException::class);
 
-        InitiateSignatureRequest::factory()
-                                ->create();
+        AddConsentRequest::factory()
+                         ->create();
     }
 
     /**
      * @test
-     * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest::save
+     * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest::save
      *
      * @return void
      */
@@ -106,6 +105,6 @@ final class AddConsentRequestTest extends TestCase
     {
         $this->expectException(StructSaveException::class);
 
-        (new InitiateSignatureRequest())->save();
+        (new AddConsentRequest())->save();
     }
 }
