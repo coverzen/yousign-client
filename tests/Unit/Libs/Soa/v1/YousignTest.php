@@ -253,7 +253,7 @@ final class YousignTest extends TestCase
      *
      * @return void
      */
-    public function it_add_signer()
+    public function it_adds_signer(): void
     {
         /** @var string $url */
         $url = Str::finish(
@@ -281,32 +281,24 @@ final class YousignTest extends TestCase
 
         Http::assertSent(
             function (ClientRequest $request) use ($addSignerRequest, $url): bool {
-                if ($request->method() !== Request::METHOD_POST) {
-                    throw new ExpectationFailedException('Request method must be POST');
-                }
+                $this->assertSame(Request::METHOD_POST, $request->method());
+                $this->assertSame($url, $request->url());
 
-                if (
-                    $request->url() !== $url
-                ) {
-                    throw new ExpectationFailedException('Request URL must be ' . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url') . Yousign::INITIATE_SIGNATURE_URL);
-                }
+                $this->assertSame(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
+                );
 
-                if (
-                    !in_array(
-                        Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
-                        $request->header(Soa::AUTHORIZATION_HEADER),
-                        true
-                    )
-                ) {
-                    throw new ExpectationFailedException(Soa::AUTHORIZATION_HEADER . ' header missing or with wrong value.');
-                }
+                $this->assertContains(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    $request->header(Soa::AUTHORIZATION_HEADER)
+                );
 
                 $this->assertArrayHasKey('info', $request->data());
                 $this->assertSame($addSignerRequest->info, $request->data()['info']);
 
                 $this->assertArrayHasKey('signature_level', $request->data());
-                $this->assertSame($addSignerRequest->signature_level, $request->data()['signature_level']);
-                //@todo non torna il valore di signature level
+                $this->assertSame($addSignerRequest->signature_level->value, $request->data()['signature_level']);
 
                 $this->assertArrayHasKey('fields', $request->data());
                 $this->assertSame($addSignerRequest->fields, $request->data()['fields']);
