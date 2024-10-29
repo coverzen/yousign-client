@@ -5,7 +5,7 @@ namespace Coverzen\Components\YousignClient\Fakes\v1;
 use Closure;
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Soa;
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Yousign;
-use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentResponse;
 use Coverzen\Components\YousignClient\YousignClientServiceProvider;
@@ -89,9 +89,9 @@ class YousignFaker
                     Response::HTTP_CREATED
                 ),
                 $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::ADD_CONSENT_URL => Http::response(
-                    AddConsentRequest::factory()
-                                          ->make()
-                                          ->toArray(),
+                    AddConsentResponse::factory()
+                                      ->make()
+                                      ->toArray(),
                     Response::HTTP_CREATED
                 ),
             ]

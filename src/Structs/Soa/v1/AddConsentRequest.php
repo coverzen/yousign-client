@@ -30,6 +30,7 @@ final class AddConsentRequest extends Struct
 
     /** {@inheritdoc} */
     protected $attributes = [
+        'type' => self::DEFAULT_TYPE,
         'optional' => false,
     ];
 

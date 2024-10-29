@@ -79,6 +79,10 @@ final class AddConsentRequestTest extends TestCase
         $this->assertNotNull($addConsentRequest->optional);
         $this->assertIsBool($addConsentRequest->optional);
         $this->assertFalse($addConsentRequest->optional);
+
+        $this->assertNotNull($addConsentRequest->type);
+        $this->assertIsString($addConsentRequest->type);
+        $this->assertSame(AddConsentRequest::DEFAULT_TYPE, $addConsentRequest->type);
     }
 
     /**
