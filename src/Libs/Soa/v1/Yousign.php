@@ -127,10 +127,6 @@ class Yousign extends Soa
      */
     public function addSigner(string $signatureRequestId, AddSignerRequest $addSignerRequest): AddSignerResponse
     {
-        if (!$addSignerRequest->info) {
-            throw new RuntimeException('Info is required.');
-        }
-
         /** @var string $url */
         $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::ADD_SIGNER_URL;
 
