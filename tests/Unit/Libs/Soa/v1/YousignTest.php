@@ -8,6 +8,7 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\SignerField;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentResponse;
 use Coverzen\Components\YousignClient\YousignClientServiceProvider;
@@ -253,7 +254,7 @@ final class YousignTest extends TestCase
      *
      * @return void
      */
-    public function it_add_signer()
+    public function it_adds_signer(): void
     {
         /** @var string $url */
         $url = Str::finish(
@@ -308,10 +309,22 @@ final class YousignTest extends TestCase
         $this->assertNotNull($actualAddSignerResponse);
         $this->assertInstanceOf(AddSignerResponse::class, $actualAddSignerResponse);
 
-        //        $this->assertSame(
-        //            $expectedAddSignerResponse->toArray(),
-        //            $actualAddSignerResponse->toArray()
+        $this->assertIsArray($actualAddSignerResponse->fields);
+
+        /** @var SignerField $field */
+        foreach ($actualAddSignerResponse->fields as $field) {
+            $this->assertInstanceOf(SignerField::class, $field);
+        }
+
+        //        dd(
+        //            $expectedAddSignerResponse->fields,
+        //            $actualAddSignerResponse->fields,
         //        );
+
+        $this->assertSame(
+            $expectedAddSignerResponse->toArray(),
+            $actualAddSignerResponse->toArray()
+        );
     }
 
     /**

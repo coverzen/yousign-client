@@ -8,6 +8,7 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\SignerField;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Random\RandomException;
+use function random_int;
 
 /**
  * Class AddSignerResponseFactory.
@@ -30,21 +31,21 @@ final class AddSignerResponseFactory extends AbstractFactory
     public function configure(): static
     {
         return $this->afterMaking(
-            /**
-             * Necessary because association of model without persistence in factory will break
-             * returning null properties.
-             *
-             * @param AddSignerResponse $addSignerResponse
-             *
-             * @retrun void
-             * @see Factory::expandAttributes() 485
-             *
-             * @throws RandomException
-             */
+        /**
+         * Necessary because association of model without persistence in factory will break
+         * returning null properties.
+         *
+         * @see Factory::expandAttributes() 485
+         *
+         * @param AddSignerResponse $addSignerResponse
+         *
+         * @retrun void
+         * @throws RandomException
+         */
             static function (AddSignerResponse $addSignerResponse): void {
-                $addSignerResponse->fields = SignerField::factory()
-                                                        ->count(random_int(2, 5))
-                                                        ->make()->all();
+                $addSignerResponse->fields = SignerField::factory(random_int(2, 2))
+                                                        ->make()
+                                                        ->all();
             }
         );
     }
