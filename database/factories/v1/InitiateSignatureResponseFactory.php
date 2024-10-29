@@ -3,13 +3,12 @@
 namespace Coverzen\Components\YousignClient\Database\Factories\v1;
 
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class InitiateSignatureResponseFactory.
  *
  * @template TModel of InitiateSignatureResponse
- * @extends Factory<TModel>
+ * @extends AbstractFactory<TModel>
  */
 final class InitiateSignatureResponseFactory extends AbstractFactory
 {

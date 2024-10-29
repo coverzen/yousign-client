@@ -2,9 +2,13 @@
 
 namespace Coverzen\Components\YousignClient\Fakes\v1;
 
+use Closure;
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Soa;
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Yousign;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentResponse;
 use Coverzen\Components\YousignClient\YousignClientServiceProvider;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -47,6 +51,15 @@ class YousignFaker
     private ?string $calledFunctionName = null;
 
     /**
+     * Arguments of the last called function.
+     *
+     * @see self::assertIsCalled()
+     *
+     * @var array<int,mixed>
+     */
+    private array $arguments = [];
+
+    /**
      * Constructor for `YousignFaker` class.
      */
     public function __construct()
@@ -58,11 +71,22 @@ class YousignFaker
         Http::preventStrayRequests();
 
         /** @var string $url */
-        $url = Str::finish(Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'), Soa::URL_SEPARATOR) . '*';
+        $url = Str::finish(Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'), Soa::URL_SEPARATOR);
 
         Http::fake(
             [
-                $url => Http::response([]),
+                $url . Yousign::INITIATE_SIGNATURE_URL => Http::response(
+                    InitiateSignatureResponse::factory()
+                                             ->make()
+                                             ->toArray(),
+                    Response::HTTP_CREATED
+                ),
+                $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::UPLOAD_DOCUMENT_URL => Http::response(
+                    UploadDocumentResponse::factory()
+                                          ->make()
+                                          ->toArray(),
+                    Response::HTTP_CREATED
+                ),
             ]
         );
     }
@@ -76,18 +100,22 @@ class YousignFaker
     public function __call(string $function, array $arguments): mixed
     {
         $this->calledFunctionName = $function;
+        $this->arguments = $arguments;
 
         return (new Yousign())->{$function}(...$arguments);
     }
 
     /**
      * Function to assert a facade method is called.
+     * If a callback is provided, it will be called with the arguments of the
+     * called function.
      *
      * @param string $expectedFunctionName
+     * @param Closure|null $callback
      *
      * @return void
      */
-    public function assertIsCalled(string $expectedFunctionName): void
+    public function assertIsCalled(string $expectedFunctionName, ?Closure $callback = null): void
     {
         if (null === $this->calledFunctionName) {
             throw new ExpectationFailedException(sprintf(self::FAILED_ASSERTION_MESSAGE_NO_CALLED, $expectedFunctionName));
@@ -98,5 +126,9 @@ class YousignFaker
             $this->calledFunctionName,
             sprintf(self::FAILED_ASSERTION_MESSAGE_DIFFERENT_FUNCTION, $expectedFunctionName, $this->calledFunctionName)
         );
+
+        $callback = $callback ?: static fn (): bool => true;
+
+        PHPUnit::assertTrue($callback(...$this->arguments));
     }
 }
