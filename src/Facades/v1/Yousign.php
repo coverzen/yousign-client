@@ -5,6 +5,8 @@ namespace Coverzen\Components\YousignClient\Facades\v1;
 use Closure;
 use Coverzen\Components\YousignClient\Fakes\v1\YousignFaker;
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Yousign as YousignSoaLib;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
@@ -21,6 +23,7 @@ use RuntimeException;
  *
  * @method static InitiateSignatureResponse initiateSignature(InitiateSignatureRequest $initiateSignatureRequest)
  * @method static UploadDocumentResponse uploadDocument(string $signatureRequestId, UploadDocumentRequest $uploadDocumentRequest)
+ * @method static AddConsentResponse addConsent(string $signatureRequestId, AddConsentRequest $addConsentRequest)
  * @method static void assertIsCalled(string $functionName, ?Closure $callback = null)
  */
 final class Yousign extends Facade
