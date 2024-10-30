@@ -24,7 +24,6 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\ExpectationFailedException;
-use function in_array;
 
 /**
  * Class YousignTest.

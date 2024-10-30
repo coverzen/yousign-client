@@ -2,10 +2,10 @@
 
 namespace Coverzen\Components\YousignClient\Libs\Soa\v1;
 
-use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
-use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
