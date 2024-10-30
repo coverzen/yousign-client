@@ -2,6 +2,8 @@
 
 namespace Coverzen\Components\YousignClient\Libs\Soa\v1;
 
+use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
@@ -14,6 +16,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use RuntimeException;
+use function implode;
 use function is_array;
 
 /**
@@ -26,6 +29,9 @@ class Yousign extends Soa
 
     /** @var string */
     public const UPLOAD_DOCUMENT_URL = 'documents';
+
+    /** @var string */
+    public const ADD_CONSENT_URL = 'consent_requests';
 
     /** @var string */
     public const FILE_PARAM = 'file';
@@ -91,9 +97,6 @@ class Yousign extends Soa
             throw new RuntimeException('File content is required.');
         }
 
-        /** @var string $url */
-        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::UPLOAD_DOCUMENT_URL;
-
         /** @var Response $response */
         $response = $this->apiClient->attach(
             self::FILE_PARAM,
@@ -101,7 +104,14 @@ class Yousign extends Soa
             $uploadDocumentRequest->file_name,
         )
                                     ->post(
-                                        $url,
+                                        implode(
+                                            self::URL_SEPARATOR,
+                                            [
+                                                self::INITIATE_SIGNATURE_URL,
+                                                $signatureRequestId,
+                                                self::UPLOAD_DOCUMENT_URL,
+                                            ]
+                                        ),
                                         [
                                             self::NATURE_PARAM => $uploadDocumentRequest->nature->value,
                                         ]
@@ -112,5 +122,33 @@ class Yousign extends Soa
         }
 
         return new UploadDocumentResponse($response->json());
+    }
+
+    /**
+     * @param string $signatureRequestId
+     * @param AddConsentRequest $addConsentRequest
+     *
+     * @return AddConsentResponse
+     */
+    public function addConsent(string $signatureRequestId, AddConsentRequest $addConsentRequest): AddConsentResponse
+    {
+        /** @var Response $response */
+        $response = $this->apiClient->post(
+            implode(
+                self::URL_SEPARATOR,
+                [
+                    self::INITIATE_SIGNATURE_URL,
+                    $signatureRequestId,
+                    self::ADD_CONSENT_URL,
+                ]
+            ),
+            $addConsentRequest->toArray()
+        );
+
+        if (!is_array($response->json())) {
+            throw new RuntimeException('Yousign response is not an array.');
+        }
+
+        return new AddConsentResponse($response->json());
     }
 }

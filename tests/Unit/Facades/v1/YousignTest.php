@@ -4,6 +4,7 @@ namespace Coverzen\Components\YousignClient\Tests\Unit\Facades\v1;
 
 use Coverzen\Components\YousignClient\Facades\v1\Yousign;
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Yousign as YousignSoaLib;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
@@ -193,6 +194,26 @@ final class YousignTest extends TestCase
             }
         );
 
+        Http::assertSentCount(1);
+    }
+
+    /**
+     * @test
+     * @covers \Coverzen\Components\YousignClient\Facades\v1\Yousign::fake
+     *
+     * @return void
+     */
+    public function it_permits_assert_add_consent_is_called(): void
+    {
+        Yousign::fake();
+
+        Yousign::addConsent(
+            self::SIGNATURE_ID,
+            AddConsentRequest::factory()
+                                 ->make()
+        );
+
+        Yousign::assertIsCalled('addConsent');
         Http::assertSentCount(1);
     }
 }
