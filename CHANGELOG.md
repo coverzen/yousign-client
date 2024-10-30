@@ -1,3 +1,16 @@
+# [1.5.0](https://github.com/coverzen/yousign-client/compare/v1.4.0...v1.5.0) (2024-10-30)
+
+
+### Bug Fixes
+
+* add default type to AddConsentRequest struct ([b7da86f](https://github.com/coverzen/yousign-client/commit/b7da86fad5f2d7bcbde539c3caa8fe833f410768))
+
+
+### Features
+
+* add consent management ([fd538ed](https://github.com/coverzen/yousign-client/commit/fd538ed6fd232d1e4332c8f24fca16a5eb71c6d8))
+* add structs for consent management ([dcd9269](https://github.com/coverzen/yousign-client/commit/dcd926907b1945e3dea7e957b13c842649a30de9))
+
 # [1.4.0](https://github.com/coverzen/yousign-client/compare/v1.3.1...v1.4.0) (2024-10-28)
 
 

@@ -4,6 +4,8 @@ namespace Coverzen\Components\YousignClient\Tests\Unit\Libs\Soa\v1;
 
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Soa;
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Yousign;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
@@ -22,6 +24,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\ExpectationFailedException;
+use function in_array;
 
 /**
  * Class YousignTest.
@@ -139,6 +142,7 @@ final class YousignTest extends TestCase
 
     /**
      * @test
+     * @covers ::uploadDocument
      *
      * @return void
      */
@@ -350,6 +354,75 @@ final class YousignTest extends TestCase
     }
 
     /**
+     * @test
+     * @covers ::addConsent
+     *
+     * @return void
+     */
+    public function it_adds_consent(): void
+    {
+        /** @var string $url */
+        $url = Str::finish(
+            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Soa::URL_SEPARATOR
+        ) . Yousign::INITIATE_SIGNATURE_URL
+            . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ADD_CONSENT_URL;
+
+        /** @var AddConsentResponse $expectedAddConsentResponse */
+        $expectedAddConsentResponse = AddConsentResponse::factory()
+                                                        ->make();
+
+        Http::fake(
+            [
+                $url => Http::response($expectedAddConsentResponse->toArray(), Response::HTTP_CREATED),
+            ]
+        );
+
+        /** @var AddConsentRequest $addConsentRequest */
+        $addConsentRequest = AddConsentRequest::factory()
+                                              ->make();
+
+        /** @var AddConsentResponse|null $actualAddConsentResponse */
+        $actualAddConsentResponse = (new Yousign())->addConsent(self::SIGNATURE_ID, $addConsentRequest);
+
+        Http::assertSent(
+            function (ClientRequest $request) use ($addConsentRequest, $url): bool {
+                $this->assertSame(Request::METHOD_POST, $request->method());
+                $this->assertSame($url, $request->url());
+
+                $this->assertSame(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
+                );
+
+                $this->assertContains(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    $request->header(Soa::AUTHORIZATION_HEADER)
+                );
+
+                $this->assertArrayHasKey('type', $request->data());
+                $this->assertSame($addConsentRequest->type, $request->data()['type']);
+
+                $this->assertArrayHasKey('settings', $request->data());
+                $this->assertSame($addConsentRequest->settings, $request->data()['settings']);
+
+                $this->assertArrayHasKey('optional', $request->data());
+                $this->assertSame($addConsentRequest->optional, $request->data()['optional']);
+
+                return true;
+            }
+        );
+
+        $this->assertNotNull($actualAddConsentResponse);
+        $this->assertInstanceOf(AddConsentResponse::class, $actualAddConsentResponse);
+
+        $this->assertSame(
+            $expectedAddConsentResponse->toArray(),
+            $actualAddConsentResponse->toArray()
+        );
+    }
+
+    /**
      * Provides a set of error status code.
      *
      * @return array<array-key,array<array-key,int>>
@@ -377,7 +450,7 @@ final class YousignTest extends TestCase
 
     /**
      * @test
-     * @covers       \Coverzen\Components\YousignClient\Libs\Soa\v1\Yousign::__construct
+     * @covers       ::__construct
      * @dataProvider errorStatusProvider
      *
      * @param int $status

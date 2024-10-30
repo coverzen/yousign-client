@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\Validator;
 abstract class Struct extends Model
 {
     /**
+     * The data type of the primary key ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
+    /**
      * Set of validation rules used on Struct.
      *
      * @see ValidateModel

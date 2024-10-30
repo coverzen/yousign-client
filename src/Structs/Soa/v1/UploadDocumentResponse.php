@@ -27,16 +27,6 @@ class UploadDocumentResponse extends Struct
     use HasFactory;
 
     /** {@inheritdoc} */
-    public $timestamps = false;
-
-    /**
-     * The data type of the primary key ID.
-     *
-     * @var string
-     */
-    protected $keyType = 'string';
-
-    /** {@inheritdoc} */
     protected $fillable = [
         'id',
         'filename',

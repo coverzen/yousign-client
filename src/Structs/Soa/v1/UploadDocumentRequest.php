@@ -19,9 +19,6 @@ final class UploadDocumentRequest extends Request
     use HasFactory;
 
     /** {@inheritdoc} */
-    public $timestamps = false;
-
-    /** {@inheritdoc} */
     protected $casts = [
         'nature' => DocumentNature::class,
     ];
