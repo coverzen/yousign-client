@@ -22,7 +22,6 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\ExpectationFailedException;
-use function in_array;
 
 /**
  * Class YousignTest.
@@ -324,21 +323,28 @@ final class YousignTest extends TestCase
         /** @var array<int,SignerField> $actualFields */
         $actualFields = Arr::get($actualAddSignerResponse->toArray(), 'fields');
 
+        /** @var array<int, SignerField> $expectedFields */
+        $expectedFields = Arr::get($expectedAddSignerResponse->toArray(), 'fields');
+
         /**
+         * @var int $key
          * @var SignerField $expectedField
          */
-        foreach (Arr::get($expectedAddSignerResponse->toArray(), 'fields') as $key => $expectedField) {
+        foreach ($expectedFields as $key => $expectedField) {
+            /** @var SignerField $actualField */
+            $actualField = Arr::get($actualFields, $key);
+
             $this->assertSame(
                 $expectedField->page,
-                Arr::get($actualFields, $key)->page
+                $actualField->page
             );
             $this->assertSame(
                 $expectedField->type,
-                Arr::get($actualFields, $key)->type
+                $actualField->type
             );
             $this->assertSame(
                 $expectedField->height,
-                Arr::get($actualFields, $key)->height
+                $actualField->height
             );
         }
     }

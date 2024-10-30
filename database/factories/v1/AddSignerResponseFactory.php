@@ -31,17 +31,17 @@ final class AddSignerResponseFactory extends AbstractFactory
     public function configure(): static
     {
         return $this->afterMaking(
-        /**
-         * Necessary because association of model without persistence in factory will break
-         * returning null properties.
-         *
-         * @see Factory::expandAttributes() 485
-         *
-         * @param AddSignerResponse $addSignerResponse
-         *
-         * @retrun void
-         * @throws RandomException
-         */
+            /**
+             * Necessary because association of model without persistence in factory will break
+             * returning null properties.
+             *
+             * @see Factory::expandAttributes() 485
+             *
+             * @param AddSignerResponse $addSignerResponse
+             *
+             * @retrun void
+             * @throws RandomException
+             */
             static function (AddSignerResponse $addSignerResponse): void {
                 $addSignerResponse->fields = SignerField::factory(random_int(2, 2))
                                                         ->make()

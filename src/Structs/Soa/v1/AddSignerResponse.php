@@ -56,11 +56,17 @@ final class AddSignerResponse extends Struct
         'signature_link_expiration_date' => 'datetime',
     ];
 
+    /**
+     * @param array<array-key,mixed> $attributes
+     */
     public function __construct(array $attributes = [])
     {
+        /** @var array<int,array<array-key,mixed>|SignerField> $fields */
+        $fields = Arr::get($attributes, 'fields', []);
+
         /** @var array<int,SignerField> $mappedFields */
-        $mappedFields = collect(Arr::get($attributes, 'fields', []))->map(
-            static function (SignerField|array $field): SignerField {
+        $mappedFields = collect($fields)->map(
+            static function (SignerField|array $field) {
                 if ($field instanceof SignerField) {
                     return $field;
                 }

@@ -5,6 +5,7 @@ namespace Coverzen\Components\YousignClient\Tests\Unit\Structs\Soa\v1;
 use Coverzen\Components\YousignClient\Exceptions\Structs\v1\StructSaveException;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\SignerField;
+use Illuminate\Support\Arr;
 
 /**
  * Class AddSignerResponseTest.
@@ -96,11 +97,14 @@ final class AddSignerResponseTest extends TestCase
                                                ->make()
                                                ->toArray();
 
-        $signerResponseData['fields'][] = SignerField::factory()
+        /** @var array<int, SignerField> $signerFields */
+        $signerFields = Arr::get($signerResponseData, 'fields');
+
+        $signerFields[] = SignerField::factory()
                                                      ->make()
                                                      ->toArray();
 
-        $signerResponseData['fields'][] = SignerField::factory()
+        $signerFields[] = SignerField::factory()
                                                      ->make()
                                                      ->toArray();
 
