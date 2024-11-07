@@ -42,8 +42,7 @@ final class AddSignerRequestFactory extends AbstractFactory
              * @throws RandomException
              */
             static function (AddSignerRequest $addSignerRequest): void {
-                $addSignerRequest->fields = SignerField::factory()
-                                                        ->count(random_int(2, 5))
+                $addSignerRequest->fields = SignerField::factory(random_int(2, 5))
                                                         ->make()->all();
             }
         );

@@ -25,16 +25,6 @@ final class SignerFieldTest extends TestCase
         $this->assertInstanceOf(SignerField::class, $signerField);
     }
 
-    //    /**
-    //     * @test
-    //     *
-    //     * @return void
-    //     */
-    //    public function it_has_expected_properties_with_defaults(): void
-    //    {
-    //
-    //    }
-
     /**
      * @test
      *
@@ -93,17 +83,5 @@ final class SignerFieldTest extends TestCase
 
         (new SignerField())->save();
     }
-    //
-    //    /**
-    //     * @param WarrantyData $warrantyData
-    //     *
-    //     * @return void
-    //     */
-    //    private function checkModelFillables(WarrantyData $warrantyData): void
-    //    {
-    //        $this->assertContains('retro_activity', $warrantyData->getFillable());
-    //        $this->assertContains('warranty', $warrantyData->getFillable());
-    //        $this->assertContains('coverage_cap', $warrantyData->getFillable());
-    //        $this->assertContains('joint_sentence', $warrantyData->getFillable());
-    //    }
+
 }
