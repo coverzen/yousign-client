@@ -4,6 +4,7 @@ namespace Coverzen\Components\YousignClient\Tests\Unit\Libs\Soa\v1;
 
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Soa;
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Yousign;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\ActivateSignatureResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
@@ -478,5 +479,60 @@ final class YousignTest extends TestCase
         );
 
         (new Yousign())->initiateSignature(InitiateSignatureRequest::factory()->make());
+    }
+
+    /**
+     * @test
+     * @covers      ::activateSignatureRequest
+     *
+     * @return void
+     */
+    public function it_activates_a_signature_request(): void
+    {
+        /** @var string $url */
+        $url = Str::finish(
+                Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+                Soa::URL_SEPARATOR
+            ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Yousign::ACTIVATE_SIGNATURE_URL;
+
+        /** @var ActivateSignatureResponse $expectedActivateSignatureResponse */
+        $expectedActivateSignatureResponse = ActivateSignatureResponse::factory()
+                                                              ->make();
+
+        Http::fake(
+            [
+                $url => Http::response($expectedActivateSignatureResponse->toArray(), Response::HTTP_CREATED),
+            ]
+        );
+
+        /** @var InitiateSignatureResponse|null $actualActivateSignatureResponse */
+        $actualActivateSignatureResponse = (new Yousign())->activateSignature(self::SIGNATURE_ID);
+
+        Http::assertSent(
+            function (ClientRequest $request) use ($url): bool {
+                $this->assertSame(Request::METHOD_POST, $request->method());
+                $this->assertSame($url, $request->url());
+
+                $this->assertSame(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
+                );
+
+                $this->assertContains(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    $request->header(Soa::AUTHORIZATION_HEADER)
+                );
+
+                return true;
+            }
+        );
+
+        $this->assertNotNull($actualActivateSignatureResponse);
+        $this->assertInstanceOf(ActivateSignatureResponse::class, $actualActivateSignatureResponse);
+
+        $this->assertSame(
+            $expectedActivateSignatureResponse->toArray(),
+            $actualActivateSignatureResponse->toArray()
+        );
     }
 }

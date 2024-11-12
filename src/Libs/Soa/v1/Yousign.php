@@ -39,6 +39,9 @@ class Yousign extends Soa
     public const ADD_SIGNER_URL = 'signers';
 
     /** @var string */
+    public const ACTIVATE_SIGNATURE_URL = 'activate';
+
+    /** @var string */
     public const FILE_PARAM = 'file';
 
     /** @var string */
