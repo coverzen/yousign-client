@@ -31,14 +31,6 @@ final class SignerField extends Struct
         'y',
     ];
 
-    /** @var array<string,mixed> */
-    protected $attributes = [
-    ];
-
-    /** {@inheritdoc} */
-    protected $casts = [
-    ];
-
     /**
      * Set the proper factory for model.
      *

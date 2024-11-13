@@ -56,9 +56,7 @@ final class AddSignerResponse extends Struct
         'signature_link_expiration_date' => 'datetime',
     ];
 
-    /**
-     * @param array<array-key,mixed> $attributes
-     */
+    /** {@inheritdoc} */
     public function __construct(array $attributes = [])
     {
         /** @var array<int,array<array-key,mixed>|SignerField> $fields */
@@ -73,8 +71,7 @@ final class AddSignerResponse extends Struct
 
                 return new SignerField($field);
             }
-        )
-                                                                    ->all();
+        )->all();
 
         Arr::set($attributes, 'fields', $mappedFields);
 
