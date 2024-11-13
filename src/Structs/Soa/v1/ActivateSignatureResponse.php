@@ -21,6 +21,22 @@ final class ActivateSignatureResponse extends Struct
 
     /** {@inheritdoc} */
     protected $fillable = [
+        'id',
+        'status',
+        'name',
+        'delivery_mode',
+        'created_at',
+        'ordered_signers',
+        'reminder_settings',
+        'timezone',
+        'expiration_date',
+        'signers',
+        'approvers',
+        'documents',
+        'external_id',
+        'branding_id',
+        'custom_experience_id',
+        'audit_trail_locale',
     ];
 
     /** {@inheritdoc} */
@@ -29,6 +45,8 @@ final class ActivateSignatureResponse extends Struct
 
     /** {@inheritdoc} */
     protected $casts = [
+        'expiration_date' => 'datetime',
+        'created_at' => 'datetime',
     ];
 
     /**
@@ -36,7 +54,7 @@ final class ActivateSignatureResponse extends Struct
      *
      * @return ActivateSignatureResponseFactory<self>
      */
-    protected static function newFactory(): AddConsentResponseFactory
+    protected static function newFactory(): ActivateSignatureResponseFactory
     {
         return ActivateSignatureResponseFactory::new();
     }

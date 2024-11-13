@@ -493,7 +493,7 @@ final class YousignTest extends TestCase
         $url = Str::finish(
                 Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
                 Soa::URL_SEPARATOR
-            ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Yousign::ACTIVATE_SIGNATURE_URL;
+            ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ACTIVATE_SIGNATURE_URL;
 
         /** @var ActivateSignatureResponse $expectedActivateSignatureResponse */
         $expectedActivateSignatureResponse = ActivateSignatureResponse::factory()
