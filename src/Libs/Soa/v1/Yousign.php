@@ -185,7 +185,7 @@ class Yousign extends Soa
     /**
      * @param string $signatureRequestId
      *
-     * @return AddSignerResponse
+     * @return ActivateSignatureResponse
      */
     public function activateSignature(string $signatureRequestId): ActivateSignatureResponse
     {

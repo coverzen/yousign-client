@@ -33,7 +33,7 @@ final class ActivateSignatureResponseFactory extends AbstractFactory
             'ordered_signers' => $this->faker->boolean(),
             'reminder_settings' => [
                 'interval_in_days' => $this->faker->numberBetween(),
-                'max_occurrences' => $this->faker->numberBetween()
+                'max_occurrences' => $this->faker->numberBetween(),
             ],
             'timezone' => 'Europe/Paris',
             'expiration_date' => $this->faker->dateTime(),

@@ -4,9 +4,6 @@ namespace Coverzen\Components\YousignClient\Tests\Unit\Structs\Soa\v1;
 
 use Coverzen\Components\YousignClient\Exceptions\Structs\v1\StructSaveException;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\ActivateSignatureResponse;
-use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
-use Coverzen\Components\YousignClient\Structs\Soa\v1\SignerField;
-use Illuminate\Support\Arr;
 
 /**
  * Class ActivateSignatureResponseTest.

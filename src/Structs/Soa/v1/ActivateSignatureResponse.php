@@ -3,7 +3,6 @@
 namespace Coverzen\Components\YousignClient\Structs\Soa\v1;
 
 use Coverzen\Components\YousignClient\Database\Factories\v1\ActivateSignatureResponseFactory;
-use Coverzen\Components\YousignClient\Database\Factories\v1\AddConsentResponseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**

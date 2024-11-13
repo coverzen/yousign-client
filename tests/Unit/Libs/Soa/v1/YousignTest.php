@@ -491,9 +491,9 @@ final class YousignTest extends TestCase
     {
         /** @var string $url */
         $url = Str::finish(
-                Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
-                Soa::URL_SEPARATOR
-            ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ACTIVATE_SIGNATURE_URL;
+            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Soa::URL_SEPARATOR
+        ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ACTIVATE_SIGNATURE_URL;
 
         /** @var ActivateSignatureResponse $expectedActivateSignatureResponse */
         $expectedActivateSignatureResponse = ActivateSignatureResponse::factory()
@@ -505,7 +505,7 @@ final class YousignTest extends TestCase
             ]
         );
 
-        /** @var InitiateSignatureResponse|null $actualActivateSignatureResponse */
+        /** @var ActivateSignatureResponse|null $actualActivateSignatureResponse */
         $actualActivateSignatureResponse = (new Yousign())->activateSignature(self::SIGNATURE_ID);
 
         Http::assertSent(
