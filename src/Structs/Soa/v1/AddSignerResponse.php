@@ -11,10 +11,10 @@ use function collect;
 /**
  * Class AddSignerRequest.
  *
- * @property string $id
+ * @property string|null $id
  * @property array $info
- * @property string $status
- * @property string $signature_level
+ * @property string|null $status
+ * @property string|null $signature_level
  * @property string|null $signature_authentication_mode
  * @property string|null $signature_link
  * @property array<int,SignerField> $fields
@@ -49,6 +49,15 @@ final class AddSignerResponse extends Struct
         'delivery_mode',
         'identification_attestation_id',
         'sms_notification',
+    ];
+
+    /** {@inheritdoc} */
+    protected $attributes = [
+        'info' => [],
+        'fields' => [],
+        'redirect_urls' => [],
+        'custom_text' => [],
+        'sms_notification' => [],
     ];
 
     /** {@inheritdoc} */
