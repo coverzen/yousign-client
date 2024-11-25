@@ -40,6 +40,7 @@ final class ActivateSignatureResponse extends Struct
 
     /** {@inheritdoc} */
     protected $attributes = [
+        'optional' => false,
     ];
 
     /** {@inheritdoc} */

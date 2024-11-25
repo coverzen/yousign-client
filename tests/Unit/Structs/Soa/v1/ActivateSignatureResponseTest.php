@@ -26,7 +26,7 @@ final class ActivateSignatureResponseTest extends TestCase
 
     /**
      * @test
-     * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest::factory
+     * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\ActivateSignatureResponse::factory
      *
      * @return void
      */
@@ -41,7 +41,7 @@ final class ActivateSignatureResponseTest extends TestCase
 
     /**
      * @test
-     * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest::factory
+     * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\ActivateSignatureResponse::factory
      *
      * @return void
      */
@@ -55,7 +55,7 @@ final class ActivateSignatureResponseTest extends TestCase
 
     /**
      * @test
-     * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest::save
+     * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\ActivateSignatureResponse::save
      *
      * @return void
      */

@@ -295,6 +295,7 @@ final class YousignTest extends TestCase
                 $this->assertSame($addSignerRequest->info, $request->data()['info']);
 
                 $this->assertArrayHasKey('signature_level', $request->data());
+                $this->assertNotNull($addSignerRequest->signature_level);
                 $this->assertSame($addSignerRequest->signature_level->value, $request->data()['signature_level']);
 
                 $this->assertArrayHasKey('fields', $request->data());

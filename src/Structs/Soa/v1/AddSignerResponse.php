@@ -73,8 +73,7 @@ final class AddSignerResponse extends Struct
 
                 return new SignerField($field);
             }
-        )
-                                                                    ->all();
+        )->all();
 
         Arr::set($attributes, 'fields', $mappedFields);
 
