@@ -94,12 +94,12 @@ class YousignFaker
                                           ->toArray(),
                     Response::HTTP_CREATED
                 ),
-                //                $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::ADD_CONSENT_URL => Http::response(
-                //                    AddConsentResponse::factory()
-                //                                      ->make()
-                //                                      ->toArray(),
-                //                    Response::HTTP_CREATED
-                //                ),
+                $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::ADD_CONSENT_URL => Http::response(
+                    AddConsentResponse::factory()
+                                      ->make()
+                                      ->toArray(),
+                    Response::HTTP_CREATED
+                ),
                 $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::ADD_SIGNER_URL => Http::response(
                     AddSignerResponse::factory()
                                       ->make()
@@ -126,12 +126,12 @@ class YousignFaker
                     base64_encode(self::FAKE_IMAGE_STRING),
                     Response::HTTP_CREATED
                 ),
-                $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::ADD_CONSENT_URL => Http::response(
-                    GetConsentsResponse::factory()
-                                             ->make()
-                                             ->toArray(),
-                    Response::HTTP_CREATED
-                ),
+//                $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::ADD_CONSENT_URL => Http::response(
+//                    GetConsentsResponse::factory()
+//                                             ->make()
+//                                             ->toArray(),
+//                    Response::HTTP_CREATED
+//                ),
             ]
         );
     }
