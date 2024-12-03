@@ -615,7 +615,7 @@ final class YousignTest extends TestCase
         ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::UPLOAD_DOCUMENT_URL . Soa::URL_SEPARATOR . self::DOCUMENT_ID;
 
         /** @var string $expectedDownloadDocumentResponse */
-        $expectedDownloadDocumentResponse = base64_encode(YousignFaker::FAKE_IMAGE_STRING);
+        $expectedDownloadDocumentResponse = YousignFaker::FAKE_IMAGE_STRING;
 
         Http::fake(
             [
@@ -669,7 +669,7 @@ final class YousignTest extends TestCase
         ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ADD_SIGNER_URL . Soa::URL_SEPARATOR . self::SIGNER_ID . Soa::URL_SEPARATOR . Yousign::DOWNLOAD_AUDIT_TRAIL;
 
         /** @var string $expectedDownloadAuditTrailResponse */
-        $expectedDownloadAuditTrailResponse = base64_encode(YousignFaker::FAKE_IMAGE_STRING);
+        $expectedDownloadAuditTrailResponse = YousignFaker::FAKE_IMAGE_STRING;
 
         Http::fake(
             [

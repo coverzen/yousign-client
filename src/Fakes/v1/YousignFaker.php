@@ -119,11 +119,11 @@ class YousignFaker
                     Response::HTTP_CREATED
                 ),
                 $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::DOWNLOAD_DOCUMENT_URL . '/*' => Http::response(
-                    base64_encode(self::FAKE_IMAGE_STRING),
+                    self::FAKE_IMAGE_STRING,
                     Response::HTTP_CREATED
                 ),
                 $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::ADD_SIGNER_URL . '/*/' . Yousign::DOWNLOAD_AUDIT_TRAIL => Http::response(
-                    base64_encode(self::FAKE_IMAGE_STRING),
+                    self::FAKE_IMAGE_STRING,
                     Response::HTTP_CREATED
                 ),
                 $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::ADD_CONSENT_URL . '*' => Http::response(
