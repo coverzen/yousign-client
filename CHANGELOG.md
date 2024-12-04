@@ -1,3 +1,11 @@
+# [1.7.0](https://github.com/coverzen/yousign-client/compare/v1.6.0...v1.7.0) (2024-12-04)
+
+
+### Features
+
+* activate signature response ([2e51bd8](https://github.com/coverzen/yousign-client/commit/2e51bd83e3ea3e79b3defb43e794326baf186358))
+* wip activate signature ([1bfb140](https://github.com/coverzen/yousign-client/commit/1bfb1404a371894234c8d8e0b22f37ab3ff7eb2e))
+
 # [1.6.0](https://github.com/coverzen/yousign-client/compare/v1.5.0...v1.6.0) (2024-12-04)
 
 
