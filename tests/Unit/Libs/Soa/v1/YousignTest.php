@@ -6,8 +6,11 @@ use Coverzen\Components\YousignClient\Libs\Soa\v1\Soa;
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Yousign;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\SignerField;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentResponse;
 use Coverzen\Components\YousignClient\YousignClientServiceProvider;
@@ -21,7 +24,6 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\ExpectationFailedException;
-use function in_array;
 
 /**
  * Class YousignTest.
@@ -170,26 +172,19 @@ final class YousignTest extends TestCase
         $actualUploadDocumentResponse = (new Yousign())->uploadDocument(self::SIGNATURE_ID, $uploadDocumentRequest);
 
         Http::assertSent(
-            static function (ClientRequest $request) use ($url, $uploadDocumentRequest): bool {
-                if ($request->method() !== Request::METHOD_POST) {
-                    throw new ExpectationFailedException('Request method must be POST');
-                }
+            function (ClientRequest $request) use ($url, $uploadDocumentRequest): bool {
+                $this->assertSame(Request::METHOD_POST, $request->method());
+                $this->assertSame($url, $request->url());
 
-                if (
-                    $request->url() !== $url
-                ) {
-                    throw new ExpectationFailedException('Request URL must be ' . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url') . Yousign::INITIATE_SIGNATURE_URL);
-                }
+                $this->assertSame(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
+                );
 
-                if (
-                    !in_array(
-                        Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
-                        $request->header(Soa::AUTHORIZATION_HEADER),
-                        true
-                    )
-                ) {
-                    throw new ExpectationFailedException(Soa::AUTHORIZATION_HEADER . ' header missing or with wrong value.');
-                }
+                $this->assertContains(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    $request->header(Soa::AUTHORIZATION_HEADER)
+                );
 
                 if (
                     !Arr::first(
@@ -247,6 +242,114 @@ final class YousignTest extends TestCase
             $expectedUploadDocumentResponse->toArray(),
             $actualUploadDocumentResponse->toArray()
         );
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_adds_signer(): void
+    {
+        /** @var string $url */
+        $url = Str::finish(
+            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Soa::URL_SEPARATOR
+        ) . Yousign::INITIATE_SIGNATURE_URL
+            . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ADD_SIGNER_URL;
+
+        /** @var AddSignerResponse $expectedAddSignerResponse */
+        $expectedAddSignerResponse = AddSignerResponse::factory()
+                                                      ->make();
+
+        Http::fake(
+            [
+                $url => Http::response($expectedAddSignerResponse->toArray(), Response::HTTP_CREATED),
+            ]
+        );
+
+        /** @var AddSignerRequest $addSignerRequest */
+        $addSignerRequest = AddSignerRequest::factory()
+                                            ->make();
+
+        /** @var AddSignerResponse $actualAddSignerResponse */
+        $actualAddSignerResponse = (new Yousign())->addSigner(self::SIGNATURE_ID, $addSignerRequest);
+
+        Http::assertSent(
+            function (ClientRequest $request) use ($addSignerRequest, $url): bool {
+                $this->assertSame(Request::METHOD_POST, $request->method());
+                $this->assertSame($url, $request->url());
+
+                $this->assertSame(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
+                );
+
+                $this->assertContains(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    $request->header(Soa::AUTHORIZATION_HEADER)
+                );
+
+                $this->assertArrayHasKey('info', $request->data());
+                $this->assertSame($addSignerRequest->info, $request->data()['info']);
+
+                $this->assertArrayHasKey('signature_level', $request->data());
+                $this->assertSame($addSignerRequest->signature_level->value, $request->data()['signature_level']);
+
+                $this->assertArrayHasKey('fields', $request->data());
+                $this->assertSame($addSignerRequest->fields, $request->data()['fields']);
+
+                return true;
+            }
+        );
+
+        $this->assertNotNull($actualAddSignerResponse);
+        $this->assertInstanceOf(AddSignerResponse::class, $actualAddSignerResponse);
+
+        $this->assertIsArray($actualAddSignerResponse->fields);
+
+        /** @var SignerField $field */
+        foreach ($actualAddSignerResponse->fields as $field) {
+            $this->assertInstanceOf(SignerField::class, $field);
+        }
+
+        $this->assertSame(
+            $expectedAddSignerResponse->toArray()['info'],
+            $actualAddSignerResponse->toArray()['info']
+        );
+
+        $this->assertSame(
+            $expectedAddSignerResponse->toArray()['signature_level'],
+            $actualAddSignerResponse->toArray()['signature_level']
+        );
+
+        /** @var array<int,SignerField> $actualFields */
+        $actualFields = Arr::get($actualAddSignerResponse->toArray(), 'fields');
+
+        /** @var array<int, SignerField> $expectedFields */
+        $expectedFields = Arr::get($expectedAddSignerResponse->toArray(), 'fields');
+
+        /**
+         * @var int $key
+         * @var SignerField $expectedField
+         */
+        foreach ($expectedFields as $key => $expectedField) {
+            /** @var SignerField $actualField */
+            $actualField = Arr::get($actualFields, $key);
+
+            $this->assertSame(
+                $expectedField->page,
+                $actualField->page
+            );
+            $this->assertSame(
+                $expectedField->type,
+                $actualField->type
+            );
+            $this->assertSame(
+                $expectedField->height,
+                $actualField->height
+            );
+        }
     }
 
     /**

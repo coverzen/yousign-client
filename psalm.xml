@@ -49,6 +49,7 @@
         <TooManyTemplateParams>
             <errorLevel type="suppress">
                 <file name="src/Structs/Soa/v1/InitiateSignatureRequest.php"/>
+                <file name="src/Structs/Soa/v1/Request.php"/>
             </errorLevel>
         </TooManyTemplateParams>
     </issueHandlers>

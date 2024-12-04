@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Validator;
  */
 abstract class Struct extends Model
 {
-    /** @var int */
-    public const JSON_DECODE_DEPTH = 512;
-
     /**
      * The data type of the primary key ID.
      *
