@@ -11,10 +11,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * Class AddSignerRequest.
  *
  * @property array $info
- * @property SignatureLevel $signature_level
+ * @property SignatureLevel|null $signature_level
  * @property SignatureAuthenticationMode|null $signature_authentication_mode
- * @property array<int,SignerField> $fields
- * @property-read array $payload
+ * @property array<int,SignerField>|null $fields
+ * @property-read array|null $payload
  */
 final class AddSignerRequest extends Request
 {

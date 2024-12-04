@@ -2,6 +2,7 @@
 
 namespace Coverzen\Components\YousignClient\Libs\Soa\v1;
 
+use Coverzen\Components\YousignClient\Structs\Soa\v1\ActivateSignatureResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
@@ -37,6 +38,9 @@ class Yousign extends Soa
 
     /** @var string */
     public const ADD_SIGNER_URL = 'signers';
+
+    /** @var string */
+    public const ACTIVATE_SIGNATURE_URL = 'activate';
 
     /** @var string */
     public const FILE_PARAM = 'file';
@@ -176,5 +180,25 @@ class Yousign extends Soa
         }
 
         return new AddConsentResponse($response->json());
+    }
+
+    /**
+     * @param string $signatureRequestId
+     *
+     * @return ActivateSignatureResponse
+     */
+    public function activateSignature(string $signatureRequestId): ActivateSignatureResponse
+    {
+        /** @var string $url */
+        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::ACTIVATE_SIGNATURE_URL;
+
+        /** @var Response $response */
+        $response = $this->apiClient->post($url);
+
+        if (!is_array($response->json())) {
+            throw new RuntimeException('Yousign response is not an array.');
+        }
+
+        return new ActivateSignatureResponse($response->json());
     }
 }
