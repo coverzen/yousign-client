@@ -614,12 +614,9 @@ final class YousignTest extends TestCase
             Soa::URL_SEPARATOR
         ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::UPLOAD_DOCUMENT_URL . Soa::URL_SEPARATOR . self::DOCUMENT_ID;
 
-        /** @var string $expectedDownloadDocumentResponse */
-        $expectedDownloadDocumentResponse = YousignFaker::FAKE_IMAGE_STRING;
-
         Http::fake(
             [
-                $url => Http::response($expectedDownloadDocumentResponse, Response::HTTP_CREATED),
+                $url => Http::response(YousignFaker::FAKE_IMAGE_STRING, Response::HTTP_CREATED),
             ]
         );
 
@@ -649,7 +646,7 @@ final class YousignTest extends TestCase
         $this->assertIsString($actualDownloadDocumentResponse);
 
         $this->assertSame(
-            $expectedDownloadDocumentResponse,
+            YousignFaker::FAKE_IMAGE_STRING,
             $actualDownloadDocumentResponse
         );
     }
