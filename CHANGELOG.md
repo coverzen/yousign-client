@@ -1,3 +1,22 @@
+# [1.6.0](https://github.com/coverzen/yousign-client/compare/v1.5.0...v1.6.0) (2024-12-04)
+
+
+### Bug Fixes
+
+* fix AddSignerRequestFactory ([577d34b](https://github.com/coverzen/yousign-client/commit/577d34b6dd1303ba2dda75a9a54a5a686854f921))
+* fix casts and enum management in requests' payload ([880c62d](https://github.com/coverzen/yousign-client/commit/880c62df7f08426cc337972dc2deec2faa53f9e9))
+* manage creation of SignerFields from array in AddSignerResponse ([7141f0c](https://github.com/coverzen/yousign-client/commit/7141f0c088048a9b2f301522e1ed7efcec557798))
+
+
+### Features
+
+* add test for AddsSigner ([e203256](https://github.com/coverzen/yousign-client/commit/e203256108872daf27cfe8598a17a4857d269404))
+* create addSignatureResponse ([7337ccd](https://github.com/coverzen/yousign-client/commit/7337ccd375b983afb4d1e603be662938d1d26696))
+* fix AddSignerRequest + wip AddSignerResponse ([ed597cf](https://github.com/coverzen/yousign-client/commit/ed597cf1f8b7e91e627823df403e1ca9a94fba59))
+* fixer ([95c181e](https://github.com/coverzen/yousign-client/commit/95c181efa90c061163629c43d1ee6516e6953efe))
+* wip addSigner ([055e28c](https://github.com/coverzen/yousign-client/commit/055e28c9d845eb60a38a1237a4d0276939c1012d))
+* wip creation method addSigner ([9505c24](https://github.com/coverzen/yousign-client/commit/9505c246ba90126d25cc655123b7389c1b01d374))
+
 # [1.5.0](https://github.com/coverzen/yousign-client/compare/v1.4.0...v1.5.0) (2024-10-30)
 
 
