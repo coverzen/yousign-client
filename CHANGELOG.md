@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/coverzen/yousign-client/compare/v1.7.0...v1.8.0) (2024-12-05)
+
+
+### Features
+
+* implements minor call to yousign ([9184303](https://github.com/coverzen/yousign-client/commit/9184303bfa556db188f5292913b9220c44bd4987))
+
 # [1.7.0](https://github.com/coverzen/yousign-client/compare/v1.6.0...v1.7.0) (2024-12-04)
 
 
