@@ -7,6 +7,7 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\GetConsentsResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
@@ -32,6 +33,12 @@ class Yousign extends Soa
 
     /** @var string */
     public const UPLOAD_DOCUMENT_URL = 'documents';
+
+    /** @var string */
+    public const DOWNLOAD_DOCUMENT_URL = 'documents/download';
+
+    /** @var string */
+    public const DOWNLOAD_AUDIT_TRAIL = 'audit_trails/download';
 
     /** @var string */
     public const ADD_CONSENT_URL = 'consent_requests';
@@ -200,5 +207,87 @@ class Yousign extends Soa
         }
 
         return new ActivateSignatureResponse($response->json());
+    }
+
+    /**
+     * @param string $signatureRequestId
+     *
+     * @return InitiateSignatureResponse
+     */
+    public function getSignatureById(string $signatureRequestId): InitiateSignatureResponse
+    {
+        /** @var string $url */
+        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId;
+
+        /** @var Response $response */
+        $response = $this->apiClient->get($url);
+
+        if (!is_array($response->json())) {
+            throw new RuntimeException('Yousign response is not an array.');
+        }
+
+        return new InitiateSignatureResponse($response->json());
+    }
+
+    /**
+     * @param string $signatureRequestId
+     * @param string $documentId
+     *
+     * @return string
+     */
+    public function getDocumentById(string $signatureRequestId, string $documentId): string
+    {
+        /** @var string $url */
+        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::UPLOAD_DOCUMENT_URL . self::URL_SEPARATOR . $documentId;
+
+        /** @var Response $response */
+        $response = $this->apiClient->get($url);
+
+        if (!is_string($response->body())) {
+            throw new RuntimeException('Yousign response is not a string.');
+        }
+
+        return $response->body();
+    }
+
+    /**
+     * @param string $signatureRequestId
+     * @param string $signerId
+     *
+     * @return string
+     */
+    public function getAuditTrail(string $signatureRequestId, string $signerId): string
+    {
+        /** @var string $url */
+        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::ADD_SIGNER_URL . Soa::URL_SEPARATOR . $signerId . self::URL_SEPARATOR . self::DOWNLOAD_AUDIT_TRAIL;
+
+        /** @var Response $response */
+        $response = $this->apiClient->get($url);
+
+        if (!is_string($response->body())) {
+            throw new RuntimeException('Yousign response is not a string.');
+        }
+
+        return $response->body();
+    }
+
+    /**
+     * @param string $signatureRequestId
+     *
+     * @return GetConsentsResponse
+     */
+    public function getConsentsById(string $signatureRequestId): GetConsentsResponse
+    {
+        /** @var string $url */
+        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::ADD_CONSENT_URL;
+
+        /** @var Response $response */
+        $response = $this->apiClient->get($url);
+
+        if (!is_array($response->json())) {
+            throw new RuntimeException('Yousign response is not an array.');
+        }
+
+        return new GetConsentsResponse($response->json());
     }
 }

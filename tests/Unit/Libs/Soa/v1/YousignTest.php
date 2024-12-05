@@ -2,6 +2,7 @@
 
 namespace Coverzen\Components\YousignClient\Tests\Unit\Libs\Soa\v1;
 
+use Coverzen\Components\YousignClient\Fakes\v1\YousignFaker;
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Soa;
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Yousign;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\ActivateSignatureResponse;
@@ -9,6 +10,7 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\GetConsentsResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\SignerField;
@@ -35,6 +37,12 @@ final class YousignTest extends TestCase
 {
     /** @var string */
     private const SIGNATURE_ID = '0da2b825-3682-4d42-bcd0-d01f791940ff';
+
+    /** @var string */
+    private const SIGNER_ID = '0da2b115-3682-4f42-bmn0-d90f43194ht';
+
+    /** @var string */
+    private const DOCUMENT_ID = '89120884-d29a-4b1a-ac7b-a9e73a872796';
 
     /**
      * Provides a set of properties to set null.
@@ -534,6 +542,221 @@ final class YousignTest extends TestCase
         $this->assertSame(
             $expectedActivateSignatureResponse->toArray(),
             $actualActivateSignatureResponse->toArray()
+        );
+    }
+
+    /**
+     * @test
+     * @covers      ::getSignatureById
+     *
+     * @return void
+     */
+    public function it_gets_signature_by_id(): void
+    {
+        /** @var string $url */
+        $url = Str::finish(
+            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Soa::URL_SEPARATOR
+        ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID;
+
+        /** @var InitiateSignatureResponse $expectedSignatureResponse */
+        $expectedSignatureResponse = InitiateSignatureResponse::factory()
+                                                              ->make();
+
+        Http::fake(
+            [
+                $url => Http::response($expectedSignatureResponse->toArray(), Response::HTTP_CREATED),
+            ]
+        );
+
+        /** @var InitiateSignatureResponse|null $actualSignatureResponse */
+        $actualSignatureResponse = (new Yousign())->getSignatureById(self::SIGNATURE_ID);
+
+        Http::assertSent(
+            function (ClientRequest $request) use ($url): bool {
+                $this->assertSame(Request::METHOD_GET, $request->method());
+                $this->assertSame($url, $request->url());
+
+                $this->assertSame(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
+                );
+
+                $this->assertContains(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    $request->header(Soa::AUTHORIZATION_HEADER)
+                );
+
+                return true;
+            }
+        );
+
+        $this->assertNotNull($actualSignatureResponse);
+        $this->assertInstanceOf(InitiateSignatureResponse::class, $actualSignatureResponse);
+
+        $this->assertSame(
+            $expectedSignatureResponse->toArray(),
+            $actualSignatureResponse->toArray()
+        );
+    }
+
+    /**
+     * @test
+     * @covers      ::getDocumentById
+     *
+     * @return void
+     */
+    public function it_gets_document_by_id(): void
+    {
+        /** @var string $url */
+        $url = Str::finish(
+            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Soa::URL_SEPARATOR
+        ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::UPLOAD_DOCUMENT_URL . Soa::URL_SEPARATOR . self::DOCUMENT_ID;
+
+        Http::fake(
+            [
+                $url => Http::response(YousignFaker::FAKE_IMAGE_STRING, Response::HTTP_CREATED),
+            ]
+        );
+
+        /** @var string|null $actualDownloadDocumentResponse */
+        $actualDownloadDocumentResponse = (new Yousign())->getDocumentById(self::SIGNATURE_ID, self::DOCUMENT_ID);
+
+        Http::assertSent(
+            function (ClientRequest $request) use ($url): bool {
+                $this->assertSame(Request::METHOD_GET, $request->method());
+                $this->assertSame($url, $request->url());
+
+                $this->assertSame(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
+                );
+
+                $this->assertContains(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    $request->header(Soa::AUTHORIZATION_HEADER)
+                );
+
+                return true;
+            }
+        );
+
+        $this->assertNotNull($actualDownloadDocumentResponse);
+        $this->assertIsString($actualDownloadDocumentResponse);
+
+        $this->assertSame(
+            YousignFaker::FAKE_IMAGE_STRING,
+            $actualDownloadDocumentResponse
+        );
+    }
+
+    /**
+     * @test
+     * @covers      ::getAuditTrail
+     *
+     * @return void
+     */
+    public function it_gets_audit_trail(): void
+    {
+        /** @var string $url */
+        $url = Str::finish(
+            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Soa::URL_SEPARATOR
+        ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ADD_SIGNER_URL . Soa::URL_SEPARATOR . self::SIGNER_ID . Soa::URL_SEPARATOR . Yousign::DOWNLOAD_AUDIT_TRAIL;
+
+        /** @var string $expectedDownloadAuditTrailResponse */
+        $expectedDownloadAuditTrailResponse = YousignFaker::FAKE_IMAGE_STRING;
+
+        Http::fake(
+            [
+                $url => Http::response($expectedDownloadAuditTrailResponse, Response::HTTP_CREATED),
+            ]
+        );
+
+        /** @var string|null $actualDownloadAuditTrailResponse */
+        $actualDownloadAuditTrailResponse = (new Yousign())->getAuditTrail(self::SIGNATURE_ID, self::SIGNER_ID);
+
+        Http::assertSent(
+            function (ClientRequest $request) use ($url): bool {
+                $this->assertSame(Request::METHOD_GET, $request->method());
+                $this->assertSame($url, $request->url());
+
+                $this->assertSame(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
+                );
+
+                $this->assertContains(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    $request->header(Soa::AUTHORIZATION_HEADER)
+                );
+
+                return true;
+            }
+        );
+
+        $this->assertNotNull($actualDownloadAuditTrailResponse);
+        $this->assertIsString($actualDownloadAuditTrailResponse);
+
+        $this->assertSame(
+            $expectedDownloadAuditTrailResponse,
+            $actualDownloadAuditTrailResponse
+        );
+    }
+
+    /**
+     * @test
+     * @covers      ::getConsentsById
+     *
+     * @return void
+     */
+    public function it_gets_consents_by_id(): void
+    {
+        /** @var string $url */
+        $url = Str::finish(
+            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Soa::URL_SEPARATOR
+        ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ADD_CONSENT_URL;
+
+        /** @var GetConsentsResponse $expectedGetConsentsResponse */
+        $expectedGetConsentsResponse = GetConsentsResponse::factory()
+                                                            ->make();
+
+        Http::fake(
+            [
+                $url => Http::response($expectedGetConsentsResponse->toArray(), Response::HTTP_CREATED),
+            ]
+        );
+
+        /** @var GetConsentsResponse $actualGetConsentsResponse */
+        $actualGetConsentsResponse = (new Yousign())->getConsentsById(self::SIGNATURE_ID);
+
+        Http::assertSent(
+            function (ClientRequest $request) use ($url): bool {
+                $this->assertSame(Request::METHOD_GET, $request->method());
+                $this->assertSame($url, $request->url());
+
+                $this->assertSame(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
+                );
+
+                $this->assertContains(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    $request->header(Soa::AUTHORIZATION_HEADER)
+                );
+
+                return true;
+            }
+        );
+
+        $this->assertNotNull($actualGetConsentsResponse);
+        $this->assertInstanceOf(GetConsentsResponse::class, $actualGetConsentsResponse);
+
+        $this->assertSame(
+            $expectedGetConsentsResponse->toArray(),
+            $actualGetConsentsResponse->toArray()
         );
     }
 }
