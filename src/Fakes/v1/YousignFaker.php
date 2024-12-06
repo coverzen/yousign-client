@@ -8,6 +8,7 @@ use Coverzen\Components\YousignClient\Libs\Soa\v1\Yousign;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\ActivateSignatureResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\GetAuditTrailDetailResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\GetConsentsResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentResponse;
@@ -122,6 +123,12 @@ class YousignFaker
                 ),
                 $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::ADD_CONSENT_URL . '*' => Http::response(
                     GetConsentsResponse::factory()
+                                             ->make()
+                                             ->toArray(),
+                    Response::HTTP_CREATED
+                ),
+                $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::ADD_SIGNER_URL . '/*/' . Yousign::DOWNLOAD_AUDIT_TRAIL_DETAIL => Http::response(
+                    GetAuditTrailDetailResponse::factory()
                                              ->make()
                                              ->toArray(),
                     Response::HTTP_CREATED

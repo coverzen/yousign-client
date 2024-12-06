@@ -7,6 +7,7 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\GetAuditTrailDetailResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\GetConsentsResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
@@ -39,6 +40,9 @@ class Yousign extends Soa
 
     /** @var string */
     public const DOWNLOAD_AUDIT_TRAIL = 'audit_trails/download';
+
+    /** @var string */
+    public const DOWNLOAD_AUDIT_TRAIL_DETAIL = 'audit_trails';
 
     /** @var string */
     public const ADD_CONSENT_URL = 'consent_requests';
@@ -280,6 +284,27 @@ class Yousign extends Soa
         }
 
         return $response->body();
+    }
+
+    /**
+     * @param string $signatureRequestId
+     * @param string $signerId
+     *
+     * @return GetAuditTrailDetailResponse
+     */
+    public function getAuditTrailDetail(string $signatureRequestId, string $signerId): GetAuditTrailDetailResponse
+    {
+        /** @var string $url */
+        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::ADD_SIGNER_URL . Soa::URL_SEPARATOR . $signerId . self::URL_SEPARATOR . self::DOWNLOAD_AUDIT_TRAIL_DETAIL;
+
+        /** @var Response $response */
+        $response = $this->apiClient->get($url);
+
+        if (!is_array($response->json())) {
+            throw new RuntimeException('Yousign response is not an array.');
+        }
+
+        return new GetAuditTrailDetailResponse($response->json());
     }
 
     /**
