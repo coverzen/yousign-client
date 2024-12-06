@@ -32,7 +32,7 @@ use function sprintf;
 class YousignFaker
 {
     /** @var string */
-    public const FAKE_IMAGE_STRING = 'fake_image_string_for_test_purpose';
+    public const FAKE_IMAGE_STRING = 'ZmFrZUltYWdlU3RyaW5n';
 
     /**
      * Failed assertion message.
@@ -110,12 +110,6 @@ class YousignFaker
                     ActivateSignatureResponse::factory()
                                       ->make()
                                       ->toArray(),
-                    Response::HTTP_CREATED
-                ),
-                $url . Yousign::INITIATE_SIGNATURE_URL . '/*' => Http::response(
-                    InitiateSignatureResponse::factory()
-                                             ->make()
-                                             ->toArray(),
                     Response::HTTP_CREATED
                 ),
                 $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::DOWNLOAD_DOCUMENT_URL . '/*' => Http::response(

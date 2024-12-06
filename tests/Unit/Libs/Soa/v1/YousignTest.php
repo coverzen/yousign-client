@@ -223,9 +223,10 @@ final class YousignTest extends TestCase
                 }
 
                 if (
+                    $uploadDocumentRequest->file_content &&
                     !Arr::first(
                         $request->data(),
-                        static fn (array $item): bool => Arr::get($item, 'contents') === $uploadDocumentRequest->file_content
+                        static fn (array $item): bool => Arr::get($item, 'contents') === base64_decode($uploadDocumentRequest->file_content, true)
                     )
                 ) {
                     throw new ExpectationFailedException('Wrong file content in request payload.');
