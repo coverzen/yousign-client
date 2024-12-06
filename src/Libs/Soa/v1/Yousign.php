@@ -113,10 +113,21 @@ class Yousign extends Soa
             throw new RuntimeException('File content is required.');
         }
 
+        /**
+         * this variable is cloned so that the attach method doesn't change the content type header for the following requests.
+         *
+         * @var PendingRequest $apiClientWithAttach
+         */
+        $apiClientWithAttach = clone $this->apiClient;
+
+        if (!base64_decode($uploadDocumentRequest->file_content, true)) {
+            throw new RuntimeException('File content not valid.');
+        }
+
         /** @var Response $response */
-        $response = $this->apiClient->attach(
+        $response = $apiClientWithAttach->attach(
             self::FILE_PARAM,
-            $uploadDocumentRequest->file_content,
+            base64_decode($uploadDocumentRequest->file_content, true),
             $uploadDocumentRequest->file_name,
         )
                                     ->post(
