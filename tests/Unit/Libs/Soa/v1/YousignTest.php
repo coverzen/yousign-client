@@ -10,6 +10,7 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\GetAuditTrailDetailResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\GetConsentsResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
@@ -758,6 +759,61 @@ final class YousignTest extends TestCase
         $this->assertSame(
             $expectedGetConsentsResponse->toArray(),
             $actualGetConsentsResponse->toArray()
+        );
+    }
+
+    /**
+     * @test
+     * @covers      ::getAuditTrailDetail
+     *
+     * @return void
+     */
+    public function it_gets_audit_trail_detail(): void
+    {
+        /** @var string $url */
+        $url = Str::finish(
+            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Soa::URL_SEPARATOR
+        ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ADD_SIGNER_URL . Soa::URL_SEPARATOR . self::SIGNER_ID . Soa::URL_SEPARATOR . Yousign::DOWNLOAD_AUDIT_TRAIL_DETAIL;
+
+        /** @var GetAuditTrailDetailResponse $expectedGetAuditTrailDetailResponse */
+        $expectedGetAuditTrailDetailResponse = GetAuditTrailDetailResponse::factory()
+                                                            ->make();
+
+        Http::fake(
+            [
+                $url => Http::response($expectedGetAuditTrailDetailResponse->toArray(), Response::HTTP_CREATED),
+            ]
+        );
+
+        /** @var GetAuditTrailDetailResponse $actualGetAuditTrailDetailResponse */
+        $actualGetAuditTrailDetailResponse = (new Yousign())->getAuditTrailDetail(self::SIGNATURE_ID, self::SIGNER_ID);
+
+        Http::assertSent(
+            function (ClientRequest $request) use ($url): bool {
+                $this->assertSame(Request::METHOD_GET, $request->method());
+                $this->assertSame($url, $request->url());
+
+                $this->assertSame(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
+                );
+
+                $this->assertContains(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    $request->header(Soa::AUTHORIZATION_HEADER)
+                );
+
+                return true;
+            }
+        );
+
+        $this->assertNotNull($actualGetAuditTrailDetailResponse);
+        $this->assertInstanceOf(GetAuditTrailDetailResponse::class, $actualGetAuditTrailDetailResponse);
+
+        $this->assertSame(
+            $expectedGetAuditTrailDetailResponse->toArray(),
+            $actualGetAuditTrailDetailResponse->toArray()
         );
     }
 }
