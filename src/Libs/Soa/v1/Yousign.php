@@ -7,6 +7,7 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\GetAuditTrailDetailResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\GetConsentsResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
@@ -20,6 +21,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use RuntimeException;
+use function base64_decode;
+use function base64_encode;
 use function implode;
 use function is_array;
 
@@ -39,6 +42,9 @@ class Yousign extends Soa
 
     /** @var string */
     public const DOWNLOAD_AUDIT_TRAIL = 'audit_trails/download';
+
+    /** @var string */
+    public const DOWNLOAD_AUDIT_TRAIL_DETAIL = 'audit_trails';
 
     /** @var string */
     public const ADD_CONSENT_URL = 'consent_requests';
@@ -113,25 +119,36 @@ class Yousign extends Soa
             throw new RuntimeException('File content is required.');
         }
 
+        /**
+         * The client is cloned so that the `attach()` method doesn't change headers for all the following requests.
+         *
+         * @var PendingRequest $apiClientWithAttach
+         */
+        $apiClientWithAttach = clone $this->apiClient;
+
+        if (self::isBase64($uploadDocumentRequest->file_content)) {
+            $uploadDocumentRequest->file_content = base64_decode($uploadDocumentRequest->file_content, true);
+        }
+
         /** @var Response $response */
-        $response = $this->apiClient->attach(
+        $response = $apiClientWithAttach->attach(
             self::FILE_PARAM,
             $uploadDocumentRequest->file_content,
             $uploadDocumentRequest->file_name,
         )
-                                    ->post(
-                                        implode(
-                                            self::URL_SEPARATOR,
+                                        ->post(
+                                            implode(
+                                                self::URL_SEPARATOR,
+                                                [
+                                                    self::INITIATE_SIGNATURE_URL,
+                                                    $signatureRequestId,
+                                                    self::UPLOAD_DOCUMENT_URL,
+                                                ]
+                                            ),
                                             [
-                                                self::INITIATE_SIGNATURE_URL,
-                                                $signatureRequestId,
-                                                self::UPLOAD_DOCUMENT_URL,
+                                                self::NATURE_PARAM => $uploadDocumentRequest->nature->value,
                                             ]
-                                        ),
-                                        [
-                                            self::NATURE_PARAM => $uploadDocumentRequest->nature->value,
-                                        ]
-                                    );
+                                        );
 
         if (!is_array($response->json())) {
             throw new RuntimeException('Yousign response is not an array.');
@@ -149,7 +166,14 @@ class Yousign extends Soa
     public function addSigner(string $signatureRequestId, AddSignerRequest $addSignerRequest): AddSignerResponse
     {
         /** @var string $url */
-        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::ADD_SIGNER_URL;
+        $url = implode(
+            self::URL_SEPARATOR,
+            [
+                self::INITIATE_SIGNATURE_URL,
+                $signatureRequestId,
+                self::ADD_SIGNER_URL,
+            ]
+        );
 
         /** @var Response $response */
         $response = $this->apiClient->post($url, $addSignerRequest->payload);
@@ -197,7 +221,14 @@ class Yousign extends Soa
     public function activateSignature(string $signatureRequestId): ActivateSignatureResponse
     {
         /** @var string $url */
-        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::ACTIVATE_SIGNATURE_URL;
+        $url = implode(
+            self::URL_SEPARATOR,
+            [
+                self::INITIATE_SIGNATURE_URL,
+                $signatureRequestId,
+                self::ACTIVATE_SIGNATURE_URL,
+            ]
+        );
 
         /** @var Response $response */
         $response = $this->apiClient->post($url);
@@ -238,7 +269,15 @@ class Yousign extends Soa
     public function getDocumentById(string $signatureRequestId, string $documentId): string
     {
         /** @var string $url */
-        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::UPLOAD_DOCUMENT_URL . self::URL_SEPARATOR . $documentId;
+        $url = implode(
+            self::URL_SEPARATOR,
+            [
+                self::INITIATE_SIGNATURE_URL,
+                $signatureRequestId,
+                self::UPLOAD_DOCUMENT_URL,
+                $documentId,
+            ]
+        );
 
         /** @var Response $response */
         $response = $this->apiClient->get($url);
@@ -259,7 +298,16 @@ class Yousign extends Soa
     public function getAuditTrail(string $signatureRequestId, string $signerId): string
     {
         /** @var string $url */
-        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::ADD_SIGNER_URL . Soa::URL_SEPARATOR . $signerId . self::URL_SEPARATOR . self::DOWNLOAD_AUDIT_TRAIL;
+        $url = implode(
+            self::URL_SEPARATOR,
+            [
+                self::INITIATE_SIGNATURE_URL,
+                $signatureRequestId,
+                self::ADD_SIGNER_URL,
+                $signerId,
+                self::DOWNLOAD_AUDIT_TRAIL,
+            ]
+        );
 
         /** @var Response $response */
         $response = $this->apiClient->get($url);
@@ -273,13 +321,50 @@ class Yousign extends Soa
 
     /**
      * @param string $signatureRequestId
+     * @param string $signerId
+     *
+     * @return GetAuditTrailDetailResponse
+     */
+    public function getAuditTrailDetail(string $signatureRequestId, string $signerId): GetAuditTrailDetailResponse
+    {
+        /** @var string $url */
+        $url = implode(
+            self::URL_SEPARATOR,
+            [
+                self::INITIATE_SIGNATURE_URL,
+                $signatureRequestId,
+                self::ADD_SIGNER_URL,
+                $signerId,
+                self::DOWNLOAD_AUDIT_TRAIL_DETAIL,
+            ]
+        );
+
+        /** @var Response $response */
+        $response = $this->apiClient->get($url);
+
+        if (!is_array($response->json())) {
+            throw new RuntimeException('Yousign response is not an array.');
+        }
+
+        return new GetAuditTrailDetailResponse($response->json());
+    }
+
+    /**
+     * @param string $signatureRequestId
      *
      * @return GetConsentsResponse
      */
     public function getConsentsById(string $signatureRequestId): GetConsentsResponse
     {
         /** @var string $url */
-        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::ADD_CONSENT_URL;
+        $url = implode(
+            self::URL_SEPARATOR,
+            [
+                self::INITIATE_SIGNATURE_URL,
+                $signatureRequestId,
+                self::ADD_CONSENT_URL,
+            ]
+        );
 
         /** @var Response $response */
         $response = $this->apiClient->get($url);
@@ -289,5 +374,17 @@ class Yousign extends Soa
         }
 
         return new GetConsentsResponse($response->json());
+    }
+
+    /**
+     * Quick way to check if a string is base64 encoded.
+     *
+     * @param string $str
+     *
+     * @return bool
+     */
+    private static function isBase64(string $str): bool
+    {
+        return base64_encode((string) base64_decode($str, true)) === $str;
     }
 }
