@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class CreateProcedureRequest.
+ * Class InitiateSignatureRequest.
  *
  * @property string|null $name
  * @property DeliveryMode $delivery_mode
@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Config;
  * @property string|null $timezone
  * @property array|null $email_notification
  * @property string|null $custom_experience_id
- * @property-read array $payload
  */
 final class InitiateSignatureRequest extends Request
 {

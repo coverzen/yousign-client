@@ -43,7 +43,8 @@ final class AddSignerRequestFactory extends AbstractFactory
              */
             static function (AddSignerRequest $addSignerRequest): void {
                 $addSignerRequest->fields = SignerField::factory(random_int(2, 5))
-                                                        ->make()->all();
+                                                        ->make()
+                                                        ->all();
             }
         );
     }

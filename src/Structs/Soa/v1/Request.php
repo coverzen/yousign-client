@@ -8,6 +8,8 @@ use function collect;
 
 /**
  * Class Request.
+ *
+ * @property-read array $payload
  */
 abstract class Request extends Struct
 {

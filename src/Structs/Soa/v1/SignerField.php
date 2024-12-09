@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class SignerField.
  *
- * @property string $document_id
- * @property string $type
+ * @property string|null $document_id
+ * @property string|null $type
  * @property int|null $height
  * @property int|null $width
- * @property int $page
- * @property int $x
- * @property int $y
+ * @property int|null $page
+ * @property int|null $x
+ * @property int|null $y
  */
 final class SignerField extends Struct
 {
@@ -29,14 +29,6 @@ final class SignerField extends Struct
         'page',
         'x',
         'y',
-    ];
-
-    /** @var array<string,mixed> */
-    protected $attributes = [
-    ];
-
-    /** {@inheritdoc} */
-    protected $casts = [
     ];
 
     /**

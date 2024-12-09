@@ -24,6 +24,11 @@ final class AddSignerRequest extends Request
     public $timestamps = false;
 
     /** {@inheritdoc} */
+    protected $attributes = [
+        'info' => [],
+    ];
+
+    /** {@inheritdoc} */
     protected $casts = [
         'signature_level' => SignatureLevel::class,
         'signature_authentication_mode' => SignatureAuthenticationMode::class . ':nullable',
