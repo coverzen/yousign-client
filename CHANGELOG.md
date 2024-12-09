@@ -1,3 +1,16 @@
+# [1.9.0](https://github.com/coverzen/yousign-client/compare/v1.8.0...v1.9.0) (2024-12-09)
+
+
+### Bug Fixes
+
+* improve base64 encoded string recognition ([1fba589](https://github.com/coverzen/yousign-client/commit/1fba589b6271177d459618a657b3c80102774f7d))
+* manage both encoded and not encoded file content ([6737e3e](https://github.com/coverzen/yousign-client/commit/6737e3ee491ec9aa7bedf535579080b129e3d625))
+
+
+### Features
+
+* implement get audit trail detail request ([184fd85](https://github.com/coverzen/yousign-client/commit/184fd855592693f9357800b455f82ce466d8d6ae))
+
 # [1.8.0](https://github.com/coverzen/yousign-client/compare/v1.7.0...v1.8.0) (2024-12-05)
 
 
