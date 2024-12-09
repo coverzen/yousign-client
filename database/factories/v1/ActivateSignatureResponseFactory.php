@@ -27,6 +27,9 @@ final class ActivateSignatureResponseFactory extends AbstractFactory
     /** @var int */
     public const MAX_DAYS = 30;
 
+    /** @var string */
+    public const SIGNER_ID = 'signer-1-id';
+
     /**
      * {@inheritdoc}
      */
@@ -45,7 +48,15 @@ final class ActivateSignatureResponseFactory extends AbstractFactory
             ],
             'timezone' => 'Europe/Paris',
             'expiration_date' => $this->faker->dateTime(),
-            'signers' => [],
+            'signers' => [
+                [
+                    'id' => self::SIGNER_ID,
+                    'status' => 'initiated',
+                    'delivery_mode' => null,
+                    'signature_link' => $this->faker->url(),
+                    'signature_link_expiration_date' => $this->faker->dateTime(),
+                ],
+            ],
             'approvers' => [],
             'documents' => [],
             'external_id' => $this->faker->uuid(),

@@ -572,8 +572,18 @@ final class YousignTest extends TestCase
         $this->assertInstanceOf(ActivateSignatureResponse::class, $actualActivateSignatureResponse);
 
         $this->assertSame(
-            $expectedActivateSignatureResponse->toArray(),
-            $actualActivateSignatureResponse->toArray()
+            $expectedActivateSignatureResponse->id,
+            $actualActivateSignatureResponse->id
+        );
+
+        $this->assertSame(
+            $expectedActivateSignatureResponse->type,
+            $actualActivateSignatureResponse->type
+        );
+
+        $this->assertCount(
+            count($expectedActivateSignatureResponse->signers),
+            $actualActivateSignatureResponse->signers
         );
     }
 

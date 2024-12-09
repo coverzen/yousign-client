@@ -237,6 +237,8 @@ class Yousign extends Soa
             throw new RuntimeException('Yousign response is not an array.');
         }
 
+        //        dd((new ActivateSignatureResponse($response->json()))->toArray());
+
         return new ActivateSignatureResponse($response->json());
     }
 
