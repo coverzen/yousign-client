@@ -1,3 +1,12 @@
+## [1.9.1](https://github.com/coverzen/yousign-client/compare/v1.9.0...v1.9.1) (2024-12-09)
+
+
+### Bug Fixes
+
+* add default value for AddConsentRequest attribute ([7492b53](https://github.com/coverzen/yousign-client/commit/7492b535713f94ee4f017621c9b7825ac4401627))
+* add necessary data in factory ([16e5f18](https://github.com/coverzen/yousign-client/commit/16e5f180271d7ff4de19441ac01ec0510b6c7885))
+* fix download document url ([629e574](https://github.com/coverzen/yousign-client/commit/629e5740d34368419cc8f0607e04c75ce93dc239))
+
 # [1.9.0](https://github.com/coverzen/yousign-client/compare/v1.8.0...v1.9.0) (2024-12-09)
 
 
