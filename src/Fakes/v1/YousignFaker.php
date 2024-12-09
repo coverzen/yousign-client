@@ -33,7 +33,7 @@ use function sprintf;
 class YousignFaker
 {
     /** @var string */
-    public const FAKE_IMAGE_STRING = 'ZmFrZUltYWdlU3RyaW5n';
+    public const FAKE_IMAGE_STRING = 'fake-image-content';
 
     /**
      * Failed assertion message.

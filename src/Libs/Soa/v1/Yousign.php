@@ -124,14 +124,17 @@ class Yousign extends Soa
          */
         $apiClientWithAttach = clone $this->apiClient;
 
-        if (!base64_decode($uploadDocumentRequest->file_content, true)) {
-            throw new RuntimeException('File content not valid.');
+        /**
+         * Pay attention to declaration within condition.
+         */
+        if ($decoded = base64_decode($uploadDocumentRequest->file_content, true)) {
+            $uploadDocumentRequest->file_content = $decoded;
         }
 
         /** @var Response $response */
         $response = $apiClientWithAttach->attach(
             self::FILE_PARAM,
-            base64_decode($uploadDocumentRequest->file_content, true),
+            $uploadDocumentRequest->file_content,
             $uploadDocumentRequest->file_name,
         )
                                     ->post(

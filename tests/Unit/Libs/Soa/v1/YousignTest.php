@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\ExpectationFailedException;
+use function implode;
 
 /**
  * Class YousignTest.
@@ -150,19 +151,45 @@ final class YousignTest extends TestCase
     }
 
     /**
+     * Provides a set of boolean to indicate if file should be encoded or not.
+     *
+     * @return array<string,array<string,mixed>>
+     */
+    public static function encodeProvider(): array
+    {
+        return [
+            'encoded' => [
+                'encode' => true,
+            ],
+            'not encoded' => [
+                'encode' => false,
+            ],
+        ];
+    }
+
+    /**
      * @test
      * @covers ::uploadDocument
+     * @dataProvider encodeProvider
+     *
+     * @param bool $encode
      *
      * @return void
      */
-    public function it_uploads_a_document(): void
+    public function it_uploads_a_document(bool $encode): void
     {
         /** @var string $url */
         $url = Str::finish(
             Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
-        ) . Yousign::INITIATE_SIGNATURE_URL
-            . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::UPLOAD_DOCUMENT_URL;
+        ) . implode(
+            Soa::URL_SEPARATOR,
+            [
+                Yousign::INITIATE_SIGNATURE_URL,
+                self::SIGNATURE_ID,
+                Yousign::UPLOAD_DOCUMENT_URL,
+            ]
+        );
 
         /** @var UploadDocumentResponse $expectedUploadDocumentResponse */
         $expectedUploadDocumentResponse = UploadDocumentResponse::factory()
@@ -176,7 +203,11 @@ final class YousignTest extends TestCase
 
         /** @var UploadDocumentRequest $uploadDocumentRequest */
         $uploadDocumentRequest = UploadDocumentRequest::factory()
-                                                      ->make();
+                                                      ->make(
+                                                          [
+                                                              'file_content' => $encode ? base64_encode(YousignFaker::FAKE_IMAGE_STRING) : YousignFaker::FAKE_IMAGE_STRING,
+                                                          ]
+                                                      );
 
         /** @var UploadDocumentResponse $actualUploadDocumentResponse */
         $actualUploadDocumentResponse = (new Yousign())->uploadDocument(self::SIGNATURE_ID, $uploadDocumentRequest);
@@ -224,10 +255,9 @@ final class YousignTest extends TestCase
                 }
 
                 if (
-                    $uploadDocumentRequest->file_content &&
                     !Arr::first(
                         $request->data(),
-                        static fn (array $item): bool => Arr::get($item, 'contents') === base64_decode($uploadDocumentRequest->file_content, true)
+                        static fn (array $item): bool => Arr::get($item, 'contents') === YousignFaker::FAKE_IMAGE_STRING
                     )
                 ) {
                     throw new ExpectationFailedException('Wrong file content in request payload.');
@@ -508,7 +538,7 @@ final class YousignTest extends TestCase
 
         /** @var ActivateSignatureResponse $expectedActivateSignatureResponse */
         $expectedActivateSignatureResponse = ActivateSignatureResponse::factory()
-                                                              ->make();
+                                                                      ->make();
 
         Http::fake(
             [
@@ -723,7 +753,7 @@ final class YousignTest extends TestCase
 
         /** @var GetConsentsResponse $expectedGetConsentsResponse */
         $expectedGetConsentsResponse = GetConsentsResponse::factory()
-                                                            ->make();
+                                                          ->make();
 
         Http::fake(
             [
@@ -778,7 +808,7 @@ final class YousignTest extends TestCase
 
         /** @var GetAuditTrailDetailResponse $expectedGetAuditTrailDetailResponse */
         $expectedGetAuditTrailDetailResponse = GetAuditTrailDetailResponse::factory()
-                                                            ->make();
+                                                                          ->make();
 
         Http::fake(
             [

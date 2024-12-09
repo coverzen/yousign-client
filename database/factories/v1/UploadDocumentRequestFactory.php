@@ -4,7 +4,6 @@ namespace Coverzen\Components\YousignClient\Database\Factories\v1;
 
 use Coverzen\Components\YousignClient\Enums\v1\DocumentNature;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
-use function base64_encode;
 
 /**
  * Class UploadDocumentRequestFactory.
@@ -27,7 +26,7 @@ final class UploadDocumentRequestFactory extends AbstractFactory
     public function definition(): array
     {
         return [
-            'file_content' => base64_encode($this->faker->text()),
+            'file_content' => $this->faker->text(),
             'file_name' => "{$this->faker->word()}.{$this->faker->fileExtension()}",
             'nature' => $this->faker->randomEnumValue(DocumentNature::class),
         ];
