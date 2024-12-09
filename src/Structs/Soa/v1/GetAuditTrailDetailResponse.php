@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property array|null $signer
  * @property array|null $authentication
  * @property array $documents
- * @property array|null $signer_consents
+ * @property array $signer_consents
  */
 final class GetAuditTrailDetailResponse extends Struct
 {
@@ -39,6 +39,7 @@ final class GetAuditTrailDetailResponse extends Struct
     /** {@inheritdoc} */
     protected $attributes = [
         'documents' => [],
+        'signer_consents' => [],
     ];
 
     /** {@inheritdoc} */

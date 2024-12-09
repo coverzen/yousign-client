@@ -35,7 +35,7 @@ final class GetAuditTrailDetailResponseTest extends TestCase
     {
         /** @var GetAuditTrailDetailResponse $getConsentResponse */
         $getConsentResponse = GetAuditTrailDetailResponse::factory()
-                                                ->make();
+                                                         ->make();
 
         $this->assertInstanceOf(GetAuditTrailDetailResponse::class, $getConsentResponse);
     }
@@ -49,7 +49,7 @@ final class GetAuditTrailDetailResponseTest extends TestCase
     {
         /** @var GetAuditTrailDetailResponse $getConsentResponse */
         $getConsentResponse = GetAuditTrailDetailResponse::factory()
-                                                ->make();
+                                                         ->make();
 
         $this->assertNotNull($getConsentResponse->version);
         $this->assertIsArray($getConsentResponse->signature_request);
@@ -71,7 +71,7 @@ final class GetAuditTrailDetailResponseTest extends TestCase
         $this->expectException(StructSaveException::class);
 
         GetAuditTrailDetailResponse::factory()
-                          ->create();
+                                   ->create();
     }
 
     /**

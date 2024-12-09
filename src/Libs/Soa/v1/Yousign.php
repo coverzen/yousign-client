@@ -164,7 +164,14 @@ class Yousign extends Soa
     public function addSigner(string $signatureRequestId, AddSignerRequest $addSignerRequest): AddSignerResponse
     {
         /** @var string $url */
-        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::ADD_SIGNER_URL;
+        $url = implode(
+            self::URL_SEPARATOR,
+            [
+                self::INITIATE_SIGNATURE_URL,
+                $signatureRequestId,
+                self::ADD_SIGNER_URL,
+            ]
+        );
 
         /** @var Response $response */
         $response = $this->apiClient->post($url, $addSignerRequest->payload);
@@ -212,7 +219,14 @@ class Yousign extends Soa
     public function activateSignature(string $signatureRequestId): ActivateSignatureResponse
     {
         /** @var string $url */
-        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::ACTIVATE_SIGNATURE_URL;
+        $url = implode(
+            self::URL_SEPARATOR,
+            [
+                self::INITIATE_SIGNATURE_URL,
+                $signatureRequestId,
+                self::ACTIVATE_SIGNATURE_URL,
+            ]
+        );
 
         /** @var Response $response */
         $response = $this->apiClient->post($url);
@@ -253,7 +267,15 @@ class Yousign extends Soa
     public function getDocumentById(string $signatureRequestId, string $documentId): string
     {
         /** @var string $url */
-        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::UPLOAD_DOCUMENT_URL . self::URL_SEPARATOR . $documentId;
+        $url = implode(
+            self::URL_SEPARATOR,
+            [
+                self::INITIATE_SIGNATURE_URL,
+                $signatureRequestId,
+                self::UPLOAD_DOCUMENT_URL,
+                $documentId,
+            ]
+        );
 
         /** @var Response $response */
         $response = $this->apiClient->get($url);
@@ -274,7 +296,16 @@ class Yousign extends Soa
     public function getAuditTrail(string $signatureRequestId, string $signerId): string
     {
         /** @var string $url */
-        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::ADD_SIGNER_URL . Soa::URL_SEPARATOR . $signerId . self::URL_SEPARATOR . self::DOWNLOAD_AUDIT_TRAIL;
+        $url = implode(
+            self::URL_SEPARATOR,
+            [
+                self::INITIATE_SIGNATURE_URL,
+                $signatureRequestId,
+                self::ADD_SIGNER_URL,
+                $signerId,
+                self::DOWNLOAD_AUDIT_TRAIL,
+            ]
+        );
 
         /** @var Response $response */
         $response = $this->apiClient->get($url);
@@ -295,7 +326,16 @@ class Yousign extends Soa
     public function getAuditTrailDetail(string $signatureRequestId, string $signerId): GetAuditTrailDetailResponse
     {
         /** @var string $url */
-        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::ADD_SIGNER_URL . Soa::URL_SEPARATOR . $signerId . self::URL_SEPARATOR . self::DOWNLOAD_AUDIT_TRAIL_DETAIL;
+        $url = implode(
+            self::URL_SEPARATOR,
+            [
+                self::INITIATE_SIGNATURE_URL,
+                $signatureRequestId,
+                self::ADD_SIGNER_URL,
+                $signerId,
+                self::DOWNLOAD_AUDIT_TRAIL_DETAIL,
+            ]
+        );
 
         /** @var Response $response */
         $response = $this->apiClient->get($url);
@@ -315,7 +355,14 @@ class Yousign extends Soa
     public function getConsentsById(string $signatureRequestId): GetConsentsResponse
     {
         /** @var string $url */
-        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId . self::URL_SEPARATOR . self::ADD_CONSENT_URL;
+        $url = implode(
+            self::URL_SEPARATOR,
+            [
+                self::INITIATE_SIGNATURE_URL,
+                $signatureRequestId,
+                self::ADD_CONSENT_URL,
+            ]
+        );
 
         /** @var Response $response */
         $response = $this->apiClient->get($url);
