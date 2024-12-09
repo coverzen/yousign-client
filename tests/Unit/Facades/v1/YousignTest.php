@@ -210,7 +210,7 @@ final class YousignTest extends TestCase
         Yousign::addConsent(
             self::SIGNATURE_ID,
             AddConsentRequest::factory()
-                                 ->make()
+                             ->make()
         );
 
         Yousign::assertIsCalled('addConsent');

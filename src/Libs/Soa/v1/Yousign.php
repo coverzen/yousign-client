@@ -32,7 +32,7 @@ use function is_array;
 class Yousign extends Soa
 {
     /** @var string */
-    public const INITIATE_SIGNATURE_URL = 'signature_requests';
+    public const SIGNATURE_REQUESTS_BASE_URL = 'signature_requests';
 
     /** @var string */
     public const UPLOAD_DOCUMENT_URL = 'documents';
@@ -44,13 +44,13 @@ class Yousign extends Soa
     public const DOWNLOAD_AUDIT_TRAIL = 'audit_trails/download';
 
     /** @var string */
-    public const DOWNLOAD_AUDIT_TRAIL_DETAIL = 'audit_trails';
+    public const GET_AUDIT_TRAIL_DETAIL = 'audit_trails';
 
     /** @var string */
     public const ADD_CONSENT_URL = 'consent_requests';
 
     /** @var string */
-    public const ADD_SIGNER_URL = 'signers';
+    public const SIGNER_URL = 'signers';
 
     /** @var string */
     public const ACTIVATE_SIGNATURE_URL = 'activate';
@@ -98,7 +98,7 @@ class Yousign extends Soa
     public function initiateSignature(InitiateSignatureRequest $initiateSignatureRequest): InitiateSignatureResponse
     {
         /** @var Response $response */
-        $response = $this->apiClient->post(self::INITIATE_SIGNATURE_URL, $initiateSignatureRequest->payload);
+        $response = $this->apiClient->post(self::SIGNATURE_REQUESTS_BASE_URL, $initiateSignatureRequest->payload);
 
         if (!is_array($response->json())) {
             throw new RuntimeException('Yousign response is not an array.');
@@ -140,7 +140,7 @@ class Yousign extends Soa
                                             implode(
                                                 self::URL_SEPARATOR,
                                                 [
-                                                    self::INITIATE_SIGNATURE_URL,
+                                                    self::SIGNATURE_REQUESTS_BASE_URL,
                                                     $signatureRequestId,
                                                     self::UPLOAD_DOCUMENT_URL,
                                                 ]
@@ -169,9 +169,9 @@ class Yousign extends Soa
         $url = implode(
             self::URL_SEPARATOR,
             [
-                self::INITIATE_SIGNATURE_URL,
+                self::SIGNATURE_REQUESTS_BASE_URL,
                 $signatureRequestId,
-                self::ADD_SIGNER_URL,
+                self::SIGNER_URL,
             ]
         );
 
@@ -198,7 +198,7 @@ class Yousign extends Soa
             implode(
                 self::URL_SEPARATOR,
                 [
-                    self::INITIATE_SIGNATURE_URL,
+                    self::SIGNATURE_REQUESTS_BASE_URL,
                     $signatureRequestId,
                     self::ADD_CONSENT_URL,
                 ]
@@ -224,7 +224,7 @@ class Yousign extends Soa
         $url = implode(
             self::URL_SEPARATOR,
             [
-                self::INITIATE_SIGNATURE_URL,
+                self::SIGNATURE_REQUESTS_BASE_URL,
                 $signatureRequestId,
                 self::ACTIVATE_SIGNATURE_URL,
             ]
@@ -248,7 +248,7 @@ class Yousign extends Soa
     public function getSignatureById(string $signatureRequestId): InitiateSignatureResponse
     {
         /** @var string $url */
-        $url = self::INITIATE_SIGNATURE_URL . self::URL_SEPARATOR . $signatureRequestId;
+        $url = self::SIGNATURE_REQUESTS_BASE_URL . self::URL_SEPARATOR . $signatureRequestId;
 
         /** @var Response $response */
         $response = $this->apiClient->get($url);
@@ -272,9 +272,9 @@ class Yousign extends Soa
         $url = implode(
             self::URL_SEPARATOR,
             [
-                self::INITIATE_SIGNATURE_URL,
+                self::SIGNATURE_REQUESTS_BASE_URL,
                 $signatureRequestId,
-                self::UPLOAD_DOCUMENT_URL,
+                self::DOWNLOAD_DOCUMENT_URL,
                 $documentId,
             ]
         );
@@ -301,9 +301,9 @@ class Yousign extends Soa
         $url = implode(
             self::URL_SEPARATOR,
             [
-                self::INITIATE_SIGNATURE_URL,
+                self::SIGNATURE_REQUESTS_BASE_URL,
                 $signatureRequestId,
-                self::ADD_SIGNER_URL,
+                self::SIGNER_URL,
                 $signerId,
                 self::DOWNLOAD_AUDIT_TRAIL,
             ]
@@ -331,11 +331,11 @@ class Yousign extends Soa
         $url = implode(
             self::URL_SEPARATOR,
             [
-                self::INITIATE_SIGNATURE_URL,
+                self::SIGNATURE_REQUESTS_BASE_URL,
                 $signatureRequestId,
-                self::ADD_SIGNER_URL,
+                self::SIGNER_URL,
                 $signerId,
-                self::DOWNLOAD_AUDIT_TRAIL_DETAIL,
+                self::GET_AUDIT_TRAIL_DETAIL,
             ]
         );
 
@@ -360,7 +360,7 @@ class Yousign extends Soa
         $url = implode(
             self::URL_SEPARATOR,
             [
-                self::INITIATE_SIGNATURE_URL,
+                self::SIGNATURE_REQUESTS_BASE_URL,
                 $signatureRequestId,
                 self::ADD_CONSENT_URL,
             ]

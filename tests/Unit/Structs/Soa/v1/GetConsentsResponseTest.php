@@ -35,7 +35,7 @@ final class GetConsentsResponseTest extends TestCase
     {
         /** @var GetConsentsResponse $getConsentResponse */
         $getConsentResponse = GetConsentsResponse::factory()
-                                                ->make();
+                                                 ->make();
 
         $this->assertInstanceOf(GetConsentsResponse::class, $getConsentResponse);
     }
@@ -49,7 +49,7 @@ final class GetConsentsResponseTest extends TestCase
     {
         /** @var GetConsentsResponse $getConsentResponse */
         $getConsentResponse = GetConsentsResponse::factory()
-                                                ->make();
+                                                 ->make();
 
         $this->assertNotNull($getConsentResponse->data);
         $this->assertIsArray($getConsentResponse->data);
@@ -66,7 +66,7 @@ final class GetConsentsResponseTest extends TestCase
         $this->expectException(StructSaveException::class);
 
         GetConsentsResponse::factory()
-                          ->create();
+                           ->create();
     }
 
     /**

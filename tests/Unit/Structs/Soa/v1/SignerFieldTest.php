@@ -34,7 +34,7 @@ final class SignerFieldTest extends TestCase
     {
         /** @var SignerField $signerField */
         $signerField = SignerField::factory()
-                                    ->make();
+                                  ->make();
 
         $this->assertInstanceOf(SignerField::class, $signerField);
     }
@@ -48,7 +48,7 @@ final class SignerFieldTest extends TestCase
     {
         /** @var SignerField $signerField */
         $signerField = SignerField::factory()
-                                    ->make();
+                                  ->make();
 
         $this->assertIsString($signerField->document_id);
         $this->assertIsString($signerField->type);
@@ -69,7 +69,7 @@ final class SignerFieldTest extends TestCase
         $this->expectException(StructSaveException::class);
 
         SignerField::factory()
-                    ->create();
+                   ->create();
     }
 
     /**

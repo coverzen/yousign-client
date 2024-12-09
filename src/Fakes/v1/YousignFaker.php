@@ -33,7 +33,7 @@ use function sprintf;
 class YousignFaker
 {
     /** @var string */
-    public const FAKE_IMAGE_STRING = 'fake-image-content';
+    public const FAKE_DOCUMENT_CONTENT = 'fake-document-content';
 
     /**
      * Failed assertion message.
@@ -83,55 +83,58 @@ class YousignFaker
 
         Http::fake(
             [
-                $url . Yousign::INITIATE_SIGNATURE_URL => Http::response(
+                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL => Http::response(
                     InitiateSignatureResponse::factory()
                                              ->make()
                                              ->toArray(),
                     Response::HTTP_CREATED
                 ),
-                $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::UPLOAD_DOCUMENT_URL => Http::response(
+
+                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::UPLOAD_DOCUMENT_URL => Http::response(
                     UploadDocumentResponse::factory()
                                           ->make()
                                           ->toArray(),
-                    Response::HTTP_CREATED
                 ),
-                $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::ADD_CONSENT_URL => Http::response(
+
+                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::ADD_CONSENT_URL => Http::response(
                     AddConsentResponse::factory()
                                       ->make()
                                       ->toArray(),
                     Response::HTTP_CREATED
                 ),
-                $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::ADD_SIGNER_URL => Http::response(
+
+                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::SIGNER_URL => Http::response(
                     AddSignerResponse::factory()
-                                      ->make()
-                                      ->toArray(),
+                                     ->make()
+                                     ->toArray(),
                     Response::HTTP_CREATED
                 ),
-                $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::ACTIVATE_SIGNATURE_URL => Http::response(
+
+                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::ACTIVATE_SIGNATURE_URL => Http::response(
                     ActivateSignatureResponse::factory()
-                                      ->make()
-                                      ->toArray(),
+                                             ->make()
+                                             ->toArray(),
                     Response::HTTP_CREATED
                 ),
-                $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::DOWNLOAD_DOCUMENT_URL . '/*' => Http::response(
-                    self::FAKE_IMAGE_STRING,
-                    Response::HTTP_CREATED
+
+                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::DOWNLOAD_DOCUMENT_URL . '/*' => Http::response(
+                    self::FAKE_DOCUMENT_CONTENT,
                 ),
-                $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::ADD_SIGNER_URL . '/*/' . Yousign::DOWNLOAD_AUDIT_TRAIL => Http::response(
-                    self::FAKE_IMAGE_STRING,
-                    Response::HTTP_CREATED
+
+                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::SIGNER_URL . '/*/' . Yousign::DOWNLOAD_AUDIT_TRAIL => Http::response(
+                    self::FAKE_DOCUMENT_CONTENT,
                 ),
-                $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::ADD_CONSENT_URL . '*' => Http::response(
+
+                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::ADD_CONSENT_URL . '*' => Http::response(
                     GetConsentsResponse::factory()
-                                             ->make()
-                                             ->toArray(),
-                    Response::HTTP_CREATED
+                                       ->make()
+                                       ->toArray(),
                 ),
-                $url . Yousign::INITIATE_SIGNATURE_URL . '/*/' . Yousign::ADD_SIGNER_URL . '/*/' . Yousign::DOWNLOAD_AUDIT_TRAIL_DETAIL => Http::response(
+
+                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::SIGNER_URL . '/*/' . Yousign::GET_AUDIT_TRAIL_DETAIL => Http::response(
                     GetAuditTrailDetailResponse::factory()
-                                             ->make()
-                                             ->toArray(),
-                    Response::HTTP_CREATED
+                                               ->make()
+                                               ->toArray()
                 ),
             ]
         );

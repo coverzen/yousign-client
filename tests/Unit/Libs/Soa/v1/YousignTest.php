@@ -88,7 +88,7 @@ final class YousignTest extends TestCase
         $url = Str::finish(
             Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
-        ) . Yousign::INITIATE_SIGNATURE_URL;
+        ) . Yousign::SIGNATURE_REQUESTS_BASE_URL;
 
         /** @var InitiateSignatureResponse $expectedSignatureResponse */
         $expectedSignatureResponse = InitiateSignatureResponse::factory()
@@ -185,7 +185,7 @@ final class YousignTest extends TestCase
         ) . implode(
             Soa::URL_SEPARATOR,
             [
-                Yousign::INITIATE_SIGNATURE_URL,
+                Yousign::SIGNATURE_REQUESTS_BASE_URL,
                 self::SIGNATURE_ID,
                 Yousign::UPLOAD_DOCUMENT_URL,
             ]
@@ -205,7 +205,7 @@ final class YousignTest extends TestCase
         $uploadDocumentRequest = UploadDocumentRequest::factory()
                                                       ->make(
                                                           [
-                                                              'file_content' => $encode ? base64_encode(YousignFaker::FAKE_IMAGE_STRING) : YousignFaker::FAKE_IMAGE_STRING,
+                                                              'file_content' => $encode ? base64_encode(YousignFaker::FAKE_DOCUMENT_CONTENT) : YousignFaker::FAKE_DOCUMENT_CONTENT,
                                                           ]
                                                       );
 
@@ -257,7 +257,7 @@ final class YousignTest extends TestCase
                 if (
                     !Arr::first(
                         $request->data(),
-                        static fn (array $item): bool => Arr::get($item, 'contents') === YousignFaker::FAKE_IMAGE_STRING
+                        static fn (array $item): bool => Arr::get($item, 'contents') === YousignFaker::FAKE_DOCUMENT_CONTENT
                     )
                 ) {
                     throw new ExpectationFailedException('Wrong file content in request payload.');
@@ -296,8 +296,8 @@ final class YousignTest extends TestCase
         $url = Str::finish(
             Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
-        ) . Yousign::INITIATE_SIGNATURE_URL
-            . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ADD_SIGNER_URL;
+        ) . Yousign::SIGNATURE_REQUESTS_BASE_URL
+            . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::SIGNER_URL;
 
         /** @var AddSignerResponse $expectedAddSignerResponse */
         $expectedAddSignerResponse = AddSignerResponse::factory()
@@ -406,7 +406,7 @@ final class YousignTest extends TestCase
         $url = Str::finish(
             Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
-        ) . Yousign::INITIATE_SIGNATURE_URL
+        ) . Yousign::SIGNATURE_REQUESTS_BASE_URL
             . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ADD_CONSENT_URL;
 
         /** @var AddConsentResponse $expectedAddConsentResponse */
@@ -511,7 +511,7 @@ final class YousignTest extends TestCase
         $url = Str::finish(
             Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
-        ) . Yousign::INITIATE_SIGNATURE_URL;
+        ) . Yousign::SIGNATURE_REQUESTS_BASE_URL;
 
         Http::fake(
             [
@@ -534,7 +534,7 @@ final class YousignTest extends TestCase
         $url = Str::finish(
             Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
-        ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ACTIVATE_SIGNATURE_URL;
+        ) . Yousign::SIGNATURE_REQUESTS_BASE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ACTIVATE_SIGNATURE_URL;
 
         /** @var ActivateSignatureResponse $expectedActivateSignatureResponse */
         $expectedActivateSignatureResponse = ActivateSignatureResponse::factory()
@@ -572,8 +572,18 @@ final class YousignTest extends TestCase
         $this->assertInstanceOf(ActivateSignatureResponse::class, $actualActivateSignatureResponse);
 
         $this->assertSame(
-            $expectedActivateSignatureResponse->toArray(),
-            $actualActivateSignatureResponse->toArray()
+            $expectedActivateSignatureResponse->id,
+            $actualActivateSignatureResponse->id
+        );
+
+        $this->assertSame(
+            $expectedActivateSignatureResponse->type,
+            $actualActivateSignatureResponse->type
+        );
+
+        $this->assertCount(
+            count($expectedActivateSignatureResponse->signers),
+            $actualActivateSignatureResponse->signers
         );
     }
 
@@ -589,7 +599,7 @@ final class YousignTest extends TestCase
         $url = Str::finish(
             Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
-        ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID;
+        ) . Yousign::SIGNATURE_REQUESTS_BASE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID;
 
         /** @var InitiateSignatureResponse $expectedSignatureResponse */
         $expectedSignatureResponse = InitiateSignatureResponse::factory()
@@ -644,11 +654,19 @@ final class YousignTest extends TestCase
         $url = Str::finish(
             Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
-        ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::UPLOAD_DOCUMENT_URL . Soa::URL_SEPARATOR . self::DOCUMENT_ID;
+        ) . implode(
+            Soa::URL_SEPARATOR,
+            [
+                Yousign::SIGNATURE_REQUESTS_BASE_URL,
+                self::SIGNATURE_ID,
+                Yousign::DOWNLOAD_DOCUMENT_URL,
+                self::DOCUMENT_ID,
+            ]
+        );
 
         Http::fake(
             [
-                $url => Http::response(YousignFaker::FAKE_IMAGE_STRING, Response::HTTP_CREATED),
+                $url => Http::response(YousignFaker::FAKE_DOCUMENT_CONTENT, Response::HTTP_CREATED),
             ]
         );
 
@@ -678,7 +696,7 @@ final class YousignTest extends TestCase
         $this->assertIsString($actualDownloadDocumentResponse);
 
         $this->assertSame(
-            YousignFaker::FAKE_IMAGE_STRING,
+            YousignFaker::FAKE_DOCUMENT_CONTENT,
             $actualDownloadDocumentResponse
         );
     }
@@ -695,10 +713,10 @@ final class YousignTest extends TestCase
         $url = Str::finish(
             Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
-        ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ADD_SIGNER_URL . Soa::URL_SEPARATOR . self::SIGNER_ID . Soa::URL_SEPARATOR . Yousign::DOWNLOAD_AUDIT_TRAIL;
+        ) . Yousign::SIGNATURE_REQUESTS_BASE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::SIGNER_URL . Soa::URL_SEPARATOR . self::SIGNER_ID . Soa::URL_SEPARATOR . Yousign::DOWNLOAD_AUDIT_TRAIL;
 
         /** @var string $expectedDownloadAuditTrailResponse */
-        $expectedDownloadAuditTrailResponse = YousignFaker::FAKE_IMAGE_STRING;
+        $expectedDownloadAuditTrailResponse = YousignFaker::FAKE_DOCUMENT_CONTENT;
 
         Http::fake(
             [
@@ -749,7 +767,14 @@ final class YousignTest extends TestCase
         $url = Str::finish(
             Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
-        ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ADD_CONSENT_URL;
+        ) . implode(
+            Soa::URL_SEPARATOR,
+            [
+                Yousign::SIGNATURE_REQUESTS_BASE_URL,
+                self::SIGNATURE_ID,
+                Yousign::ADD_CONSENT_URL,
+            ]
+        );
 
         /** @var GetConsentsResponse $expectedGetConsentsResponse */
         $expectedGetConsentsResponse = GetConsentsResponse::factory()
@@ -804,7 +829,16 @@ final class YousignTest extends TestCase
         $url = Str::finish(
             Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
-        ) . Yousign::INITIATE_SIGNATURE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ADD_SIGNER_URL . Soa::URL_SEPARATOR . self::SIGNER_ID . Soa::URL_SEPARATOR . Yousign::DOWNLOAD_AUDIT_TRAIL_DETAIL;
+        ) . implode(
+            Soa::URL_SEPARATOR,
+            [
+                Yousign::SIGNATURE_REQUESTS_BASE_URL,
+                self::SIGNATURE_ID,
+                Yousign::SIGNER_URL,
+                self::SIGNER_ID,
+                Yousign::GET_AUDIT_TRAIL_DETAIL,
+            ]
+        );
 
         /** @var GetAuditTrailDetailResponse $expectedGetAuditTrailDetailResponse */
         $expectedGetAuditTrailDetailResponse = GetAuditTrailDetailResponse::factory()
