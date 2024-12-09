@@ -6,7 +6,7 @@ use Coverzen\Components\YousignClient\Database\Factories\v1\GetAuditTrailDetailR
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * Class AddSignerRequest.
+ * Class GetAuditTrailDetailResponse.
  *
  * @property int|null $version
  * @property array|null $signature_request
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property array|null $sender
  * @property array|null $signer
  * @property array|null $authentication
- * @property array|null $documents
+ * @property array $documents
  * @property array|null $signer_consents
  */
 final class GetAuditTrailDetailResponse extends Struct
@@ -34,6 +34,11 @@ final class GetAuditTrailDetailResponse extends Struct
         'authentication',
         'documents',
         'signer_consents',
+    ];
+
+    /** {@inheritdoc} */
+    protected $attributes = [
+        'documents' => [],
     ];
 
     /** {@inheritdoc} */

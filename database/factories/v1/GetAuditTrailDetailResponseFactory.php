@@ -6,7 +6,7 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\GetAuditTrailDetailResponse
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class GetConsentsResponseFactory.
+ * Class GetAuditTrailDetailResponseFactory.
  *
  * @template TModel of GetAuditTrailDetailResponse
  * @extends Factory<TModel>

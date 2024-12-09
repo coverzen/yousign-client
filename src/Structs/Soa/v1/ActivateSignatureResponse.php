@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string|null $id
  * @property string|null $type
  * @property array|null $settings
- * @property array|null $signers
+ * @property array $signers
  * @property bool $optional
  * @property array<int,string> $signer_ids
  */
@@ -41,6 +41,7 @@ final class ActivateSignatureResponse extends Struct
 
     /** {@inheritdoc} */
     protected $attributes = [
+        'signers' => [],
         'optional' => false,
     ];
 
