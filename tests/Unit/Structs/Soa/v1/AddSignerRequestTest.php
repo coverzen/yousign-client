@@ -50,7 +50,7 @@ final class AddSignerRequestTest extends TestCase
     {
         /** @var AddSignerRequest $addSignerRequest */
         $addSignerRequest = AddSignerRequest::factory()
-                                          ->make();
+                                            ->make();
 
         $this->assertIsArray($addSignerRequest->info);
         $this->assertInstanceOf(SignatureLevel::class, $addSignerRequest->signature_level);
@@ -69,7 +69,7 @@ final class AddSignerRequestTest extends TestCase
         $this->expectException(StructSaveException::class);
 
         AddSignerRequest::factory()
-                             ->create();
+                        ->create();
     }
 
     /**

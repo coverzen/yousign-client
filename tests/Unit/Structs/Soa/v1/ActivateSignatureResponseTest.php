@@ -34,7 +34,7 @@ final class ActivateSignatureResponseTest extends TestCase
     {
         /** @var ActivateSignatureResponse $activateSignatureResponse */
         $activateSignatureResponse = ActivateSignatureResponse::factory()
-                                              ->make();
+                                                              ->make();
 
         $this->assertInstanceOf(ActivateSignatureResponse::class, $activateSignatureResponse);
     }
@@ -50,7 +50,7 @@ final class ActivateSignatureResponseTest extends TestCase
         $this->expectException(StructSaveException::class);
 
         ActivateSignatureResponse::factory()
-                         ->create();
+                                 ->create();
     }
 
     /**

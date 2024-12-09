@@ -44,7 +44,7 @@ class Yousign extends Soa
     public const DOWNLOAD_AUDIT_TRAIL = 'audit_trails/download';
 
     /** @var string */
-    public const DOWNLOAD_AUDIT_TRAIL_DETAIL = 'audit_trails';
+    public const GET_AUDIT_TRAIL_DETAIL = 'audit_trails';
 
     /** @var string */
     public const ADD_CONSENT_URL = 'consent_requests';
@@ -335,7 +335,7 @@ class Yousign extends Soa
                 $signatureRequestId,
                 self::SIGNER_URL,
                 $signerId,
-                self::DOWNLOAD_AUDIT_TRAIL_DETAIL,
+                self::GET_AUDIT_TRAIL_DETAIL,
             ]
         );
 

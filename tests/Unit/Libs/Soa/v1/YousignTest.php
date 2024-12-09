@@ -767,7 +767,14 @@ final class YousignTest extends TestCase
         $url = Str::finish(
             Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
-        ) . Yousign::SIGNATURE_REQUESTS_BASE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ADD_CONSENT_URL;
+        ) . implode(
+            Soa::URL_SEPARATOR,
+            [
+                Yousign::SIGNATURE_REQUESTS_BASE_URL,
+                self::SIGNATURE_ID,
+                Yousign::ADD_CONSENT_URL,
+            ]
+        );
 
         /** @var GetConsentsResponse $expectedGetConsentsResponse */
         $expectedGetConsentsResponse = GetConsentsResponse::factory()
@@ -822,7 +829,16 @@ final class YousignTest extends TestCase
         $url = Str::finish(
             Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
-        ) . Yousign::SIGNATURE_REQUESTS_BASE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::SIGNER_URL . Soa::URL_SEPARATOR . self::SIGNER_ID . Soa::URL_SEPARATOR . Yousign::DOWNLOAD_AUDIT_TRAIL_DETAIL;
+        ) . implode(
+            Soa::URL_SEPARATOR,
+            [
+                Yousign::SIGNATURE_REQUESTS_BASE_URL,
+                self::SIGNATURE_ID,
+                Yousign::SIGNER_URL,
+                self::SIGNER_ID,
+                Yousign::GET_AUDIT_TRAIL_DETAIL,
+            ]
+        );
 
         /** @var GetAuditTrailDetailResponse $expectedGetAuditTrailDetailResponse */
         $expectedGetAuditTrailDetailResponse = GetAuditTrailDetailResponse::factory()

@@ -101,12 +101,12 @@ final class AddSignerResponseTest extends TestCase
         $signerFields = Arr::get($signerResponseData, 'fields');
 
         $signerFields[] = SignerField::factory()
-                                                     ->make()
-                                                     ->toArray();
+                                     ->make()
+                                     ->toArray();
 
         $signerFields[] = SignerField::factory()
-                                                     ->make()
-                                                     ->toArray();
+                                     ->make()
+                                     ->toArray();
 
         /** @var AddSignerResponse $addSignerResponse */
         $addSignerResponse = new AddSignerResponse($signerResponseData);

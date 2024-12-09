@@ -131,7 +131,7 @@ class YousignFaker
                                        ->toArray(),
                 ),
 
-                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::SIGNER_URL . '/*/' . Yousign::DOWNLOAD_AUDIT_TRAIL_DETAIL => Http::response(
+                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::SIGNER_URL . '/*/' . Yousign::GET_AUDIT_TRAIL_DETAIL => Http::response(
                     GetAuditTrailDetailResponse::factory()
                                                ->make()
                                                ->toArray()
