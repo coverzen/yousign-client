@@ -31,3 +31,9 @@ parameters:
         -
              message: '#Property Coverzen\\Components\\YousignClient\\Structs\\Soa\\v1\\InitiateSignatureRequest::\$custom_experience_id \(string\|null\) does not accept mixed\.#'
              path: src/Structs/Soa/v1/InitiateSignatureRequest.php
+
+        -
+             messages:
+                 - '#Property Coverzen\\Components\\YousignClient\\Structs\\Soa\\v1\\UploadDocumentRequest::\$file_content \(string\|null\) does not accept string\|false\.#'
+                 - '#Parameter \#2 \$contents of method Illuminate\\Http\\Client\\PendingRequest::attach\(\) expects resource\|string, string\|false given\.#'
+             path: src/Libs/Soa/v1/Yousign.php

@@ -102,11 +102,6 @@ return [
                 'method',
             ],
         ],
-        SlevomatCodingStandard\Sniffs\ControlStructures\AssignmentInConditionSniff::class => [
-            'exclude' => [
-                'src/Libs/Soa/v1/Yousign.php',
-            ],
-        ],
     ],
 
     /*

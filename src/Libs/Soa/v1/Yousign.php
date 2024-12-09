@@ -21,6 +21,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use RuntimeException;
+use function base64_decode;
+use function base64_encode;
 use function implode;
 use function is_array;
 
@@ -118,17 +120,14 @@ class Yousign extends Soa
         }
 
         /**
-         * this variable is cloned so that the attach method doesn't change the content type header for the following requests.
+         * The client is cloned so that the `attach()` method doesn't change headers for all the following requests.
          *
          * @var PendingRequest $apiClientWithAttach
          */
         $apiClientWithAttach = clone $this->apiClient;
 
-        /**
-         * Pay attention to declaration within condition.
-         */
-        if ($decoded = base64_decode($uploadDocumentRequest->file_content, true)) {
-            $uploadDocumentRequest->file_content = $decoded;
+        if (self::isBase64($uploadDocumentRequest->file_content)) {
+            $uploadDocumentRequest->file_content = base64_decode($uploadDocumentRequest->file_content, true);
         }
 
         /** @var Response $response */
@@ -137,19 +136,19 @@ class Yousign extends Soa
             $uploadDocumentRequest->file_content,
             $uploadDocumentRequest->file_name,
         )
-                                    ->post(
-                                        implode(
-                                            self::URL_SEPARATOR,
+                                        ->post(
+                                            implode(
+                                                self::URL_SEPARATOR,
+                                                [
+                                                    self::INITIATE_SIGNATURE_URL,
+                                                    $signatureRequestId,
+                                                    self::UPLOAD_DOCUMENT_URL,
+                                                ]
+                                            ),
                                             [
-                                                self::INITIATE_SIGNATURE_URL,
-                                                $signatureRequestId,
-                                                self::UPLOAD_DOCUMENT_URL,
+                                                self::NATURE_PARAM => $uploadDocumentRequest->nature->value,
                                             ]
-                                        ),
-                                        [
-                                            self::NATURE_PARAM => $uploadDocumentRequest->nature->value,
-                                        ]
-                                    );
+                                        );
 
         if (!is_array($response->json())) {
             throw new RuntimeException('Yousign response is not an array.');
@@ -375,5 +374,17 @@ class Yousign extends Soa
         }
 
         return new GetConsentsResponse($response->json());
+    }
+
+    /**
+     * Quick way to check if a string is base64 encoded.
+     *
+     * @param string $str
+     *
+     * @return bool
+     */
+    private static function isBase64(string $str): bool
+    {
+        return base64_encode((string) base64_decode($str, true)) === $str;
     }
 }
