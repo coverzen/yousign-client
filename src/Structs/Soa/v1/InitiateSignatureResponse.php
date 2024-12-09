@@ -20,8 +20,8 @@ use Illuminate\Support\Carbon;
  * @property array<array-key,mixed>|null $reminder_settings
  * @property Carbon|null $expiration_date
  * @property string|null $delivery_mode
- * @property array<array-key,mixed>|null $documents
- * @property array<array-key,mixed>|null $signers
+ * @property array<int,array<array-key,mixed>> $documents
+ * @property array<int,array<array-key,mixed>> $signers
  * @property string|null $external_id
  * @property string|null $branding_id
  * @property string|null $custom_experience_id
@@ -73,6 +73,8 @@ class InitiateSignatureResponse extends Struct
     protected $attributes = [
         'ordered_signers' => false,
         'signers_allowed_to_decline' => false,
+        'signers' => [],
+        'documents' => [],
     ];
 
     /** {@inheritdoc} */
