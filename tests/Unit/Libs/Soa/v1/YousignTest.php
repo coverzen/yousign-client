@@ -187,7 +187,7 @@ final class YousignTest extends TestCase
             [
                 Yousign::SIGNATURE_REQUESTS_BASE_URL,
                 self::SIGNATURE_ID,
-                Yousign::UPLOAD_DOCUMENT_URL,
+                Yousign::DOCUMENT_URL,
             ]
         );
 
@@ -659,7 +659,7 @@ final class YousignTest extends TestCase
             [
                 Yousign::SIGNATURE_REQUESTS_BASE_URL,
                 self::SIGNATURE_ID,
-                Yousign::UPLOAD_DOCUMENT_URL,
+                Yousign::DOCUMENT_URL,
                 self::DOCUMENT_ID,
                 Yousign::DOWNLOAD_URL,
             ]

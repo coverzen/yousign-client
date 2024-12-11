@@ -90,7 +90,7 @@ class YousignFaker
                     Response::HTTP_CREATED
                 ),
 
-                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::UPLOAD_DOCUMENT_URL => Http::response(
+                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::DOCUMENT_URL => Http::response(
                     UploadDocumentResponse::factory()
                                           ->make()
                                           ->toArray(),
@@ -117,24 +117,28 @@ class YousignFaker
                     Response::HTTP_CREATED
                 ),
 
-                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::UPLOAD_DOCUMENT_URL . '/*/' . Yousign::DOWNLOAD_URL => Http::response(
+                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::DOCUMENT_URL . '/*/' . Yousign::DOWNLOAD_URL => Http::response(
                     self::FAKE_DOCUMENT_CONTENT,
+                    Response::HTTP_OK
                 ),
 
                 $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::SIGNER_URL . '/*/' . Yousign::DOWNLOAD_AUDIT_TRAIL => Http::response(
                     self::FAKE_DOCUMENT_CONTENT,
+                    Response::HTTP_OK
                 ),
 
                 $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::ADD_CONSENT_URL . '*' => Http::response(
                     GetConsentsResponse::factory()
                                        ->make()
                                        ->toArray(),
+                    Response::HTTP_OK
                 ),
 
                 $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::SIGNER_URL . '/*/' . Yousign::GET_AUDIT_TRAIL_DETAIL => Http::response(
                     GetAuditTrailDetailResponse::factory()
                                                ->make()
-                                               ->toArray()
+                                               ->toArray(),
+                    Response::HTTP_OK
                 ),
             ]
         );
