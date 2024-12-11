@@ -1,3 +1,11 @@
+## [1.9.2](https://github.com/coverzen/yousign-client/compare/v1.9.1...v1.9.2) (2024-12-11)
+
+
+### Bug Fixes
+
+* fix download document url ([4b70270](https://github.com/coverzen/yousign-client/commit/4b70270a3619839b39d89758878de51150cade2f))
+* fix yousign test +  yousign faker ([27babcc](https://github.com/coverzen/yousign-client/commit/27babccfed3dec7b07c60fbbefb961b2ae9b4b13))
+
 ## [1.9.1](https://github.com/coverzen/yousign-client/compare/v1.9.0...v1.9.1) (2024-12-09)
 
 
