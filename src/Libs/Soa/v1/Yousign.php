@@ -279,7 +279,7 @@ class Yousign extends Soa
                 $signatureRequestId,
                 self::UPLOAD_DOCUMENT_URL,
                 $documentId,
-                self::DOWNLOAD_URL
+                self::DOWNLOAD_URL,
             ]
         );
 
