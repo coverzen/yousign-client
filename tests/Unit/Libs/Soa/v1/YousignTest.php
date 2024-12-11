@@ -661,7 +661,7 @@ final class YousignTest extends TestCase
                 self::SIGNATURE_ID,
                 Yousign::UPLOAD_DOCUMENT_URL,
                 self::DOCUMENT_ID,
-                Yousign::DOWNLOAD_URL
+                Yousign::DOWNLOAD_URL,
             ]
         );
 
