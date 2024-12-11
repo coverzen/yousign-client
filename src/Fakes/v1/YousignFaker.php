@@ -117,7 +117,7 @@ class YousignFaker
                     Response::HTTP_CREATED
                 ),
 
-                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::DOWNLOAD_DOCUMENT_URL . '/*' => Http::response(
+                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::UPLOAD_DOCUMENT_URL . '/*/' . Yousign::DOWNLOAD_URL => Http::response(
                     self::FAKE_DOCUMENT_CONTENT,
                 ),
 
