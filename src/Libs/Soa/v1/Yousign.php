@@ -35,7 +35,10 @@ class Yousign extends Soa
     public const SIGNATURE_REQUESTS_BASE_URL = 'signature_requests';
 
     /** @var string */
-    public const UPLOAD_DOCUMENT_URL = 'documents';
+    public const DOCUMENT_URL = 'documents';
+
+    /** @var string */
+    public const DOWNLOAD_URL = 'download';
 
     /** @var string */
     public const DOWNLOAD_DOCUMENT_URL = 'documents/download';
@@ -142,7 +145,7 @@ class Yousign extends Soa
                                                 [
                                                     self::SIGNATURE_REQUESTS_BASE_URL,
                                                     $signatureRequestId,
-                                                    self::UPLOAD_DOCUMENT_URL,
+                                                    self::DOCUMENT_URL,
                                                 ]
                                             ),
                                             [
@@ -274,8 +277,9 @@ class Yousign extends Soa
             [
                 self::SIGNATURE_REQUESTS_BASE_URL,
                 $signatureRequestId,
-                self::DOWNLOAD_DOCUMENT_URL,
+                self::DOCUMENT_URL,
                 $documentId,
+                self::DOWNLOAD_URL,
             ]
         );
 
