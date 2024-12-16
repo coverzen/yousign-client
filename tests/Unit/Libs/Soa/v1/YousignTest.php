@@ -884,7 +884,7 @@ final class YousignTest extends TestCase
 
     /**
      * @test
-     * @covers      ::getAuditTrailDetail
+     * @covers      ::deleteSignatureRequest
      *
      * @return void
      */
