@@ -318,6 +318,7 @@ class Yousign extends Soa
 
         /** @var Response $response */
         $response = $this->apiClient->get($url);
+
         if (!is_string($response->body())) {
             throw new RuntimeException('Yousign response is not a string.');
         }
