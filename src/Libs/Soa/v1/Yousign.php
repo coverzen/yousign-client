@@ -59,6 +59,9 @@ class Yousign extends Soa
     public const ACTIVATE_SIGNATURE_URL = 'activate';
 
     /** @var string */
+    public const PERMANENT_DELETED_SIGNATURE_PARAMS = '?permanent_delete=true';
+
+    /** @var string */
     public const FILE_PARAM = 'file';
 
     /** @var string */
@@ -315,7 +318,6 @@ class Yousign extends Soa
 
         /** @var Response $response */
         $response = $this->apiClient->get($url);
-
         if (!is_string($response->body())) {
             throw new RuntimeException('Yousign response is not a string.');
         }
@@ -378,6 +380,27 @@ class Yousign extends Soa
         }
 
         return new GetConsentsResponse($response->json());
+    }
+
+    /**
+     * @param string $signatureRequestId
+     *
+     * @return bool
+     */
+    public function deleteSignatureRequest(string $signatureRequestId): bool
+    {
+        /** @var string $url */
+        $url = implode(
+            self::URL_SEPARATOR,
+            [
+                self::SIGNATURE_REQUESTS_BASE_URL,
+                $signatureRequestId,
+            ]
+        ) . self::PERMANENT_DELETED_SIGNATURE_PARAMS;
+
+        $this->apiClient->delete($url);
+
+        return true;
     }
 
     /**

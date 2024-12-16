@@ -881,4 +881,56 @@ final class YousignTest extends TestCase
             $actualGetAuditTrailDetailResponse->toArray()
         );
     }
+
+    /**
+     * @test
+     * @covers      ::getAuditTrailDetail
+     *
+     * @return void
+     */
+    public function it_deletes_signature_request(): void
+    {
+        /** @var string $url */
+        $url = Str::finish(
+            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Soa::URL_SEPARATOR
+        ) . implode(
+            Soa::URL_SEPARATOR,
+            [
+                Yousign::SIGNATURE_REQUESTS_BASE_URL,
+                self::SIGNATURE_ID,
+            ]
+        ) . Yousign::PERMANENT_DELETED_SIGNATURE_PARAMS;
+
+        Http::fake(
+            [
+                $url => Http::response(null, Response::HTTP_NO_CONTENT),
+            ]
+        );
+
+        /** @var bool $deleteSignatureResponse */
+        $deleteSignatureResponse = (new Yousign())->deleteSignatureRequest(self::SIGNATURE_ID);
+
+        Http::assertSent(
+            function (ClientRequest $request) use ($url): bool {
+                $this->assertSame(Request::METHOD_DELETE, $request->method());
+                $this->assertSame($url, $request->url());
+
+                $this->assertSame(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
+                );
+
+                $this->assertContains(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    $request->header(Soa::AUTHORIZATION_HEADER)
+                );
+
+                return true;
+            }
+        );
+
+        $this->assertNotNull($deleteSignatureResponse);
+        $this->assertTrue($deleteSignatureResponse);
+    }
 }

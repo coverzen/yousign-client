@@ -140,6 +140,11 @@ class YousignFaker
                                                ->toArray(),
                     Response::HTTP_OK
                 ),
+
+                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::PERMANENT_DELETED_SIGNATURE_PARAMS => Http::response(
+                    null,
+                    Response::HTTP_NO_CONTENT
+                ),
             ]
         );
     }
