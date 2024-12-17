@@ -54,6 +54,8 @@ final class CancelSignatureRequestTest extends TestCase
 
         $this->assertNotNull($cancelSignatureRequest->reason);
         $this->assertInstanceOf(CancelSignatureReason::class, $cancelSignatureRequest->reason);
+        $this->assertNotNull($cancelSignatureRequest->custom_note);
+        $this->assertIsString($cancelSignatureRequest->custom_note);
     }
 
     /**

@@ -10,6 +10,7 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\CancelSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\GetAuditTrailDetailResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\GetConsentsResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
@@ -913,11 +914,15 @@ final class YousignTest extends TestCase
             ]
         );
 
+        /** @var CancelSignatureRequest $cancelSignatureRequest */
+        $cancelSignatureRequest = CancelSignatureRequest::factory()
+                                              ->make();
+
         /** @var InitiateSignatureResponse $actualCancelSignatureResponse */
-        $actualCancelSignatureResponse = (new Yousign())->deleteSignatureRequest(self::SIGNATURE_ID);
+        $actualCancelSignatureResponse = (new Yousign())->deleteSignatureRequest(self::SIGNATURE_ID, $cancelSignatureRequest);
 
         Http::assertSent(
-            function (ClientRequest $request) use ($url): bool {
+            function (ClientRequest $request) use ($cancelSignatureRequest, $url): bool {
                 $this->assertSame(Request::METHOD_POST, $request->method());
                 $this->assertSame($url, $request->url());
 
@@ -930,6 +935,9 @@ final class YousignTest extends TestCase
                     Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     $request->header(Soa::AUTHORIZATION_HEADER)
                 );
+
+                $this->assertArrayHasKey('reason', $request->data());
+                $this->assertSame($cancelSignatureRequest->reason, $request->data()['reason']);
 
                 return true;
             }
