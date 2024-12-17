@@ -906,7 +906,7 @@ final class YousignTest extends TestCase
 
         /** @var InitiateSignatureResponse $expectedCancelSignatureResponse */
         $expectedCancelSignatureResponse = InitiateSignatureResponse::factory()
-                                                              ->make();
+                                                                    ->make();
 
         Http::fake(
             [
