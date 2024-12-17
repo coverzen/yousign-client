@@ -1,3 +1,5 @@
+# [2.0.0](https://github.com/coverzen/yousign-client/compare/v1.10.0...v2.0.0) (2024-12-17)
+
 # [1.10.0](https://github.com/coverzen/yousign-client/compare/v1.9.2...v1.10.0) (2024-12-17)
 
 
