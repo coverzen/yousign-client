@@ -10,7 +10,6 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
-use Coverzen\Components\YousignClient\Structs\Soa\v1\CancelSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\GetAuditTrailDetailResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\GetConsentsResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
@@ -37,7 +36,7 @@ use RuntimeException;
  * @method static string getAuditTrail(string $signatureRequestId, string $signerId)
  * @method static GetConsentsResponse getConsentsById(string $signatureRequestId)
  * @method static GetAuditTrailDetailResponse getAuditTrailDetail(string $signatureRequestId, string $signerId)
- * @method static InitiateSignatureResponse deleteSignatureRequest(string $signatureRequestId, CancelSignatureRequest $cancelSignatureRequest)
+ * @method static InitiateSignatureResponse deleteSignatureRequest(string $signatureRequestId)
  * @method static void assertIsCalled(string $functionName, ?Closure $callback = null)
  */
 final class Yousign extends Facade
