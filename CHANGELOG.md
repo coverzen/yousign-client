@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/coverzen/yousign-client/compare/v1.9.2...v1.10.0) (2024-12-17)
+
+
+### Features
+
+* implement delete signature request ([7beb5fb](https://github.com/coverzen/yousign-client/commit/7beb5fb15562a3ff3dc206e91e8ce6644617102d))
+
 ## [1.9.2](https://github.com/coverzen/yousign-client/compare/v1.9.1...v1.9.2) (2024-12-11)
 
 
