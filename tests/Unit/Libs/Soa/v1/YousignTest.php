@@ -14,7 +14,7 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\CancelSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\GetAuditTrailDetailResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\GetConsentsResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
-use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\SignatureRequestResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\SignerField;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentResponse;
@@ -91,8 +91,8 @@ final class YousignTest extends TestCase
             Soa::URL_SEPARATOR
         ) . Yousign::SIGNATURE_REQUESTS_BASE_URL;
 
-        /** @var InitiateSignatureResponse $expectedSignatureResponse */
-        $expectedSignatureResponse = InitiateSignatureResponse::factory()
+        /** @var SignatureRequestResponse $expectedSignatureResponse */
+        $expectedSignatureResponse = SignatureRequestResponse::factory()
                                                               ->make();
 
         Http::fake(
@@ -109,7 +109,7 @@ final class YousignTest extends TestCase
                                                                 ]
                                                             );
 
-        /** @var InitiateSignatureResponse|null $actualSignatureResponse */
+        /** @var SignatureRequestResponse|null $actualSignatureResponse */
         $actualSignatureResponse = (new Yousign())->initiateSignature($initiateSignatureRequest);
 
         Http::assertSent(
@@ -143,7 +143,7 @@ final class YousignTest extends TestCase
         );
 
         $this->assertNotNull($actualSignatureResponse);
-        $this->assertInstanceOf(InitiateSignatureResponse::class, $actualSignatureResponse);
+        $this->assertInstanceOf(SignatureRequestResponse::class, $actualSignatureResponse);
 
         $this->assertSame(
             $expectedSignatureResponse->toArray(),
@@ -602,8 +602,8 @@ final class YousignTest extends TestCase
             Soa::URL_SEPARATOR
         ) . Yousign::SIGNATURE_REQUESTS_BASE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID;
 
-        /** @var InitiateSignatureResponse $expectedSignatureResponse */
-        $expectedSignatureResponse = InitiateSignatureResponse::factory()
+        /** @var SignatureRequestResponse $expectedSignatureResponse */
+        $expectedSignatureResponse = SignatureRequestResponse::factory()
                                                               ->make();
 
         Http::fake(
@@ -612,7 +612,7 @@ final class YousignTest extends TestCase
             ]
         );
 
-        /** @var InitiateSignatureResponse|null $actualSignatureResponse */
+        /** @var SignatureRequestResponse|null $actualSignatureResponse */
         $actualSignatureResponse = (new Yousign())->getSignatureById(self::SIGNATURE_ID);
 
         Http::assertSent(
@@ -635,7 +635,7 @@ final class YousignTest extends TestCase
         );
 
         $this->assertNotNull($actualSignatureResponse);
-        $this->assertInstanceOf(InitiateSignatureResponse::class, $actualSignatureResponse);
+        $this->assertInstanceOf(SignatureRequestResponse::class, $actualSignatureResponse);
 
         $this->assertSame(
             $expectedSignatureResponse->toArray(),
@@ -904,8 +904,8 @@ final class YousignTest extends TestCase
             ]
         );
 
-        /** @var InitiateSignatureResponse $expectedCancelSignatureResponse */
-        $expectedCancelSignatureResponse = InitiateSignatureResponse::factory()
+        /** @var SignatureRequestResponse $expectedCancelSignatureResponse */
+        $expectedCancelSignatureResponse = SignatureRequestResponse::factory()
                                                                     ->make();
 
         Http::fake(
@@ -918,7 +918,7 @@ final class YousignTest extends TestCase
         $cancelSignatureRequest = CancelSignatureRequest::factory()
                                               ->make();
 
-        /** @var InitiateSignatureResponse $actualCancelSignatureResponse */
+        /** @var SignatureRequestResponse $actualCancelSignatureResponse */
         $actualCancelSignatureResponse = (new Yousign())->deleteSignatureRequest(self::SIGNATURE_ID, $cancelSignatureRequest);
 
         Http::assertSent(
@@ -944,7 +944,7 @@ final class YousignTest extends TestCase
         );
 
         $this->assertNotNull($actualCancelSignatureResponse);
-        $this->assertInstanceOf(InitiateSignatureResponse::class, $actualCancelSignatureResponse);
+        $this->assertInstanceOf(SignatureRequestResponse::class, $actualCancelSignatureResponse);
 
         $this->assertSame(
             $expectedCancelSignatureResponse->toArray(),

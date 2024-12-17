@@ -6,7 +6,7 @@ use Coverzen\Components\YousignClient\Facades\v1\Yousign;
 use Coverzen\Components\YousignClient\Libs\Soa\v1\Yousign as YousignSoaLib;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
-use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\SignatureRequestResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
 use Illuminate\Support\Facades\Http;
 use function head;
@@ -90,10 +90,10 @@ final class YousignTest extends TestCase
     {
         Yousign::fake();
 
-        /** @var InitiateSignatureResponse $initiateSignatureResponse */
-        $initiateSignatureResponse = Yousign::initiateSignature(new InitiateSignatureRequest());
+        /** @var SignatureRequestResponse $signatureRequestResponse */
+        $signatureRequestResponse = Yousign::initiateSignature(new InitiateSignatureRequest());
 
-        $this->assertInstanceOf(InitiateSignatureResponse::class, $initiateSignatureResponse);
+        $this->assertInstanceOf(SignatureRequestResponse::class, $signatureRequestResponse);
     }
 
     /**

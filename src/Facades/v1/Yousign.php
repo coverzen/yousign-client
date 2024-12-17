@@ -14,7 +14,7 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\CancelSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\GetAuditTrailDetailResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\GetConsentsResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
-use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\SignatureRequestResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentResponse;
 use Illuminate\Support\Facades\Facade;
@@ -27,17 +27,17 @@ use RuntimeException;
  *
  * @see YousignSoaLib
  *
- * @method static InitiateSignatureResponse initiateSignature(InitiateSignatureRequest $initiateSignatureRequest)
+ * @method static SignatureRequestResponse initiateSignature(InitiateSignatureRequest $initiateSignatureRequest)
  * @method static UploadDocumentResponse uploadDocument(string $signatureRequestId, UploadDocumentRequest $uploadDocumentRequest)
  * @method static AddConsentResponse addConsent(string $signatureRequestId, AddConsentRequest $addConsentRequest)
  * @method static AddSignerResponse addSigner(string $signatureRequestId, AddSignerRequest $addSignerRequest)
  * @method static ActivateSignatureResponse activateSignature(string $signatureRequestId)
- * @method static InitiateSignatureResponse getSignatureById(string $signatureRequestId)
+ * @method static SignatureRequestResponse getSignatureById(string $signatureRequestId)
  * @method static string getDocumentById(string $signatureRequestId, string $documentId)
  * @method static string getAuditTrail(string $signatureRequestId, string $signerId)
  * @method static GetConsentsResponse getConsentsById(string $signatureRequestId)
  * @method static GetAuditTrailDetailResponse getAuditTrailDetail(string $signatureRequestId, string $signerId)
- * @method static InitiateSignatureResponse deleteSignatureRequest(string $signatureRequestId, CancelSignatureRequest $cancelSignatureRequest)
+ * @method static SignatureRequestResponse deleteSignatureRequest(string $signatureRequestId, CancelSignatureRequest $cancelSignatureRequest)
  * @method static void assertIsCalled(string $functionName, ?Closure $callback = null)
  */
 final class Yousign extends Facade
