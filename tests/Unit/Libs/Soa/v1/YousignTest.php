@@ -10,6 +10,7 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\CancelSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\GetAuditTrailDetailResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\GetConsentsResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
@@ -879,6 +880,75 @@ final class YousignTest extends TestCase
         $this->assertSame(
             $expectedGetAuditTrailDetailResponse->toArray(),
             $actualGetAuditTrailDetailResponse->toArray()
+        );
+    }
+
+    /**
+     * @test
+     * @covers      ::deleteSignatureRequest
+     *
+     * @return void
+     */
+    public function it_deletes_signature_request(): void
+    {
+        /** @var string $url */
+        $url = Str::finish(
+            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Soa::URL_SEPARATOR
+        ) . implode(
+            Soa::URL_SEPARATOR,
+            [
+                Yousign::SIGNATURE_REQUESTS_BASE_URL,
+                self::SIGNATURE_ID,
+                Yousign::CANCEL_SIGNATURE_URL,
+            ]
+        );
+
+        /** @var InitiateSignatureResponse $expectedCancelSignatureResponse */
+        $expectedCancelSignatureResponse = InitiateSignatureResponse::factory()
+                                                                    ->make();
+
+        Http::fake(
+            [
+                $url => Http::response($expectedCancelSignatureResponse->toArray(), Response::HTTP_CREATED),
+            ]
+        );
+
+        /** @var CancelSignatureRequest $cancelSignatureRequest */
+        $cancelSignatureRequest = CancelSignatureRequest::factory()
+                                              ->make();
+
+        /** @var InitiateSignatureResponse $actualCancelSignatureResponse */
+        $actualCancelSignatureResponse = (new Yousign())->deleteSignatureRequest(self::SIGNATURE_ID, $cancelSignatureRequest);
+
+        Http::assertSent(
+            function (ClientRequest $request) use ($cancelSignatureRequest, $url): bool {
+                $this->assertSame(Request::METHOD_POST, $request->method());
+                $this->assertSame($url, $request->url());
+
+                $this->assertSame(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
+                );
+
+                $this->assertContains(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    $request->header(Soa::AUTHORIZATION_HEADER)
+                );
+
+                $this->assertArrayHasKey('reason', $request->data());
+                $this->assertSame($cancelSignatureRequest->reason, $request->data()['reason']);
+
+                return true;
+            }
+        );
+
+        $this->assertNotNull($actualCancelSignatureResponse);
+        $this->assertInstanceOf(InitiateSignatureResponse::class, $actualCancelSignatureResponse);
+
+        $this->assertSame(
+            $expectedCancelSignatureResponse->toArray(),
+            $actualCancelSignatureResponse->toArray()
         );
     }
 }

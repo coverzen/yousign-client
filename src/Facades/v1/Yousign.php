@@ -36,6 +36,7 @@ use RuntimeException;
  * @method static string getAuditTrail(string $signatureRequestId, string $signerId)
  * @method static GetConsentsResponse getConsentsById(string $signatureRequestId)
  * @method static GetAuditTrailDetailResponse getAuditTrailDetail(string $signatureRequestId, string $signerId)
+ * @method static InitiateSignatureResponse deleteSignatureRequest(string $signatureRequestId)
  * @method static void assertIsCalled(string $functionName, ?Closure $callback = null)
  */
 final class Yousign extends Facade

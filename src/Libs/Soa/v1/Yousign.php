@@ -7,6 +7,7 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\CancelSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\GetAuditTrailDetailResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\GetConsentsResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
@@ -57,6 +58,9 @@ class Yousign extends Soa
 
     /** @var string */
     public const ACTIVATE_SIGNATURE_URL = 'activate';
+
+    /** @var string */
+    public const CANCEL_SIGNATURE_URL = 'cancel';
 
     /** @var string */
     public const FILE_PARAM = 'file';
@@ -378,6 +382,33 @@ class Yousign extends Soa
         }
 
         return new GetConsentsResponse($response->json());
+    }
+
+    /**
+     * @param string $signatureRequestId
+     * @param CancelSignatureRequest $cancelSignatureRequest
+     *
+     * @return InitiateSignatureResponse
+     */
+    public function deleteSignatureRequest(string $signatureRequestId, CancelSignatureRequest $cancelSignatureRequest): InitiateSignatureResponse
+    {
+        /** @var string $url */
+        $url = implode(
+            self::URL_SEPARATOR,
+            [
+                self::SIGNATURE_REQUESTS_BASE_URL,
+                $signatureRequestId,
+                self::CANCEL_SIGNATURE_URL,
+            ],
+        );
+
+        $response = $this->apiClient->post($url, $cancelSignatureRequest->toArray());
+
+        if (!is_array($response->json())) {
+            throw new RuntimeException('Yousign response is not an array.');
+        }
+
+        return new InitiateSignatureResponse($response->json());
     }
 
     /**

@@ -140,6 +140,13 @@ class YousignFaker
                                                ->toArray(),
                     Response::HTTP_OK
                 ),
+
+                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::CANCEL_SIGNATURE_URL => Http::response(
+                    InitiateSignatureResponse::factory()
+                                             ->make()
+                                             ->toArray(),
+                    Response::HTTP_CREATED
+                ),
             ]
         );
     }
