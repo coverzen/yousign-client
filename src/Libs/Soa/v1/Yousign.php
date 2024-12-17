@@ -59,7 +59,7 @@ class Yousign extends Soa
     public const ACTIVATE_SIGNATURE_URL = 'activate';
 
     /** @var string */
-    public const PERMANENT_DELETED_SIGNATURE_PARAMS = '?permanent_delete=true';
+    public const CANCEL_SIGNATURE_URL = 'cancel';
 
     /** @var string */
     public const FILE_PARAM = 'file';
@@ -386,9 +386,9 @@ class Yousign extends Soa
     /**
      * @param string $signatureRequestId
      *
-     * @return bool
+     * @return InitiateSignatureResponse
      */
-    public function deleteSignatureRequest(string $signatureRequestId): bool
+    public function deleteSignatureRequest(string $signatureRequestId): InitiateSignatureResponse
     {
         /** @var string $url */
         $url = implode(
@@ -396,12 +396,17 @@ class Yousign extends Soa
             [
                 self::SIGNATURE_REQUESTS_BASE_URL,
                 $signatureRequestId,
+                self::CANCEL_SIGNATURE_URL,
             ]
-        ) . self::PERMANENT_DELETED_SIGNATURE_PARAMS;
+        );
 
-        $this->apiClient->delete($url);
+        $response = $this->apiClient->post($url);
 
-        return true;
+        if (!is_array($response->json())) {
+            throw new RuntimeException('Yousign response is not an array.');
+        }
+
+        return new InitiateSignatureResponse($response->json());
     }
 
     /**

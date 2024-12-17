@@ -899,21 +899,26 @@ final class YousignTest extends TestCase
             [
                 Yousign::SIGNATURE_REQUESTS_BASE_URL,
                 self::SIGNATURE_ID,
-            ]
-        ) . Yousign::PERMANENT_DELETED_SIGNATURE_PARAMS;
-
-        Http::fake(
-            [
-                $url => Http::response(null, Response::HTTP_NO_CONTENT),
+                Yousign::CANCEL_SIGNATURE_URL,
             ]
         );
 
-        /** @var bool $deleteSignatureResponse */
-        $deleteSignatureResponse = (new Yousign())->deleteSignatureRequest(self::SIGNATURE_ID);
+        /** @var InitiateSignatureResponse $expectedCancelSignatureResponse */
+        $expectedCancelSignatureResponse = InitiateSignatureResponse::factory()
+                                                              ->make();
+
+        Http::fake(
+            [
+                $url => Http::response($expectedCancelSignatureResponse->toArray(), Response::HTTP_CREATED),
+            ]
+        );
+
+        /** @var InitiateSignatureResponse $actualCancelSignatureResponse */
+        $actualCancelSignatureResponse = (new Yousign())->deleteSignatureRequest(self::SIGNATURE_ID);
 
         Http::assertSent(
             function (ClientRequest $request) use ($url): bool {
-                $this->assertSame(Request::METHOD_DELETE, $request->method());
+                $this->assertSame(Request::METHOD_POST, $request->method());
                 $this->assertSame($url, $request->url());
 
                 $this->assertSame(
@@ -930,7 +935,12 @@ final class YousignTest extends TestCase
             }
         );
 
-        $this->assertNotNull($deleteSignatureResponse);
-        $this->assertTrue($deleteSignatureResponse);
+        $this->assertNotNull($actualCancelSignatureResponse);
+        $this->assertInstanceOf(InitiateSignatureResponse::class, $actualCancelSignatureResponse);
+
+        $this->assertSame(
+            $expectedCancelSignatureResponse->toArray(),
+            $actualCancelSignatureResponse->toArray()
+        );
     }
 }

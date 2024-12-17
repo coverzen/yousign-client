@@ -141,9 +141,11 @@ class YousignFaker
                     Response::HTTP_OK
                 ),
 
-                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::PERMANENT_DELETED_SIGNATURE_PARAMS => Http::response(
-                    null,
-                    Response::HTTP_NO_CONTENT
+                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*/' . Yousign::CANCEL_SIGNATURE_URL => Http::response(
+                    InitiateSignatureResponse::factory()
+                                             ->make()
+                                             ->toArray(),
+                    Response::HTTP_CREATED
                 ),
             ]
         );
