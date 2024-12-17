@@ -2,12 +2,12 @@
 
 namespace Coverzen\Components\YousignClient\Structs\Soa\v1;
 
-use Coverzen\Components\YousignClient\Database\Factories\v1\InitiateSignatureResponseFactory;
+use Coverzen\Components\YousignClient\Database\Factories\v1\SignatureRequestResponseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
 
 /**
- * Class InitiateSignatureResponse.
+ * Class SignatureRequestResponse.
  *
  * @property string|null $id
  * @property string|null $source
@@ -32,7 +32,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $bulk_send_batch_id
  * @property array<array-key,mixed>|null $email_notification
  */
-class InitiateSignatureResponse extends Struct
+class SignatureRequestResponse extends Struct
 {
     use HasFactory;
 
@@ -88,10 +88,10 @@ class InitiateSignatureResponse extends Struct
     /**
      * Set the proper factory for model.
      *
-     * @return InitiateSignatureResponseFactory<self>
+     * @return SignatureRequestResponseFactory<self>
      */
-    protected static function newFactory(): InitiateSignatureResponseFactory
+    protected static function newFactory(): SignatureRequestResponseFactory
     {
-        return InitiateSignatureResponseFactory::new();
+        return SignatureRequestResponseFactory::new();
     }
 }

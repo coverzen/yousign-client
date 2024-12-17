@@ -11,7 +11,7 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\CancelSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\GetAuditTrailDetailResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\GetConsentsResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
-use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\SignatureRequestResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentResponse;
 use Exception;
@@ -100,9 +100,9 @@ class Yousign extends Soa
     /**
      * @param InitiateSignatureRequest $initiateSignatureRequest
      *
-     * @return InitiateSignatureResponse
+     * @return SignatureRequestResponse
      */
-    public function initiateSignature(InitiateSignatureRequest $initiateSignatureRequest): InitiateSignatureResponse
+    public function initiateSignature(InitiateSignatureRequest $initiateSignatureRequest): SignatureRequestResponse
     {
         /** @var Response $response */
         $response = $this->apiClient->post(self::SIGNATURE_REQUESTS_BASE_URL, $initiateSignatureRequest->payload);
@@ -111,7 +111,7 @@ class Yousign extends Soa
             throw new RuntimeException('Yousign response is not an array.');
         }
 
-        return new InitiateSignatureResponse($response->json());
+        return new SignatureRequestResponse($response->json());
     }
 
     /**
@@ -250,9 +250,9 @@ class Yousign extends Soa
     /**
      * @param string $signatureRequestId
      *
-     * @return InitiateSignatureResponse
+     * @return SignatureRequestResponse
      */
-    public function getSignatureById(string $signatureRequestId): InitiateSignatureResponse
+    public function getSignatureById(string $signatureRequestId): SignatureRequestResponse
     {
         /** @var string $url */
         $url = self::SIGNATURE_REQUESTS_BASE_URL . self::URL_SEPARATOR . $signatureRequestId;
@@ -264,7 +264,7 @@ class Yousign extends Soa
             throw new RuntimeException('Yousign response is not an array.');
         }
 
-        return new InitiateSignatureResponse($response->json());
+        return new SignatureRequestResponse($response->json());
     }
 
     /**
@@ -388,9 +388,9 @@ class Yousign extends Soa
      * @param string $signatureRequestId
      * @param CancelSignatureRequest $cancelSignatureRequest
      *
-     * @return InitiateSignatureResponse
+     * @return SignatureRequestResponse
      */
-    public function deleteSignatureRequest(string $signatureRequestId, CancelSignatureRequest $cancelSignatureRequest): InitiateSignatureResponse
+    public function deleteSignatureRequest(string $signatureRequestId, CancelSignatureRequest $cancelSignatureRequest): SignatureRequestResponse
     {
         /** @var string $url */
         $url = implode(
@@ -408,7 +408,7 @@ class Yousign extends Soa
             throw new RuntimeException('Yousign response is not an array.');
         }
 
-        return new InitiateSignatureResponse($response->json());
+        return new SignatureRequestResponse($response->json());
     }
 
     /**

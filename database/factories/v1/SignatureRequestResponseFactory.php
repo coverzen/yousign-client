@@ -2,22 +2,22 @@
 
 namespace Coverzen\Components\YousignClient\Database\Factories\v1;
 
-use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureResponse;
+use Coverzen\Components\YousignClient\Structs\Soa\v1\SignatureRequestResponse;
 
 /**
- * Class InitiateSignatureResponseFactory.
+ * Class SignatureRequestResponseFactory.
  *
- * @template TModel of InitiateSignatureResponse
+ * @template TModel of SignatureRequestResponse
  * @extends AbstractFactory<TModel>
  */
-final class InitiateSignatureResponseFactory extends AbstractFactory
+final class SignatureRequestResponseFactory extends AbstractFactory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var class-string<TModel>
      */
-    protected $model = InitiateSignatureResponse::class;
+    protected $model = SignatureRequestResponse::class;
 
     /**
      * {@inheritdoc}
