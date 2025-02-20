@@ -22,6 +22,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use RuntimeException;
+use Symfony\Component\HttpFoundation\Response as ResponseHttp;
 use function base64_decode;
 use function base64_encode;
 use function implode;
@@ -390,7 +391,7 @@ class Yousign extends Soa
      *
      * @return SignatureRequestResponse
      */
-    public function deleteSignatureRequest(string $signatureRequestId, CancelSignatureRequest $cancelSignatureRequest): SignatureRequestResponse
+    public function cancelSignatureRequest(string $signatureRequestId, CancelSignatureRequest $cancelSignatureRequest): SignatureRequestResponse
     {
         /** @var string $url */
         $url = implode(
@@ -409,6 +410,32 @@ class Yousign extends Soa
         }
 
         return new SignatureRequestResponse($response->json());
+    }
+
+    /**
+     * @param string $signatureRequestId
+     *
+     * @return Response
+     */
+    public function deleteSignatureRequest(string $signatureRequestId): Response
+    {
+        /** @var string $url */
+        $url = implode(
+            self::URL_SEPARATOR,
+            [
+                self::SIGNATURE_REQUESTS_BASE_URL,
+                $signatureRequestId,
+            ],
+        );
+
+        /** @var Response $response */
+        $response = $this->apiClient->delete($url);
+
+        if ($response->status() !== ResponseHttp::HTTP_NO_CONTENT) {
+            throw new RuntimeException("Something went wrong with the delete process of signature request {{$signatureRequestId}}");
+        }
+
+        return $response;
     }
 
     /**

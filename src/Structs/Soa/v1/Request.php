@@ -23,11 +23,9 @@ abstract class Request extends Struct
     protected function payload(): Attribute
     {
         return Attribute::make(
-            get: function (): array {
-                return collect($this->attributesToArray())->filter(static fn ($value): bool => $value !== null)
+            get: fn (): array => collect($this->attributesToArray())->filter(static fn ($value): bool => $value !== null)
                                                           ->map(static fn ($value): mixed => $value instanceof Enum ? $value->value : $value)
-                                                          ->toArray();
-            }
+                                                          ->toArray()
         );
     }
 }

@@ -147,6 +147,11 @@ class YousignFaker
                                              ->toArray(),
                     Response::HTTP_CREATED
                 ),
+
+                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*' => Http::response(
+                    null,
+                    Response::HTTP_NO_CONTENT
+                ),
             ]
         );
     }
