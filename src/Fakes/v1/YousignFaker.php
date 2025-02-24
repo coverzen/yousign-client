@@ -13,6 +13,8 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\GetConsentsResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\SignatureRequestResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentResponse;
 use Coverzen\Components\YousignClient\YousignClientServiceProvider;
+use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
@@ -147,13 +149,14 @@ class YousignFaker
                                              ->toArray(),
                     Response::HTTP_CREATED
                 ),
-
-                $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . '/*' => Http::response(
-                    null,
-                    Response::HTTP_NO_CONTENT
-                ),
             ]
         );
+
+        Http::fake(function (Request $request) {
+            if ($request->method() === HttpRequest::METHOD_DELETE) {
+                return Http::response('', Response::HTTP_NO_CONTENT);
+            }
+        });
     }
 
     /**

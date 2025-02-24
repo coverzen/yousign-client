@@ -22,7 +22,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use RuntimeException;
-use Symfony\Component\HttpFoundation\Response as ResponseHttp;
 use function base64_decode;
 use function base64_encode;
 use function implode;
@@ -415,9 +414,9 @@ class Yousign extends Soa
     /**
      * @param string $signatureRequestId
      *
-     * @return Response
+     * @return bool
      */
-    public function deleteSignatureRequest(string $signatureRequestId): Response
+    public function deleteSignatureRequest(string $signatureRequestId): bool
     {
         /** @var string $url */
         $url = implode(
@@ -431,11 +430,11 @@ class Yousign extends Soa
         /** @var Response $response */
         $response = $this->apiClient->delete($url);
 
-        if ($response->status() !== ResponseHttp::HTTP_NO_CONTENT) {
+        if (!$response->noContent()) {
             throw new RuntimeException("Something went wrong with the delete process of signature request {{$signatureRequestId}}");
         }
 
-        return $response;
+        return true;
     }
 
     /**
