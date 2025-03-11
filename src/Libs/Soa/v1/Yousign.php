@@ -414,9 +414,9 @@ class Yousign extends Soa
     /**
      * @param string $signatureRequestId
      *
-     * @return bool
+     * @return void
      */
-    public function deleteSignatureRequest(string $signatureRequestId): bool
+    public function deleteSignatureRequest(string $signatureRequestId): void
     {
         /** @var string $url */
         $url = implode(
@@ -427,14 +427,7 @@ class Yousign extends Soa
             ],
         );
 
-        /** @var Response $response */
-        $response = $this->apiClient->delete($url);
-
-        if (!$response->noContent()) {
-            throw new RuntimeException("Something went wrong with the delete process of signature request {{$signatureRequestId}}");
-        }
-
-        return true;
+        $this->apiClient->delete($url);
     }
 
     /**

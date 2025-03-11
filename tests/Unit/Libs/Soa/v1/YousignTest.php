@@ -948,12 +948,11 @@ final class YousignTest extends TestCase
 
         Http::fake(
             [
-                $url => Http::response('', Response::HTTP_NO_CONTENT),
+                $url => Http::response(status: Response::HTTP_NO_CONTENT),
             ]
         );
 
-        /** @var bool $actualDeleteSignatureResponse */
-        $actualDeleteSignatureResponse = (new Yousign())->deleteSignatureRequest(self::SIGNATURE_ID);
+        (new Yousign())->deleteSignatureRequest(self::SIGNATURE_ID);
 
         Http::assertSent(
             function (ClientRequest $request) use ($url): bool {
@@ -973,9 +972,5 @@ final class YousignTest extends TestCase
                 return true;
             }
         );
-
-        $this->assertNotNull($actualDeleteSignatureResponse);
-
-        $this->assertTrue($actualDeleteSignatureResponse);
     }
 }
