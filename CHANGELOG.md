@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/coverzen/yousign-client/compare/v2.0.0...v2.1.0) (2025-03-13)
+
+
+### Features
+
+* implement delete signature ([19fa957](https://github.com/coverzen/yousign-client/commit/19fa9578262424605e01468023a73255fcea5031))
+
 # [2.0.0](https://github.com/coverzen/yousign-client/compare/v1.10.0...v2.0.0) (2024-12-17)
 
 # [1.10.0](https://github.com/coverzen/yousign-client/compare/v1.9.2...v1.10.0) (2024-12-17)
