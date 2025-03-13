@@ -28,14 +28,13 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\ExpectationFailedException;
 use function implode;
 
-/**
- * Class YousignTest.
- *
- * @coversDefaultClass \Coverzen\Components\YousignClient\Libs\Soa\v1\Yousign
- */
+#[CoversClass(Yousign::class)]
 final class YousignTest extends TestCase
 {
     /** @var string */
@@ -75,14 +74,12 @@ final class YousignTest extends TestCase
     }
 
     /**
-     * @test
-     * @covers      ::initiateSignature
-     * @dataProvider nullPropertiesProvider
-     *
      * @param string $nullProperty
      *
      * @return void
      */
+    #[Test]
+    #[DataProvider('nullPropertiesProvider')]
     public function it_initiates_a_procedure(string $nullProperty): void
     {
         /** @var string $url */
@@ -169,14 +166,12 @@ final class YousignTest extends TestCase
     }
 
     /**
-     * @test
-     * @covers ::uploadDocument
-     * @dataProvider encodeProvider
-     *
      * @param bool $encode
      *
      * @return void
      */
+    #[Test]
+    #[DataProvider('encodeProvider')]
     public function it_uploads_a_document(bool $encode): void
     {
         /** @var string $url */
@@ -287,10 +282,9 @@ final class YousignTest extends TestCase
     }
 
     /**
-     * @test
-     *
      * @return void
      */
+    #[Test]
     public function it_adds_signer(): void
     {
         /** @var string $url */
@@ -396,11 +390,9 @@ final class YousignTest extends TestCase
     }
 
     /**
-     * @test
-     * @covers ::addConsent
-     *
      * @return void
      */
+    #[Test]
     public function it_adds_consent(): void
     {
         /** @var string $url */
@@ -491,14 +483,12 @@ final class YousignTest extends TestCase
     }
 
     /**
-     * @test
-     * @covers       ::__construct
-     * @dataProvider errorStatusProvider
-     *
      * @param int $status
      *
      * @return void
      */
+    #[Test]
+    #[DataProvider('errorStatusProvider')]
     public function it_logs_errors_on_api_client_failure(int $status): void
     {
         $this->expectException(RequestException::class);
@@ -524,11 +514,9 @@ final class YousignTest extends TestCase
     }
 
     /**
-     * @test
-     * @covers      ::activateSignatureRequest
-     *
      * @return void
      */
+    #[Test]
     public function it_activates_a_signature_request(): void
     {
         /** @var string $url */
@@ -589,11 +577,9 @@ final class YousignTest extends TestCase
     }
 
     /**
-     * @test
-     * @covers      ::getSignatureById
-     *
      * @return void
      */
+    #[Test]
     public function it_gets_signature_by_id(): void
     {
         /** @var string $url */
@@ -644,11 +630,9 @@ final class YousignTest extends TestCase
     }
 
     /**
-     * @test
-     * @covers      ::getDocumentById
-     *
      * @return void
      */
+    #[Test]
     public function it_gets_document_by_id(): void
     {
         /** @var string $url */
@@ -704,11 +688,9 @@ final class YousignTest extends TestCase
     }
 
     /**
-     * @test
-     * @covers      ::getAuditTrail
-     *
      * @return void
      */
+    #[Test]
     public function it_gets_audit_trail(): void
     {
         /** @var string $url */
@@ -758,11 +740,9 @@ final class YousignTest extends TestCase
     }
 
     /**
-     * @test
-     * @covers      ::getConsentsById
-     *
      * @return void
      */
+    #[Test]
     public function it_gets_consents_by_id(): void
     {
         /** @var string $url */
@@ -820,11 +800,9 @@ final class YousignTest extends TestCase
     }
 
     /**
-     * @test
-     * @covers      ::getAuditTrailDetail
-     *
      * @return void
      */
+    #[Test]
     public function it_gets_audit_trail_detail(): void
     {
         /** @var string $url */
@@ -884,12 +862,10 @@ final class YousignTest extends TestCase
     }
 
     /**
-     * @test
-     * @covers      ::deleteSignatureRequest
-     *
      * @return void
      */
-    public function it_deletes_signature_request(): void
+    #[Test]
+    public function it_cancels_signature_request(): void
     {
         /** @var string $url */
         $url = Str::finish(
@@ -919,7 +895,7 @@ final class YousignTest extends TestCase
                                               ->make();
 
         /** @var SignatureRequestResponse $actualCancelSignatureResponse */
-        $actualCancelSignatureResponse = (new Yousign())->deleteSignatureRequest(self::SIGNATURE_ID, $cancelSignatureRequest);
+        $actualCancelSignatureResponse = (new Yousign())->cancelSignatureRequest(self::SIGNATURE_ID, $cancelSignatureRequest);
 
         Http::assertSent(
             function (ClientRequest $request) use ($cancelSignatureRequest, $url): bool {
@@ -949,6 +925,52 @@ final class YousignTest extends TestCase
         $this->assertSame(
             $expectedCancelSignatureResponse->toArray(),
             $actualCancelSignatureResponse->toArray()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    #[Test]
+    public function it_deletes_signature_request(): void
+    {
+        /** @var string $url */
+        $url = Str::finish(
+            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Soa::URL_SEPARATOR
+        ) . implode(
+            Soa::URL_SEPARATOR,
+            [
+                Yousign::SIGNATURE_REQUESTS_BASE_URL,
+                self::SIGNATURE_ID,
+            ]
+        );
+
+        Http::fake(
+            [
+                $url => Http::response('', Response::HTTP_NO_CONTENT),
+            ]
+        );
+
+        (new Yousign())->deleteSignatureRequest(self::SIGNATURE_ID);
+
+        Http::assertSent(
+            function (ClientRequest $request) use ($url): bool {
+                $this->assertSame(Request::METHOD_DELETE, $request->method());
+                $this->assertSame($url, $request->url());
+
+                $this->assertSame(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
+                );
+
+                $this->assertContains(
+                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    $request->header(Soa::AUTHORIZATION_HEADER)
+                );
+
+                return true;
+            }
         );
     }
 }

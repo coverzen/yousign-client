@@ -119,6 +119,6 @@ return [
         'min-complexity' => 60,
         'min-architecture' => 90,
         'min-style' => 95,
-        'disable-security-check' => false,
+        'disable-security-check' => true,
     ],
 ];

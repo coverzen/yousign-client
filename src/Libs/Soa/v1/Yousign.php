@@ -390,7 +390,7 @@ class Yousign extends Soa
      *
      * @return SignatureRequestResponse
      */
-    public function deleteSignatureRequest(string $signatureRequestId, CancelSignatureRequest $cancelSignatureRequest): SignatureRequestResponse
+    public function cancelSignatureRequest(string $signatureRequestId, CancelSignatureRequest $cancelSignatureRequest): SignatureRequestResponse
     {
         /** @var string $url */
         $url = implode(
@@ -409,6 +409,25 @@ class Yousign extends Soa
         }
 
         return new SignatureRequestResponse($response->json());
+    }
+
+    /**
+     * @param string $signatureRequestId
+     *
+     * @return void
+     */
+    public function deleteSignatureRequest(string $signatureRequestId): void
+    {
+        /** @var string $url */
+        $url = implode(
+            self::URL_SEPARATOR,
+            [
+                self::SIGNATURE_REQUESTS_BASE_URL,
+                $signatureRequestId,
+            ],
+        );
+
+        $this->apiClient->delete($url);
     }
 
     /**
