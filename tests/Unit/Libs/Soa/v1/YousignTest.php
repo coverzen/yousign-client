@@ -948,7 +948,7 @@ final class YousignTest extends TestCase
 
         Http::fake(
             [
-                $url => Http::response(status: Response::HTTP_NO_CONTENT),
+                $url => Http::response('', Response::HTTP_NO_CONTENT),
             ]
         );
 

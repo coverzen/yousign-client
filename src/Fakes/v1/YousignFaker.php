@@ -148,7 +148,7 @@ class YousignFaker
             $pattern = '/' . str_replace('/', '\/', $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . Soa::URL_SEPARATOR) . '*/';
 
             if ($request->method() === HttpRequest::METHOD_DELETE && preg_match($pattern, $request->url()) > 0) {
-                return Http::response(status: Response::HTTP_NO_CONTENT);
+                return Http::response('', Response::HTTP_NO_CONTENT);
             }
         });
     }
