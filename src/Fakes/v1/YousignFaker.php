@@ -13,6 +13,7 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\GetConsentsResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\SignatureRequestResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentResponse;
 use Coverzen\Components\YousignClient\YousignClientServiceProvider;
+use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Http\Client\Request;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Http\Response;
@@ -72,9 +73,9 @@ class YousignFaker
     /**
      * Constructor for `YousignFaker` class.
      *
-     * @param array<string,mixed> $customFakers
+     * @param array<string,PromiseInterface> $customFakes
      */
-    public function __construct(array $customFakers = [])
+    public function __construct(array $customFakes = [])
     {
         if (!app()->runningUnitTests()) {
             throw new RuntimeException('YousignFaker should only be used in tests');
@@ -85,7 +86,8 @@ class YousignFaker
         /** @var string $url */
         $url = Str::finish(Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'), Soa::URL_SEPARATOR);
 
-        $fakers = [
+        /** @var array<string,PromiseInterface> $fakes */
+        $fakes = [
             $url . Yousign::SIGNATURE_REQUESTS_BASE_URL => Http::response(
                 SignatureRequestResponse::factory()
                                         ->make()
@@ -143,7 +145,7 @@ class YousignFaker
             ),
         ];
 
-        Http::fake(array_merge($fakers, $customFakers));
+        Http::fake(array_merge($fakes, $customFakes));
 
         Http::fake(function (Request $request) use ($url) {
             /** @var string $pattern */
