@@ -17,6 +17,7 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\SignatureRequestResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentResponse;
+use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Support\Facades\Facade;
 use RuntimeException;
 
@@ -46,11 +47,13 @@ final class Yousign extends Facade
     /**
      * Replace the bound instance with a fake.
      *
+     * @param array<string,PromiseInterface> $customFakes
+     *
      * @return void
      */
-    public static function fake(): void
+    public static function fake(array $customFakes = []): void
     {
-        self::swap(new YousignFaker());
+        self::swap(new YousignFaker($customFakes));
     }
 
     /**
