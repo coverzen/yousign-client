@@ -18,7 +18,6 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\SignatureRequestResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentResponse;
 use GuzzleHttp\Promise\PromiseInterface;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Facade;
 use RuntimeException;
 
