@@ -46,11 +46,13 @@ final class Yousign extends Facade
     /**
      * Replace the bound instance with a fake.
      *
+     * @param array<string,mixed> $customFakers
+     *
      * @return void
      */
-    public static function fake(): void
+    public static function fake(array $customFakers = []): void
     {
-        self::swap(new YousignFaker());
+        self::swap(new YousignFaker($customFakers));
     }
 
     /**
