@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/coverzen/yousign-client/compare/v2.1.0...v2.2.0) (2025-03-14)
+
+
+### Features
+
+* custom faker for YousignFaker ([951c5de](https://github.com/coverzen/yousign-client/commit/951c5dea9fb4000282a0974dbd49b7c1e1580b58))
+
 # [2.1.0](https://github.com/coverzen/yousign-client/compare/v2.0.0...v2.1.0) (2025-03-13)
 
 
