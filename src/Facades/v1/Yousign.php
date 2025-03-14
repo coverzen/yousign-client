@@ -47,13 +47,13 @@ final class Yousign extends Facade
     /**
      * Replace the bound instance with a fake.
      *
-     * @param array<string,PromiseInterface> $customFakers
+     * @param array<string,PromiseInterface> $customFakes
      *
      * @return void
      */
-    public static function fake(array $customFakers = []): void
+    public static function fake(array $customFakes = []): void
     {
-        self::swap(new YousignFaker($customFakers));
+        self::swap(new YousignFaker($customFakes));
     }
 
     /**
