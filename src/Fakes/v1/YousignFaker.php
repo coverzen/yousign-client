@@ -72,7 +72,7 @@ class YousignFaker
     /**
      * Constructor for `YousignFaker` class.
      *
-     * @param array $customFakers
+     * @param array<string,mixed> $customFakers
      */
     public function __construct(array $customFakers = [])
     {
