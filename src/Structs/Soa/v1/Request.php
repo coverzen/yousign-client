@@ -9,7 +9,7 @@ use function collect;
 /**
  * Class Request.
  *
- * @property-read array<array-key,mixed> $payload
+ * @property-read array<string,mixed> $payload
  */
 abstract class Request extends Struct
 {
@@ -18,7 +18,7 @@ abstract class Request extends Struct
      * It basically removes all null properties and cast attributes.
      * It also return plain value for attributes that are Enums.
      *
-     * @return Attribute<array<array-key,mixed>,null>
+     * @return Attribute<array<string,mixed>,null>
      */
     protected function payload(): Attribute
     {

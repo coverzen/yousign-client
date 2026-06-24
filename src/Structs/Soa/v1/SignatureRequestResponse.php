@@ -17,20 +17,20 @@ use Illuminate\Support\Carbon;
  * @property string|null $email_custom_note
  * @property bool $ordered_signers
  * @property string|null $timezone
- * @property array<array-key,mixed>|null $reminder_settings
+ * @property array<string,mixed>|null $reminder_settings
  * @property Carbon|null $expiration_date
  * @property string|null $delivery_mode
- * @property array<int,array<array-key,mixed>> $documents
- * @property array<int,array<array-key,mixed>> $signers
+ * @property array<int,array<string,mixed>> $documents
+ * @property array<int,array<string,mixed>> $signers
  * @property string|null $external_id
  * @property string|null $branding_id
  * @property string|null $custom_experience_id
- * @property array<array-key,mixed>|null $sender
+ * @property array<string,mixed>|null $sender
  * @property string|null $workspace_id
  * @property string|null $audit_trail_locale
  * @property bool $signers_allowed_to_decline
  * @property string|null $bulk_send_batch_id
- * @property array<array-key,mixed>|null $email_notification
+ * @property array<string,mixed>|null $email_notification
  */
 class SignatureRequestResponse extends Struct
 {

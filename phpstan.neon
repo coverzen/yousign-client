@@ -32,7 +32,6 @@ parameters:
                 - '#Parameter \#1 \$attributes of class Coverzen\\Components\\YousignClient\\Structs\\Soa\\v1\\\w+ constructor expects array<string, mixed>, array.* given\.#'
             paths:
                 - src/Libs/Soa/v1/Yousign.php
-                - src/Structs/Soa/v1/AddSignerResponse.php
                 - tests/Unit/Structs/Soa/v1/AddSignerResponseTest.php
         -
             messages:

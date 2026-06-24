@@ -17,12 +17,12 @@ use Illuminate\Support\Carbon;
  * @property DeliveryMode|null $delivery_mode
  * @property Carbon|null $created_at
  * @property bool $ordered_signers
- * @property array<array-key,mixed>|null $reminder_settings
+ * @property array<string,mixed>|null $reminder_settings
  * @property string|null $timezone
  * @property Carbon|null $expiration_date
- * @property array<array-key,mixed> $signers
- * @property array<array-key,mixed> $approvers
- * @property array<array-key,mixed> $documents
+ * @property array<int,array<string,mixed>> $signers
+ * @property array<int,array<string,mixed>> $approvers
+ * @property array<int,array<string,mixed>> $documents
  * @property string|null $external_id
  * @property string|null $branding_id
  * @property string|null $custom_experience_id

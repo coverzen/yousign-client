@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string|null $file_content
  * @property string|null $file_name
  * @property DocumentNature $nature
- * @property-read array<array-key,mixed> $payload
+ * @property-read array<string,mixed> $payload
  */
 final class UploadDocumentRequest extends Request
 {

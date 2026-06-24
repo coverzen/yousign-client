@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Config;
  * @property DeliveryMode $delivery_mode
  * @property bool $ordered_signers
  * @property string|null $timezone
- * @property array<array-key,mixed>|null $email_notification
+ * @property array<string,mixed>|null $email_notification
  * @property string|null $custom_experience_id
  */
 final class InitiateSignatureRequest extends Request

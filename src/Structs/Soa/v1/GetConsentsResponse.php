@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class GetConsentsResponse.
  *
- * @property array<array-key,array<array-key,mixed>> $data
+ * @property array<int,array<string,mixed>> $data
  */
 final class GetConsentsResponse extends Struct
 {

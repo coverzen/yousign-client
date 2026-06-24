@@ -27,14 +27,16 @@ final class GetConsentsResponseFactory extends Factory
     {
         return [
             'data' => [
-                'id' => $this->faker->uuid(),
-                'type' => AddConsentRequest::DEFAULT_TYPE,
-                'settings' => [
-                    'text' => $this->faker->sentence(),
-                ],
-                'optional' => $this->faker->boolean(),
-                'signer_ids' => [
-                    $this->faker->uuid(),
+                [
+                    'id' => $this->faker->uuid(),
+                    'type' => AddConsentRequest::DEFAULT_TYPE,
+                    'settings' => [
+                        'text' => $this->faker->sentence(),
+                    ],
+                    'optional' => $this->faker->boolean(),
+                    'signer_ids' => [
+                        $this->faker->uuid(),
+                    ],
                 ],
             ],
         ];

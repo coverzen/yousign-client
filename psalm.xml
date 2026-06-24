@@ -38,11 +38,6 @@
                 <file name="src/Structs/Soa/v1/Request.php"/>
             </errorLevel>
         </InvalidReturnType>
-        <InvalidReturnStatement>
-            <errorLevel type="suppress">
-                <file name="src/Structs/Soa/v1/Request.php"/>
-            </errorLevel>
-        </InvalidReturnStatement>
         <InvalidPropertyFetch>
             <errorLevel type="suppress">
                 <file name="tests/Unit/Facades/v1/YousignTest.php"/>

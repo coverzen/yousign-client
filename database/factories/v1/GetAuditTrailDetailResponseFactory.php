@@ -58,14 +58,16 @@ final class GetAuditTrailDetailResponseFactory extends Factory
                 'validated_at' => $this->faker->dateTimeThisYear()->format('Y-m-d\TH:i:sP'),
             ],
             'documents' => [
-                'id' => $this->faker->uuid(),
-                'name' => $this->faker->sentence(),
-                'mime_type' => $this->faker->sentence(),
-                'initial_mime_type' => $this->faker->sentence(),
-                'initial_name' => $this->faker->sentence(),
-                'initial_storage_id' => $this->faker->uuid(),
-                'initial_hash' => $this->faker->sentence(),
-                'sentence' => [],
+                [
+                    'id' => $this->faker->uuid(),
+                    'name' => $this->faker->sentence(),
+                    'mime_type' => $this->faker->sentence(),
+                    'initial_mime_type' => $this->faker->sentence(),
+                    'initial_name' => $this->faker->sentence(),
+                    'initial_storage_id' => $this->faker->uuid(),
+                    'initial_hash' => $this->faker->sentence(),
+                    'signatures' => [],
+                ],
             ],
             'signer_consents' => [
                 [

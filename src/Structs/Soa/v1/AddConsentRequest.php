@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * Class AddConsentRequest.
  *
  * @property string|null $type
- * @property array<array-key,mixed>|null $settings
+ * @property array<string,mixed>|null $settings
  * @property bool $optional
  * @property array<int,string> $signer_ids
  */

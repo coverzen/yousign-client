@@ -14,7 +14,7 @@ use function collect;
  * Class AddSignerResponse.
  *
  * @property string|null $id
- * @property array<array-key,mixed> $info
+ * @property array<string,mixed> $info
  * @property string|null $status
  * @property SignatureLevel|null $signature_level
  * @property SignatureAuthenticationMode|null $signature_authentication_mode
@@ -22,11 +22,11 @@ use function collect;
  * @property array<int,SignerField> $fields
  * @property Carbon|null $signature_link_expiration_date
  * @property string|null $signature_image_preview
- * @property array<array-key,mixed> $redirect_urls
- * @property array<array-key,mixed> $custom_text
+ * @property array<string,mixed> $redirect_urls
+ * @property array<string,mixed> $custom_text
  * @property string|null $delivery_mode
  * @property string|null $identification_attestation_id
- * @property array<array-key,mixed> $sms_notification
+ * @property array<string,mixed> $sms_notification
  */
 final class AddSignerResponse extends Struct
 {
@@ -75,7 +75,7 @@ final class AddSignerResponse extends Struct
      */
     public function __construct(array $attributes = [])
     {
-        /** @var array<int,array<array-key,mixed>|SignerField> $fields */
+        /** @var array<int,array<string,mixed>|SignerField> $fields */
         $fields = Arr::get($attributes, 'fields', []);
 
         /** @var array<int,SignerField> $mappedFields */
