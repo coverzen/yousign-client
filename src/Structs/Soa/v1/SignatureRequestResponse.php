@@ -89,7 +89,7 @@ class SignatureRequestResponse extends Struct
     /**
      * Set the proper factory for model.
      *
-     * @return SignatureRequestResponseFactory<self>
+     * @return SignatureRequestResponseFactory
      */
     protected static function newFactory(): SignatureRequestResponseFactory
     {

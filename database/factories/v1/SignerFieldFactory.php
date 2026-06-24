@@ -8,15 +8,14 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * Class SignerFieldFactory.
  *
- * @template TModel of SignerField
- * @extends AbstractFactory<TModel>
+ * @extends Factory<SignerField>
  */
-final class SignerFieldFactory extends AbstractFactory
+final class SignerFieldFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<TModel>
+     * @var class-string<SignerField>
      */
     protected $model = SignerField::class;
 
@@ -26,8 +25,8 @@ final class SignerFieldFactory extends AbstractFactory
     public function definition(): array
     {
         return [
-            'document_id' => $this->faker->sentence,
-            'type' => $this->faker->sentence,
+            'document_id' => $this->faker->sentence(),
+            'type' => $this->faker->sentence(),
             'height' => $this->faker->numberBetween(),
             'width' => $this->faker->numberBetween(),
             'page' => $this->faker->numberBetween(),

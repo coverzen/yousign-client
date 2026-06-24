@@ -35,7 +35,7 @@ final class SignerField extends Struct
     /**
      * Set the proper factory for model.
      *
-     * @return SignerFieldFactory<self>
+     * @return SignerFieldFactory
      */
     protected static function newFactory(): SignerFieldFactory
     {

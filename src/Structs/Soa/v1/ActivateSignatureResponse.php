@@ -3,17 +3,31 @@
 namespace Coverzen\Components\YousignClient\Structs\Soa\v1;
 
 use Coverzen\Components\YousignClient\Database\Factories\v1\ActivateSignatureResponseFactory;
+use Coverzen\Components\YousignClient\Enums\v1\ActivateSignatureResponseStatus;
+use Coverzen\Components\YousignClient\Enums\v1\DeliveryMode;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Carbon;
 
 /**
  * Class ActivateSignatureResponse.
  *
  * @property string|null $id
- * @property string|null $type
- * @property array<array-key,mixed>|null $settings
+ * @property ActivateSignatureResponseStatus|null $status
+ * @property string|null $name
+ * @property DeliveryMode|null $delivery_mode
+ * @property Carbon|null $created_at
+ * @property bool $ordered_signers
+ * @property array<array-key,mixed>|null $reminder_settings
+ * @property string|null $timezone
+ * @property Carbon|null $expiration_date
  * @property array<array-key,mixed> $signers
+ * @property array<array-key,mixed> $approvers
+ * @property array<array-key,mixed> $documents
+ * @property string|null $external_id
+ * @property string|null $branding_id
+ * @property string|null $custom_experience_id
+ * @property string|null $audit_trail_locale
  * @property bool $optional
- * @property array<int,string> $signer_ids
  */
 final class ActivateSignatureResponse extends Struct
 {
@@ -48,6 +62,8 @@ final class ActivateSignatureResponse extends Struct
 
     /** {@inheritdoc} */
     protected $casts = [
+        'status' => ActivateSignatureResponseStatus::class,
+        'delivery_mode' => DeliveryMode::class,
         'expiration_date' => 'datetime',
         'created_at' => 'datetime',
     ];
@@ -55,7 +71,7 @@ final class ActivateSignatureResponse extends Struct
     /**
      * Set the proper factory for the model.
      *
-     * @return ActivateSignatureResponseFactory<self>
+     * @return ActivateSignatureResponseFactory
      */
     protected static function newFactory(): ActivateSignatureResponseFactory
     {

@@ -560,8 +560,8 @@ final class YousignTest extends TestCase
         );
 
         $this->assertSame(
-            $expectedActivateSignatureResponse->type,
-            $actualActivateSignatureResponse->type
+            $expectedActivateSignatureResponse->status,
+            $actualActivateSignatureResponse->status
         );
 
         $this->assertCount(

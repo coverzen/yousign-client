@@ -4,19 +4,19 @@ namespace Coverzen\Components\YousignClient\Database\Factories\v1;
 
 use Coverzen\Components\YousignClient\Enums\v1\DocumentNature;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class UploadDocumentRequestFactory.
  *
- * @template TModel of UploadDocumentRequest
- * @extends AbstractFactory<TModel>
+ * @extends Factory<UploadDocumentRequest>
  */
-final class UploadDocumentRequestFactory extends AbstractFactory
+final class UploadDocumentRequestFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<TModel>
+     * @var class-string<UploadDocumentRequest>
      */
     protected $model = UploadDocumentRequest::class;
 
@@ -28,7 +28,7 @@ final class UploadDocumentRequestFactory extends AbstractFactory
         return [
             'file_content' => $this->faker->text(),
             'file_name' => "{$this->faker->word()}.{$this->faker->fileExtension()}",
-            'nature' => $this->faker->randomElement(array_column(DocumentNature::cases(), 'value')),
+            'nature' => $this->faker->randomElement(DocumentNature::class),
         ];
     }
 }

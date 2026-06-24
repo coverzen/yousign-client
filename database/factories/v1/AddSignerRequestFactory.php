@@ -8,19 +8,19 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\AddSignerRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\SignerField;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Random\RandomException;
+use function random_int;
 
 /**
  * Class AddSignerRequestFactory.
  *
- * @template TModel of AddSignerRequest
- * @extends AbstractFactory<TModel>
+ * @extends Factory<AddSignerRequest>
  */
-final class AddSignerRequestFactory extends AbstractFactory
+final class AddSignerRequestFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<TModel>
+     * @var class-string<AddSignerRequest>
      */
     protected $model = AddSignerRequest::class;
 
@@ -34,12 +34,12 @@ final class AddSignerRequestFactory extends AbstractFactory
              * Necessary because association of model without persistence in factory will break
              * returning null properties.
              *
-             * @param AddSignerRequest $addSignerRequest
-             *
-             * @retrun void
              * @see Factory::expandAttributes() 485
              *
+             * @param AddSignerRequest $addSignerRequest
+             *
              * @throws RandomException
+             * @return void
              */
             static function (AddSignerRequest $addSignerRequest): void {
                 $addSignerRequest->fields = SignerField::factory(random_int(2, 5))
@@ -56,14 +56,14 @@ final class AddSignerRequestFactory extends AbstractFactory
     {
         return [
             'info' => [
-                'first_name' => $this->faker->name,
-                'last_name' => $this->faker->lastName,
-                'email' => $this->faker->email,
-                'phone_number' => $this->faker->phoneNumber,
+                'first_name' => $this->faker->name(),
+                'last_name' => $this->faker->lastName(),
+                'email' => $this->faker->email(),
+                'phone_number' => $this->faker->phoneNumber(),
                 'locale' => 'it',
             ],
-            'signature_level' => $this->faker->randomElement(array_column(SignatureLevel::cases(), 'value')),
-            'signature_authentication_mode' => $this->faker->randomElement(array_column(SignatureAuthenticationMode::cases(), 'value')),
+            'signature_level' => $this->faker->randomElement(SignatureLevel::class),
+            'signature_authentication_mode' => $this->faker->randomElement(SignatureAuthenticationMode::class),
         ];
     }
 }

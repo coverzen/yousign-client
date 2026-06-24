@@ -34,7 +34,7 @@ final class UploadDocumentRequest extends Request
     /**
      * Set the proper factory for model.
      *
-     * @return UploadDocumentRequestFactory<self>
+     * @return UploadDocumentRequestFactory
      */
     protected static function newFactory(): UploadDocumentRequestFactory
     {

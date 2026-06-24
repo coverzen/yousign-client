@@ -46,7 +46,7 @@ final class AddSignerRequest extends Request
     /**
      * Set the proper factory for model.
      *
-     * @return AddSignerRequestFactory<self>
+     * @return AddSignerRequestFactory
      */
     protected static function newFactory(): AddSignerRequestFactory
     {

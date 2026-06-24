@@ -43,7 +43,7 @@ final class CancelSignatureRequest extends Struct
     /**
      * Set the proper factory for the model.
      *
-     * @return CancelSignatureRequestFactory<self>
+     * @return CancelSignatureRequestFactory
      */
     protected static function newFactory(): CancelSignatureRequestFactory
     {

@@ -41,7 +41,7 @@ final class AddConsentResponse extends Struct
     /**
      * Set the proper factory for the model.
      *
-     * @return AddConsentResponseFactory<self>
+     * @return AddConsentResponseFactory
      */
     protected static function newFactory(): AddConsentResponseFactory
     {

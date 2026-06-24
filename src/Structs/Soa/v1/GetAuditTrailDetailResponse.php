@@ -51,7 +51,7 @@ final class GetAuditTrailDetailResponse extends Struct
     /**
      * Set the proper factory for model.
      *
-     * @return GetAuditTrailDetailResponseFactory<self>
+     * @return GetAuditTrailDetailResponseFactory
      */
     protected static function newFactory(): GetAuditTrailDetailResponseFactory
     {

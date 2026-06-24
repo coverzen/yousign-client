@@ -61,7 +61,7 @@ final class InitiateSignatureRequest extends Request
     /**
      * Set the proper factory for the model.
      *
-     * @return InitiateSignatureRequestFactory<self>
+     * @return InitiateSignatureRequestFactory
      */
     protected static function newFactory(): InitiateSignatureRequestFactory
     {

@@ -3,19 +3,21 @@
 namespace Coverzen\Components\YousignClient\Structs\Soa\v1;
 
 use Coverzen\Components\YousignClient\Database\Factories\v1\AddSignerResponseFactory;
+use Coverzen\Components\YousignClient\Enums\v1\SignatureAuthenticationMode;
+use Coverzen\Components\YousignClient\Enums\v1\SignatureLevel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use function collect;
 
 /**
- * Class AddSignerRequest.
+ * Class AddSignerResponse.
  *
  * @property string|null $id
  * @property array<array-key,mixed> $info
  * @property string|null $status
- * @property string|null $signature_level
- * @property string|null $signature_authentication_mode
+ * @property SignatureLevel|null $signature_level
+ * @property SignatureAuthenticationMode|null $signature_authentication_mode
  * @property string|null $signature_link
  * @property array<int,SignerField> $fields
  * @property Carbon|null $signature_link_expiration_date
@@ -63,6 +65,8 @@ final class AddSignerResponse extends Struct
 
     /** {@inheritdoc} */
     protected $casts = [
+        'signature_level' => SignatureLevel::class,
+        'signature_authentication_mode' => SignatureAuthenticationMode::class,
         'signature_link_expiration_date' => 'datetime',
     ];
 
@@ -93,7 +97,7 @@ final class AddSignerResponse extends Struct
     /**
      * Set the proper factory for model.
      *
-     * @return AddSignerResponseFactory<self>
+     * @return AddSignerResponseFactory
      */
     protected static function newFactory(): AddSignerResponseFactory
     {

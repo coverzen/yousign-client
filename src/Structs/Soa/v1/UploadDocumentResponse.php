@@ -63,7 +63,7 @@ class UploadDocumentResponse extends Struct
     /**
      * Set the proper factory for model.
      *
-     * @return UploadDocumentResponseFactory<self>
+     * @return UploadDocumentResponseFactory
      */
     protected static function newFactory(): UploadDocumentResponseFactory
     {
