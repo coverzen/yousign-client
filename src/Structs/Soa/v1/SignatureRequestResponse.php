@@ -34,6 +34,7 @@ use Illuminate\Support\Carbon;
  */
 class SignatureRequestResponse extends Struct
 {
+    /** @use HasFactory<SignatureRequestResponseFactory> */
     use HasFactory;
 
     /**

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  * Class SignerFieldFactory.
  *
  * @template TModel of SignerField
- * @extends Factory<TModel>
+ * @extends AbstractFactory<TModel>
  */
 final class SignerFieldFactory extends AbstractFactory
 {

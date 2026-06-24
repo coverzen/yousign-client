@@ -68,7 +68,7 @@ final class CancelSignatureRequestTest extends TestCase
         /** @var CancelSignatureRequest $cancelSignatureRequest */
         $cancelSignatureRequest = new CancelSignatureRequest();
 
-        $this->assertSame(CancelSignatureReason::contractualization_aborted(), $cancelSignatureRequest->reason);
+        $this->assertSame(CancelSignatureReason::contractualization_aborted, $cancelSignatureRequest->reason);
     }
 
     /**

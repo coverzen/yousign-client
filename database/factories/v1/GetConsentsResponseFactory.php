@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  * Class GetConsentsResponseFactory.
  *
  * @template TModel of GetConsentsResponse
- * @extends Factory<TModel>
+ * @extends AbstractFactory<TModel>
  */
 final class GetConsentsResponseFactory extends AbstractFactory
 {

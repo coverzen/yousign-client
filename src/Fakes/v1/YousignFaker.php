@@ -83,7 +83,6 @@ class YousignFaker
 
         Http::preventStrayRequests();
 
-        /** @var string $url */
         $url = Str::finish(Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'), Soa::URL_SEPARATOR);
 
         /** @var array<string,PromiseInterface> $fakes */
@@ -147,8 +146,7 @@ class YousignFaker
 
         Http::fake(array_merge($fakes, $customFakes));
 
-        Http::fake(function (Request $request) use ($url) {
-            /** @var string $pattern */
+        Http::fake(static function (Request $request) use ($url) {
             $pattern = '/' . str_replace('/', '\/', $url . Yousign::SIGNATURE_REQUESTS_BASE_URL . Soa::URL_SEPARATOR) . '*/';
 
             if ($request->method() === HttpRequest::METHOD_DELETE && preg_match($pattern, $request->url()) > 0) {
@@ -193,7 +191,7 @@ class YousignFaker
             sprintf(self::FAILED_ASSERTION_MESSAGE_DIFFERENT_FUNCTION, $expectedFunctionName, $this->calledFunctionName)
         );
 
-        $callback = $callback ?: static fn (): bool => true;
+        $callback ??= static fn (): bool => true;
 
         PHPUnit::assertTrue($callback(...$this->arguments));
     }

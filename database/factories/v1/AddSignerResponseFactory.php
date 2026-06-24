@@ -14,7 +14,7 @@ use function random_int;
  * Class AddSignerResponseFactory.
  *
  * @template TModel of AddSignerResponse
- * @extends Factory<TModel>
+ * @extends AbstractFactory<TModel>
  */
 final class AddSignerResponseFactory extends AbstractFactory
 {
@@ -59,8 +59,8 @@ final class AddSignerResponseFactory extends AbstractFactory
             'id' => $this->faker->uuid(),
             'info' => [],
             'status' => $this->faker->sentence,
-            'signature_level' => $this->faker->randomEnumValue(SignatureLevel::class),
-            'signature_authentication_mode' => $this->faker->randomEnumValue(SignatureAuthenticationMode::class),
+            'signature_level' => $this->faker->randomElement(array_column(SignatureLevel::cases(), 'value')),
+            'signature_authentication_mode' => $this->faker->randomElement(array_column(SignatureAuthenticationMode::cases(), 'value')),
             'signature_link' => $this->faker->url(),
             'signature_link_expiration_date' => $this->faker->dateTime,
             'signature_image_preview' => $this->faker->sentence,

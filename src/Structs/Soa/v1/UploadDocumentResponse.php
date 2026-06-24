@@ -24,6 +24,7 @@ use Illuminate\Support\Carbon;
  */
 class UploadDocumentResponse extends Struct
 {
+    /** @use HasFactory<UploadDocumentResponseFactory> */
     use HasFactory;
 
     /** {@inheritdoc} */

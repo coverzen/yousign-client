@@ -12,7 +12,7 @@ use function collect;
  * Class AddSignerRequest.
  *
  * @property string|null $id
- * @property array $info
+ * @property array<array-key,mixed> $info
  * @property string|null $status
  * @property string|null $signature_level
  * @property string|null $signature_authentication_mode
@@ -20,14 +20,15 @@ use function collect;
  * @property array<int,SignerField> $fields
  * @property Carbon|null $signature_link_expiration_date
  * @property string|null $signature_image_preview
- * @property array $redirect_urls
- * @property array $custom_text
+ * @property array<array-key,mixed> $redirect_urls
+ * @property array<array-key,mixed> $custom_text
  * @property string|null $delivery_mode
  * @property string|null $identification_attestation_id
- * @property array $sms_notification
+ * @property array<array-key,mixed> $sms_notification
  */
 final class AddSignerResponse extends Struct
 {
+    /** @use HasFactory<AddSignerResponseFactory> */
     use HasFactory;
 
     /** {@inheritdoc} */
@@ -66,7 +67,7 @@ final class AddSignerResponse extends Struct
     ];
 
     /**
-     * @param array<array-key,mixed> $attributes
+     * @param array<string,mixed> $attributes
      */
     public function __construct(array $attributes = [])
     {

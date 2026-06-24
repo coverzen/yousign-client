@@ -19,7 +19,6 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentResponse;
 use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Support\Facades\Facade;
-use RuntimeException;
 
 /**
  * Class facade.
@@ -58,8 +57,6 @@ final class Yousign extends Facade
 
     /**
      * Get the registered name of the component.
-     *
-     * @throws RuntimeException
      *
      * @return class-string<YousignSoaLib>
      */

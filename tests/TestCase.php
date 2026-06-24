@@ -21,7 +21,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * @param $app
      *
-     * @return string[]
+     * @return array<int, class-string<\Illuminate\Support\ServiceProvider>>
      */
     protected function getPackageProviders($app): array
     {

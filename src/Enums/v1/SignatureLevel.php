@@ -2,17 +2,14 @@
 
 namespace Coverzen\Components\YousignClient\Enums\v1;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
- * Class SignatureLevel.
- *
- * @method static self electronic_signature()
- * @method static self advanced_electronic_signature()
- * @method static self electronic_signature_with_qualified_certificate()
- * @method static self qualified_electronic_signature()
- * @method static self qualified_electronic_signature_mode_1()
+ * Enum SignatureLevel.
  */
-final class SignatureLevel extends Enum
+enum SignatureLevel: string
 {
+    case electronic_signature = 'electronic_signature';
+    case advanced_electronic_signature = 'advanced_electronic_signature';
+    case electronic_signature_with_qualified_certificate = 'electronic_signature_with_qualified_certificate';
+    case qualified_electronic_signature = 'qualified_electronic_signature';
+    case qualified_electronic_signature_mode_1 = 'qualified_electronic_signature_mode_1';
 }

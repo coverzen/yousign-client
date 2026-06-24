@@ -14,14 +14,15 @@ use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\SignatureRequestResponse;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentResponse;
-use Exception;
+use Coverzen\Components\YousignClient\YousignClientServiceProvider;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use RuntimeException;
+use Throwable;
 use function base64_decode;
 use function base64_encode;
 use function implode;
@@ -77,22 +78,18 @@ class Yousign extends Soa
 
     /**
      * Yousign SOA lib constructor.
-     *
-     * @psalm-suppress PossiblyNullArgument
      */
     public function __construct()
     {
-        parent::__construct();
-
-        $this->apiClient = Http::connectTimeout(Arr::get($this->config, 'connection_timeout_seconds', 0))
-                               ->timeout(Arr::get($this->config, 'timeout_seconds', 0))
-                               ->baseUrl(Str::finish(Arr::get($this->config, 'url'), Soa::URL_SEPARATOR))
+        $this->apiClient = Http::connectTimeout(Config::integer(YousignClientServiceProvider::CONFIG_KEY . '.connection_timeout_seconds'))
+                               ->timeout(Config::integer(YousignClientServiceProvider::CONFIG_KEY . '.timeout_seconds'))
+                               ->baseUrl(Str::finish(Config::string(YousignClientServiceProvider::CONFIG_KEY . '.url'), Soa::URL_SEPARATOR))
                                ->acceptJson()
-                               ->withHeader(Soa::AUTHORIZATION_HEADER, self::BEARER_PREFIX . Arr::get($this->config, 'api_key'))
+                               ->withHeader(Soa::AUTHORIZATION_HEADER, self::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'))
                                ->retry(
-                                   Arr::get($this->config, 'retry_count', 1),
+                                   Config::integer(YousignClientServiceProvider::CONFIG_KEY . '.retry_count'),
                                    fn (int $attempt): int => $this->calculateBackoff($attempt),
-                                   fn (Exception $exception): bool => $this->manageRetry($exception)
+                                   fn (Throwable $exception): bool => $this->manageRetry($exception)
                                )
                                ->throw(fn (Response $response, RequestException $e) => $this->logClientFailure('Yousign api returns a wrong response', $response, $e));
     }
@@ -172,7 +169,6 @@ class Yousign extends Soa
      */
     public function addSigner(string $signatureRequestId, AddSignerRequest $addSignerRequest): AddSignerResponse
     {
-        /** @var string $url */
         $url = implode(
             self::URL_SEPARATOR,
             [
@@ -227,7 +223,6 @@ class Yousign extends Soa
      */
     public function activateSignature(string $signatureRequestId): ActivateSignatureResponse
     {
-        /** @var string $url */
         $url = implode(
             self::URL_SEPARATOR,
             [
@@ -254,7 +249,6 @@ class Yousign extends Soa
      */
     public function getSignatureById(string $signatureRequestId): SignatureRequestResponse
     {
-        /** @var string $url */
         $url = self::SIGNATURE_REQUESTS_BASE_URL . self::URL_SEPARATOR . $signatureRequestId;
 
         /** @var Response $response */
@@ -275,7 +269,6 @@ class Yousign extends Soa
      */
     public function getDocumentById(string $signatureRequestId, string $documentId): string
     {
-        /** @var string $url */
         $url = implode(
             self::URL_SEPARATOR,
             [
@@ -305,7 +298,6 @@ class Yousign extends Soa
      */
     public function getAuditTrail(string $signatureRequestId, string $signerId): string
     {
-        /** @var string $url */
         $url = implode(
             self::URL_SEPARATOR,
             [
@@ -335,7 +327,6 @@ class Yousign extends Soa
      */
     public function getAuditTrailDetail(string $signatureRequestId, string $signerId): GetAuditTrailDetailResponse
     {
-        /** @var string $url */
         $url = implode(
             self::URL_SEPARATOR,
             [
@@ -364,7 +355,6 @@ class Yousign extends Soa
      */
     public function getConsentsById(string $signatureRequestId): GetConsentsResponse
     {
-        /** @var string $url */
         $url = implode(
             self::URL_SEPARATOR,
             [
@@ -392,7 +382,6 @@ class Yousign extends Soa
      */
     public function cancelSignatureRequest(string $signatureRequestId, CancelSignatureRequest $cancelSignatureRequest): SignatureRequestResponse
     {
-        /** @var string $url */
         $url = implode(
             self::URL_SEPARATOR,
             [
@@ -418,7 +407,6 @@ class Yousign extends Soa
      */
     public function deleteSignatureRequest(string $signatureRequestId): void
     {
-        /** @var string $url */
         $url = implode(
             self::URL_SEPARATOR,
             [

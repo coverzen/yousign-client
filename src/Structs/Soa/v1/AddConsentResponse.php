@@ -10,12 +10,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @property string|null $id
  * @property string|null $type
- * @property array|null $settings
+ * @property array<array-key,mixed>|null $settings
  * @property bool $optional
  * @property array<int,string> $signer_ids
  */
 final class AddConsentResponse extends Struct
 {
+    /** @use HasFactory<AddConsentResponseFactory> */
     use HasFactory;
 
     /** {@inheritdoc} */

@@ -37,9 +37,9 @@ final class ActivateSignatureResponseFactory extends AbstractFactory
     {
         return [
             'id' => $this->faker->uuid(),
-            'status' => $this->faker->randomEnumValue(ActivateSignatureResponseStatus::class),
+            'status' => $this->faker->randomElement(array_column(ActivateSignatureResponseStatus::cases(), 'value')),
             'name' => $this->faker->name(),
-            'delivery_mode' => $this->faker->randomEnumValue(DeliveryMode::class),
+            'delivery_mode' => $this->faker->randomElement(array_column(DeliveryMode::cases(), 'value')),
             'created_at' => $this->faker->dateTime(),
             'ordered_signers' => $this->faker->boolean(),
             'reminder_settings' => [

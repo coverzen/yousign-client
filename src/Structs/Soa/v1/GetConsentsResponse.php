@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class GetConsentsResponse.
  *
- * @property array<array-key,array> $data
+ * @property array<array-key,array<array-key,mixed>> $data
  */
 final class GetConsentsResponse extends Struct
 {
+    /** @use HasFactory<GetConsentsResponseFactory> */
     use HasFactory;
 
     /** {@inheritdoc} */

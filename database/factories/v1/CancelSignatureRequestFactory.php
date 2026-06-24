@@ -26,7 +26,7 @@ final class CancelSignatureRequestFactory extends AbstractFactory
     public function definition(): array
     {
         return [
-            'reason' => $this->faker->randomEnumValue(CancelSignatureReason::class),
+            'reason' => $this->faker->randomElement(array_column(CancelSignatureReason::cases(), 'value')),
             'custom_note' => $this->faker->sentence(),
         ];
     }

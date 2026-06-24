@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  * Class GetAuditTrailDetailResponseFactory.
  *
  * @template TModel of GetAuditTrailDetailResponse
- * @extends Factory<TModel>
+ * @extends AbstractFactory<TModel>
  */
 final class GetAuditTrailDetailResponseFactory extends AbstractFactory
 {

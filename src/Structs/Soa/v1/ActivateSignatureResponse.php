@@ -10,13 +10,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @property string|null $id
  * @property string|null $type
- * @property array|null $settings
- * @property array $signers
+ * @property array<array-key,mixed>|null $settings
+ * @property array<array-key,mixed> $signers
  * @property bool $optional
  * @property array<int,string> $signer_ids
  */
 final class ActivateSignatureResponse extends Struct
 {
+    /** @use HasFactory<ActivateSignatureResponseFactory> */
     use HasFactory;
 
     /** {@inheritdoc} */

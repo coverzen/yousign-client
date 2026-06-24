@@ -9,16 +9,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * Class GetAuditTrailDetailResponse.
  *
  * @property int|null $version
- * @property array|null $signature_request
- * @property array|null $organization
- * @property array|null $sender
- * @property array|null $signer
- * @property array|null $authentication
- * @property array $documents
- * @property array $signer_consents
+ * @property array<array-key,mixed>|null $signature_request
+ * @property array<array-key,mixed>|null $organization
+ * @property array<array-key,mixed>|null $sender
+ * @property array<array-key,mixed>|null $signer
+ * @property array<array-key,mixed>|null $authentication
+ * @property array<array-key,mixed> $documents
+ * @property array<array-key,mixed> $signer_consents
  */
 final class GetAuditTrailDetailResponse extends Struct
 {
+    /** @use HasFactory<GetAuditTrailDetailResponseFactory> */
     use HasFactory;
 
     /** {@inheritdoc} */

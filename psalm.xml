@@ -21,37 +21,33 @@
         <UnnecessaryVarAnnotation errorLevel="suppress"/>
         <PossiblyUnusedMethod errorLevel="suppress"/>
         <UnusedClass errorLevel="suppress"/>
-        <PossiblyUnusedParam>
+        <MissingOverrideAttribute>
             <errorLevel type="suppress">
+                <directory name="src"/>
                 <directory name="tests"/>
             </errorLevel>
-        </PossiblyUnusedParam>
-        <UnusedParam>
-            <errorLevel type="suppress">
-                <directory name="tests"/>
-            </errorLevel>
-        </UnusedParam>
+        </MissingOverrideAttribute>
         <RiskyTruthyFalsyComparison>
             <errorLevel type="suppress">
                 <file name="src/Libs/Soa/v1/Yousign.php"/>
+                <file name="tests/Unit/Libs/Soa/v1/YousignTest.php"/>
             </errorLevel>
         </RiskyTruthyFalsyComparison>
-        <InternalClass>
+        <InvalidReturnType>
             <errorLevel type="suppress">
-                <file name="src/Fakes/v1/YousignFaker.php"/>
-            </errorLevel>
-        </InternalClass>
-        <InternalMethod>
-            <errorLevel type="suppress">
-                <file name="src/Fakes/v1/YousignFaker.php"/>
-            </errorLevel>
-        </InternalMethod>
-        <TooManyTemplateParams>
-            <errorLevel type="suppress">
-                <file name="src/Structs/Soa/v1/InitiateSignatureRequest.php"/>
                 <file name="src/Structs/Soa/v1/Request.php"/>
             </errorLevel>
-        </TooManyTemplateParams>
+        </InvalidReturnType>
+        <InvalidReturnStatement>
+            <errorLevel type="suppress">
+                <file name="src/Structs/Soa/v1/Request.php"/>
+            </errorLevel>
+        </InvalidReturnStatement>
+        <InvalidPropertyFetch>
+            <errorLevel type="suppress">
+                <file name="tests/Unit/Facades/v1/YousignTest.php"/>
+            </errorLevel>
+        </InvalidPropertyFetch>
     </issueHandlers>
 
     <plugins>

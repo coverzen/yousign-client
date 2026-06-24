@@ -2,14 +2,11 @@
 
 namespace Coverzen\Components\YousignClient\Enums\v1;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
- * Class DocumentNature.
- *
- * @method static self attachment()
- * @method static self signable_document()
+ * Enum DocumentNature.
  */
-final class DocumentNature extends Enum
+enum DocumentNature: string
 {
+    case attachment = 'attachment';
+    case signable_document = 'signable_document';
 }

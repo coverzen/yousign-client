@@ -2,14 +2,14 @@
 
 namespace Coverzen\Components\YousignClient\Structs\Soa\v1;
 
+use BackedEnum;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Spatie\Enum\Laravel\Enum;
 use function collect;
 
 /**
  * Class Request.
  *
- * @property-read array $payload
+ * @property-read array<array-key,mixed> $payload
  */
 abstract class Request extends Struct
 {
@@ -24,7 +24,7 @@ abstract class Request extends Struct
     {
         return Attribute::make(
             get: fn (): array => collect($this->attributesToArray())->filter(static fn ($value): bool => $value !== null)
-                                                          ->map(static fn ($value): mixed => $value instanceof Enum ? $value->value : $value)
+                                                          ->map(static fn ($value): mixed => $value instanceof BackedEnum ? $value->value : $value)
                                                           ->toArray()
         );
     }

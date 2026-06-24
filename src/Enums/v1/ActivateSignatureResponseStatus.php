@@ -2,14 +2,11 @@
 
 namespace Coverzen\Components\YousignClient\Enums\v1;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
- * Class ActivateSignatureResponseStatus.
- *
- * @method static self ongoing()
- * @method static self approval()
+ * Enum ActivateSignatureResponseStatus.
  */
-final class ActivateSignatureResponseStatus extends Enum
+enum ActivateSignatureResponseStatus: string
 {
+    case ongoing = 'ongoing';
+    case approval = 'approval';
 }

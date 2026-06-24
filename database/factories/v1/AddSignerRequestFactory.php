@@ -13,7 +13,7 @@ use Random\RandomException;
  * Class AddSignerRequestFactory.
  *
  * @template TModel of AddSignerRequest
- * @extends Factory<TModel>
+ * @extends AbstractFactory<TModel>
  */
 final class AddSignerRequestFactory extends AbstractFactory
 {
@@ -62,8 +62,8 @@ final class AddSignerRequestFactory extends AbstractFactory
                 'phone_number' => $this->faker->phoneNumber,
                 'locale' => 'it',
             ],
-            'signature_level' => $this->faker->randomEnumValue(SignatureLevel::class),
-            'signature_authentication_mode' => $this->faker->randomEnumValue(SignatureAuthenticationMode::class),
+            'signature_level' => $this->faker->randomElement(array_column(SignatureLevel::cases(), 'value')),
+            'signature_authentication_mode' => $this->faker->randomElement(array_column(SignatureAuthenticationMode::cases(), 'value')),
         ];
     }
 }

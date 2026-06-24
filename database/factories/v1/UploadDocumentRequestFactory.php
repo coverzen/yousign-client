@@ -28,7 +28,7 @@ final class UploadDocumentRequestFactory extends AbstractFactory
         return [
             'file_content' => $this->faker->text(),
             'file_name' => "{$this->faker->word()}.{$this->faker->fileExtension()}",
-            'nature' => $this->faker->randomEnumValue(DocumentNature::class),
+            'nature' => $this->faker->randomElement(array_column(DocumentNature::cases(), 'value')),
         ];
     }
 }
