@@ -13,15 +13,14 @@ use function random_int;
 /**
  * Class AddSignerResponseFactory.
  *
- * @template TModel of AddSignerResponse
- * @extends Factory<TModel>
+ * @extends Factory<AddSignerResponse>
  */
-final class AddSignerResponseFactory extends AbstractFactory
+final class AddSignerResponseFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<TModel>
+     * @var class-string<AddSignerResponse>
      */
     protected $model = AddSignerResponse::class;
 
@@ -39,8 +38,8 @@ final class AddSignerResponseFactory extends AbstractFactory
              *
              * @param AddSignerResponse $addSignerResponse
              *
-             * @retrun void
              * @throws RandomException
+             * @return void
              */
             static function (AddSignerResponse $addSignerResponse): void {
                 $addSignerResponse->fields = SignerField::factory(random_int(2, 2))
@@ -58,12 +57,12 @@ final class AddSignerResponseFactory extends AbstractFactory
         return [
             'id' => $this->faker->uuid(),
             'info' => [],
-            'status' => $this->faker->sentence,
-            'signature_level' => $this->faker->randomEnumValue(SignatureLevel::class),
-            'signature_authentication_mode' => $this->faker->randomEnumValue(SignatureAuthenticationMode::class),
+            'status' => $this->faker->sentence(),
+            'signature_level' => $this->faker->randomElement(SignatureLevel::class),
+            'signature_authentication_mode' => $this->faker->randomElement(SignatureAuthenticationMode::class),
             'signature_link' => $this->faker->url(),
-            'signature_link_expiration_date' => $this->faker->dateTime,
-            'signature_image_preview' => $this->faker->sentence,
+            'signature_link_expiration_date' => $this->faker->dateTime(),
+            'signature_image_preview' => $this->faker->sentence(),
             'redirect_urls' => [],
             'custom_text' => [],
             'delivery_mode' => 'email',

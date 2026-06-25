@@ -2,14 +2,11 @@
 
 namespace Coverzen\Components\YousignClient\Enums\v1;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
- * Class DeliveryMode.
- *
- * @method static self none()
- * @method static self email()
+ * Enum DeliveryMode.
  */
-final class DeliveryMode extends Enum
+enum DeliveryMode: string
 {
+    case none = 'none';
+    case email = 'email';
 }

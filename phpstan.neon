@@ -1,39 +1,65 @@
 parameters:
     paths:
         - config
+        - database
         - src
         - tests
 
-    # The level 9 is the highest level
-    level: 9
+    # The level 10 is the highest level
+    level: 10
+    strictRules:
+        booleansInConditions: false
+        dynamicCallOnStaticMethod: false
+        noVariableVariables: false
+    reportMaybesInPropertyPhpDocTypes: false
+    treatPhpDocTypesAsCertain: false
     excludePaths:
     tmpDir: ./.phpstan.cache
     ignoreErrors:
+        # Assertions made redundant by the now-stronger typing (native enums / typed responses).
         -
-             message: '#Parameter \#1 \$array of static method Illuminate\\Support\\Arr::get\(\) expects array\|ArrayAccess, mixed given\.#'
-             paths:
-                 - src/Libs/Soa/v1/Soa.php
-                 - src/Libs/Soa/v1/Yousign.php
+            messages:
+                - '#Call to method PHPUnit\\Framework\\Assert::assert(InstanceOf|NotNull)\(\) with .* will always evaluate to true#'
+            path: tests
+        # env() lives in the package config file (false positive for packages).
         -
-             messages:
-                 - '#Parameter \#1 \$seconds of static method Illuminate\\Support\\Facades\\Http::connectTimeout\(\) expects int, mixed given\.#'
-                 - '#Parameter \#1 \$seconds of method Illuminate\\Http\\Client\\PendingRequest::timeout\(\) expects int, mixed given\.#'
-                 - '#Parameter \#1 \$value of static method Illuminate\\Support\\Str::finish\(\) expects string, mixed given\.#'
-                 - '#Parameter \#1 \$times of method Illuminate\\Http\\Client\\PendingRequest::retry\(\) expects array\|int, mixed given\.#'
-             path: src/Libs/Soa/v1/Yousign.php
+            messages:
+                - "#Called 'env' outside of the config directory which returns null when the config is cached, use 'config'.#"
+            path: config
+        # Yousign API payloads decode to array<mixed,mixed>/mixed before being hydrated into typed Structs.
         -
-             messages:
-                 - '#Parameter \#1 \$value of static method Illuminate\\Support\\Str::finish\(\) expects string, mixed given\.#'
-             paths:
-                 - tests/Unit/Libs/Soa/v1/YousignTest.php
-                 - src/Fakes/v1/YousignFaker.php
-
+            messages:
+                - '#Parameter \#1 \$attributes of class Coverzen\\Components\\YousignClient\\Structs\\Soa\\v1\\\w+ constructor expects array<string, mixed>, array.* given\.#'
+            paths:
+                - src/Libs/Soa/v1/Yousign.php
+                - tests/Unit/Structs/Soa/v1/AddSignerResponseTest.php
         -
-             message: '#Property Coverzen\\Components\\YousignClient\\Structs\\Soa\\v1\\InitiateSignatureRequest::\$custom_experience_id \(string\|null\) does not accept mixed\.#'
-             path: src/Structs/Soa/v1/InitiateSignatureRequest.php
-
+            messages:
+                - '#Parameter \#1 \$attributes of method Illuminate\\Database\\Eloquent\\Model::__construct\(\) expects array<string, mixed>, array.* given\.#'
+            path: src/Structs/Soa/v1/AddSignerResponse.php
+        # Request payloads are array<array-key,mixed>; the Http client wants stricter list/string keys.
         -
-             messages:
-                 - '#Property Coverzen\\Components\\YousignClient\\Structs\\Soa\\v1\\UploadDocumentRequest::\$file_content \(string\|null\) does not accept string\|false\.#'
-                 - '#Parameter \#2 \$contents of method Illuminate\\Http\\Client\\PendingRequest::attach\(\) expects resource\|string, string\|false given\.#'
-             path: src/Libs/Soa/v1/Yousign.php
+            messages:
+                - '#Parameter \#2 \$data of method Illuminate\\Http\\Client\\PendingRequest[^:]*::post\(\) expects .*#'
+                - '#Parameter \#2 \$contents of method Illuminate\\Http\\Client\\PendingRequest[^:]*::attach\(\) expects resource\|string, string\|false given\.#'
+                - '#Property Coverzen\\Components\\YousignClient\\Structs\\Soa\\v1\\UploadDocumentRequest::\$file_content \(string\|null\) does not accept string\|false\.#'
+            path: src/Libs/Soa/v1/Yousign.php
+        # Test callbacks passed to Arr::first declare narrower (typed) params than the generic signature.
+        -
+            messages:
+                - '#Parameter \#2 \$callback of static method Illuminate\\Support\\Arr::first\(\) expects .*#'
+            path: tests/Unit/Libs/Soa/v1/YousignTest.php
+        # Faker magic methods return mixed.
+        -
+            messages:
+                - '#of encapsed string cannot be cast to string#'
+            path: database/factories
+        # YousignFaker reads the base url from untyped config to assert against requests.
+        -
+            messages:
+                - '#Parameter \#1 \$value of static method Illuminate\\Support\\Str::finish\(\) expects string, mixed given\.#'
+            path: src/Fakes/v1/YousignFaker.php
+        # Optional custom_experience_id read from config.
+        -
+            message: '#Property Coverzen\\Components\\YousignClient\\Structs\\Soa\\v1\\InitiateSignatureRequest::\$custom_experience_id \(string\|null\) does not accept mixed\.#'
+            path: src/Structs/Soa/v1/InitiateSignatureRequest.php

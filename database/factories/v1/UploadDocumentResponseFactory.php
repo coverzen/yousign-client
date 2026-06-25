@@ -3,19 +3,19 @@
 namespace Coverzen\Components\YousignClient\Database\Factories\v1;
 
 use Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentResponse;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class UploadDocumentResponseFactory.
  *
- * @template TModel of UploadDocumentResponse
- * @extends AbstractFactory<TModel>
+ * @extends Factory<UploadDocumentResponse>
  */
-final class UploadDocumentResponseFactory extends AbstractFactory
+final class UploadDocumentResponseFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<TModel>
+     * @var class-string<UploadDocumentResponse>
      */
     protected $model = UploadDocumentResponse::class;
 

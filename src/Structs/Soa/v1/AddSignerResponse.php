@@ -3,31 +3,34 @@
 namespace Coverzen\Components\YousignClient\Structs\Soa\v1;
 
 use Coverzen\Components\YousignClient\Database\Factories\v1\AddSignerResponseFactory;
+use Coverzen\Components\YousignClient\Enums\v1\SignatureAuthenticationMode;
+use Coverzen\Components\YousignClient\Enums\v1\SignatureLevel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use function collect;
 
 /**
- * Class AddSignerRequest.
+ * Class AddSignerResponse.
  *
  * @property string|null $id
- * @property array $info
+ * @property array<string,mixed> $info
  * @property string|null $status
- * @property string|null $signature_level
- * @property string|null $signature_authentication_mode
+ * @property SignatureLevel|null $signature_level
+ * @property SignatureAuthenticationMode|null $signature_authentication_mode
  * @property string|null $signature_link
  * @property array<int,SignerField> $fields
  * @property Carbon|null $signature_link_expiration_date
  * @property string|null $signature_image_preview
- * @property array $redirect_urls
- * @property array $custom_text
+ * @property array<string,mixed> $redirect_urls
+ * @property array<string,mixed> $custom_text
  * @property string|null $delivery_mode
  * @property string|null $identification_attestation_id
- * @property array $sms_notification
+ * @property array<string,mixed> $sms_notification
  */
 final class AddSignerResponse extends Struct
 {
+    /** @use HasFactory<AddSignerResponseFactory> */
     use HasFactory;
 
     /** {@inheritdoc} */
@@ -62,15 +65,17 @@ final class AddSignerResponse extends Struct
 
     /** {@inheritdoc} */
     protected $casts = [
+        'signature_level' => SignatureLevel::class,
+        'signature_authentication_mode' => SignatureAuthenticationMode::class,
         'signature_link_expiration_date' => 'datetime',
     ];
 
     /**
-     * @param array<array-key,mixed> $attributes
+     * @param array<string,mixed> $attributes
      */
     public function __construct(array $attributes = [])
     {
-        /** @var array<int,array<array-key,mixed>|SignerField> $fields */
+        /** @var array<int,array<string,mixed>|SignerField> $fields */
         $fields = Arr::get($attributes, 'fields', []);
 
         /** @var array<int,SignerField> $mappedFields */
@@ -92,7 +97,7 @@ final class AddSignerResponse extends Struct
     /**
      * Set the proper factory for model.
      *
-     * @return AddSignerResponseFactory<self>
+     * @return AddSignerResponseFactory
      */
     protected static function newFactory(): AddSignerResponseFactory
     {

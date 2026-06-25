@@ -2,15 +2,12 @@
 
 namespace Coverzen\Components\YousignClient\Enums\v1;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
- * Class SignatureAuthenticationMode.
- *
- * @method static self otp_email()
- * @method static self otp_sms()
- * @method static self no_otp()
+ * Enum SignatureAuthenticationMode.
  */
-final class SignatureAuthenticationMode extends Enum
+enum SignatureAuthenticationMode: string
 {
+    case otp_email = 'otp_email';
+    case otp_sms = 'otp_sms';
+    case no_otp = 'no_otp';
 }

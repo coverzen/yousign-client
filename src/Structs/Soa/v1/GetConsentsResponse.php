@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class GetConsentsResponse.
  *
- * @property array<array-key,array> $data
+ * @property array<int,array<string,mixed>> $data
  */
 final class GetConsentsResponse extends Struct
 {
+    /** @use HasFactory<GetConsentsResponseFactory> */
     use HasFactory;
 
     /** {@inheritdoc} */
@@ -27,7 +28,7 @@ final class GetConsentsResponse extends Struct
     /**
      * Set the proper factory for the model.
      *
-     * @return GetConsentsResponseFactory<self>
+     * @return GetConsentsResponseFactory
      */
     protected static function newFactory(): GetConsentsResponseFactory
     {

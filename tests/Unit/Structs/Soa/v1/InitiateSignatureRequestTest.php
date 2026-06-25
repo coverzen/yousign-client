@@ -96,7 +96,7 @@ final class InitiateSignatureRequestTest extends TestCase
         /** @var InitiateSignatureRequest $initiateSignatureRequest */
         $initiateSignatureRequest = new InitiateSignatureRequest();
 
-        $this->assertSame(DeliveryMode::none(), $initiateSignatureRequest->delivery_mode);
+        $this->assertSame(DeliveryMode::none, $initiateSignatureRequest->delivery_mode);
         $this->assertSame(Config::get(YousignClientServiceProvider::CONFIG_KEY . '.custom_experience_id'), $initiateSignatureRequest->custom_experience_id);
     }
 

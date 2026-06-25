@@ -24,6 +24,7 @@ use Illuminate\Support\Carbon;
  */
 class UploadDocumentResponse extends Struct
 {
+    /** @use HasFactory<UploadDocumentResponseFactory> */
     use HasFactory;
 
     /** {@inheritdoc} */
@@ -62,7 +63,7 @@ class UploadDocumentResponse extends Struct
     /**
      * Set the proper factory for model.
      *
-     * @return UploadDocumentResponseFactory<self>
+     * @return UploadDocumentResponseFactory
      */
     protected static function newFactory(): UploadDocumentResponseFactory
     {

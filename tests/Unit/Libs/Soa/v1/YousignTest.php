@@ -82,9 +82,8 @@ final class YousignTest extends TestCase
     #[DataProvider('nullPropertiesProvider')]
     public function it_initiates_a_procedure(string $nullProperty): void
     {
-        /** @var string $url */
         $url = Str::finish(
-            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Config::string(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
         ) . Yousign::SIGNATURE_REQUESTS_BASE_URL;
 
@@ -106,7 +105,7 @@ final class YousignTest extends TestCase
                                                                 ]
                                                             );
 
-        /** @var SignatureRequestResponse|null $actualSignatureResponse */
+        /** @var SignatureRequestResponse $actualSignatureResponse */
         $actualSignatureResponse = (new Yousign())->initiateSignature($initiateSignatureRequest);
 
         Http::assertSent(
@@ -115,12 +114,12 @@ final class YousignTest extends TestCase
                 $this->assertSame($url, $request->url());
 
                 $this->assertSame(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
                 );
 
                 $this->assertContains(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     $request->header(Soa::AUTHORIZATION_HEADER)
                 );
 
@@ -174,9 +173,8 @@ final class YousignTest extends TestCase
     #[DataProvider('encodeProvider')]
     public function it_uploads_a_document(bool $encode): void
     {
-        /** @var string $url */
         $url = Str::finish(
-            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Config::string(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
         ) . implode(
             Soa::URL_SEPARATOR,
@@ -214,12 +212,12 @@ final class YousignTest extends TestCase
                 $this->assertSame($url, $request->url());
 
                 $this->assertSame(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
                 );
 
                 $this->assertContains(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     $request->header(Soa::AUTHORIZATION_HEADER)
                 );
 
@@ -287,9 +285,8 @@ final class YousignTest extends TestCase
     #[Test]
     public function it_adds_signer(): void
     {
-        /** @var string $url */
         $url = Str::finish(
-            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Config::string(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
         ) . Yousign::SIGNATURE_REQUESTS_BASE_URL
             . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::SIGNER_URL;
@@ -317,12 +314,12 @@ final class YousignTest extends TestCase
                 $this->assertSame($url, $request->url());
 
                 $this->assertSame(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
                 );
 
                 $this->assertContains(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     $request->header(Soa::AUTHORIZATION_HEADER)
                 );
 
@@ -395,9 +392,8 @@ final class YousignTest extends TestCase
     #[Test]
     public function it_adds_consent(): void
     {
-        /** @var string $url */
         $url = Str::finish(
-            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Config::string(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
         ) . Yousign::SIGNATURE_REQUESTS_BASE_URL
             . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ADD_CONSENT_URL;
@@ -416,7 +412,7 @@ final class YousignTest extends TestCase
         $addConsentRequest = AddConsentRequest::factory()
                                               ->make();
 
-        /** @var AddConsentResponse|null $actualAddConsentResponse */
+        /** @var AddConsentResponse $actualAddConsentResponse */
         $actualAddConsentResponse = (new Yousign())->addConsent(self::SIGNATURE_ID, $addConsentRequest);
 
         Http::assertSent(
@@ -425,12 +421,12 @@ final class YousignTest extends TestCase
                 $this->assertSame($url, $request->url());
 
                 $this->assertSame(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
                 );
 
                 $this->assertContains(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     $request->header(Soa::AUTHORIZATION_HEADER)
                 );
 
@@ -498,9 +494,8 @@ final class YousignTest extends TestCase
            ->once()
            ->withSomeOfArgs('Yousign api returns a wrong response');
 
-        /** @var string $url */
         $url = Str::finish(
-            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Config::string(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
         ) . Yousign::SIGNATURE_REQUESTS_BASE_URL;
 
@@ -519,9 +514,8 @@ final class YousignTest extends TestCase
     #[Test]
     public function it_activates_a_signature_request(): void
     {
-        /** @var string $url */
         $url = Str::finish(
-            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Config::string(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
         ) . Yousign::SIGNATURE_REQUESTS_BASE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::ACTIVATE_SIGNATURE_URL;
 
@@ -535,7 +529,7 @@ final class YousignTest extends TestCase
             ]
         );
 
-        /** @var ActivateSignatureResponse|null $actualActivateSignatureResponse */
+        /** @var ActivateSignatureResponse $actualActivateSignatureResponse */
         $actualActivateSignatureResponse = (new Yousign())->activateSignature(self::SIGNATURE_ID);
 
         Http::assertSent(
@@ -544,12 +538,12 @@ final class YousignTest extends TestCase
                 $this->assertSame($url, $request->url());
 
                 $this->assertSame(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
                 );
 
                 $this->assertContains(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     $request->header(Soa::AUTHORIZATION_HEADER)
                 );
 
@@ -566,8 +560,8 @@ final class YousignTest extends TestCase
         );
 
         $this->assertSame(
-            $expectedActivateSignatureResponse->type,
-            $actualActivateSignatureResponse->type
+            $expectedActivateSignatureResponse->status,
+            $actualActivateSignatureResponse->status
         );
 
         $this->assertCount(
@@ -582,9 +576,8 @@ final class YousignTest extends TestCase
     #[Test]
     public function it_gets_signature_by_id(): void
     {
-        /** @var string $url */
         $url = Str::finish(
-            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Config::string(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
         ) . Yousign::SIGNATURE_REQUESTS_BASE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID;
 
@@ -598,7 +591,7 @@ final class YousignTest extends TestCase
             ]
         );
 
-        /** @var SignatureRequestResponse|null $actualSignatureResponse */
+        /** @var SignatureRequestResponse $actualSignatureResponse */
         $actualSignatureResponse = (new Yousign())->getSignatureById(self::SIGNATURE_ID);
 
         Http::assertSent(
@@ -607,12 +600,12 @@ final class YousignTest extends TestCase
                 $this->assertSame($url, $request->url());
 
                 $this->assertSame(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
                 );
 
                 $this->assertContains(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     $request->header(Soa::AUTHORIZATION_HEADER)
                 );
 
@@ -635,9 +628,8 @@ final class YousignTest extends TestCase
     #[Test]
     public function it_gets_document_by_id(): void
     {
-        /** @var string $url */
         $url = Str::finish(
-            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Config::string(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
         ) . implode(
             Soa::URL_SEPARATOR,
@@ -656,7 +648,7 @@ final class YousignTest extends TestCase
             ]
         );
 
-        /** @var string|null $actualDownloadDocumentResponse */
+        /** @var string $actualDownloadDocumentResponse */
         $actualDownloadDocumentResponse = (new Yousign())->getDocumentById(self::SIGNATURE_ID, self::DOCUMENT_ID);
 
         Http::assertSent(
@@ -665,12 +657,12 @@ final class YousignTest extends TestCase
                 $this->assertSame($url, $request->url());
 
                 $this->assertSame(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
                 );
 
                 $this->assertContains(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     $request->header(Soa::AUTHORIZATION_HEADER)
                 );
 
@@ -693,9 +685,8 @@ final class YousignTest extends TestCase
     #[Test]
     public function it_gets_audit_trail(): void
     {
-        /** @var string $url */
         $url = Str::finish(
-            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Config::string(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
         ) . Yousign::SIGNATURE_REQUESTS_BASE_URL . Soa::URL_SEPARATOR . self::SIGNATURE_ID . Soa::URL_SEPARATOR . Yousign::SIGNER_URL . Soa::URL_SEPARATOR . self::SIGNER_ID . Soa::URL_SEPARATOR . Yousign::DOWNLOAD_AUDIT_TRAIL;
 
@@ -708,7 +699,7 @@ final class YousignTest extends TestCase
             ]
         );
 
-        /** @var string|null $actualDownloadAuditTrailResponse */
+        /** @var string $actualDownloadAuditTrailResponse */
         $actualDownloadAuditTrailResponse = (new Yousign())->getAuditTrail(self::SIGNATURE_ID, self::SIGNER_ID);
 
         Http::assertSent(
@@ -717,12 +708,12 @@ final class YousignTest extends TestCase
                 $this->assertSame($url, $request->url());
 
                 $this->assertSame(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
                 );
 
                 $this->assertContains(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     $request->header(Soa::AUTHORIZATION_HEADER)
                 );
 
@@ -745,9 +736,8 @@ final class YousignTest extends TestCase
     #[Test]
     public function it_gets_consents_by_id(): void
     {
-        /** @var string $url */
         $url = Str::finish(
-            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Config::string(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
         ) . implode(
             Soa::URL_SEPARATOR,
@@ -777,12 +767,12 @@ final class YousignTest extends TestCase
                 $this->assertSame($url, $request->url());
 
                 $this->assertSame(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
                 );
 
                 $this->assertContains(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     $request->header(Soa::AUTHORIZATION_HEADER)
                 );
 
@@ -805,9 +795,8 @@ final class YousignTest extends TestCase
     #[Test]
     public function it_gets_audit_trail_detail(): void
     {
-        /** @var string $url */
         $url = Str::finish(
-            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Config::string(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
         ) . implode(
             Soa::URL_SEPARATOR,
@@ -839,12 +828,12 @@ final class YousignTest extends TestCase
                 $this->assertSame($url, $request->url());
 
                 $this->assertSame(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
                 );
 
                 $this->assertContains(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     $request->header(Soa::AUTHORIZATION_HEADER)
                 );
 
@@ -867,9 +856,8 @@ final class YousignTest extends TestCase
     #[Test]
     public function it_cancels_signature_request(): void
     {
-        /** @var string $url */
         $url = Str::finish(
-            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Config::string(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
         ) . implode(
             Soa::URL_SEPARATOR,
@@ -903,17 +891,17 @@ final class YousignTest extends TestCase
                 $this->assertSame($url, $request->url());
 
                 $this->assertSame(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
                 );
 
                 $this->assertContains(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     $request->header(Soa::AUTHORIZATION_HEADER)
                 );
 
                 $this->assertArrayHasKey('reason', $request->data());
-                $this->assertSame($cancelSignatureRequest->reason, $request->data()['reason']);
+                $this->assertSame($cancelSignatureRequest->reason->value, $request->data()['reason']);
 
                 return true;
             }
@@ -934,9 +922,8 @@ final class YousignTest extends TestCase
     #[Test]
     public function it_deletes_signature_request(): void
     {
-        /** @var string $url */
         $url = Str::finish(
-            Config::get(YousignClientServiceProvider::CONFIG_KEY . '.url'),
+            Config::string(YousignClientServiceProvider::CONFIG_KEY . '.url'),
             Soa::URL_SEPARATOR
         ) . implode(
             Soa::URL_SEPARATOR,
@@ -960,12 +947,12 @@ final class YousignTest extends TestCase
                 $this->assertSame($url, $request->url());
 
                 $this->assertSame(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     Arr::first($request->header(Soa::AUTHORIZATION_HEADER))
                 );
 
                 $this->assertContains(
-                    Yousign::BEARER_PREFIX . Config::get(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
+                    Yousign::BEARER_PREFIX . Config::string(YousignClientServiceProvider::CONFIG_KEY . '.api_key'),
                     $request->header(Soa::AUTHORIZATION_HEADER)
                 );
 

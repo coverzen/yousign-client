@@ -9,12 +9,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * Class AddConsentRequest.
  *
  * @property string|null $type
- * @property array|null $settings
+ * @property array<string,mixed>|null $settings
  * @property bool $optional
  * @property array<int,string> $signer_ids
  */
 final class AddConsentRequest extends Struct
 {
+    /** @use HasFactory<AddConsentRequestFactory> */
     use HasFactory;
 
     /** @var string */
@@ -43,7 +44,7 @@ final class AddConsentRequest extends Struct
     /**
      * Set the proper factory for the model.
      *
-     * @return AddConsentRequestFactory<self>
+     * @return AddConsentRequestFactory
      */
     protected static function newFactory(): AddConsentRequestFactory
     {

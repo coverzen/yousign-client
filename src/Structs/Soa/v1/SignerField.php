@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 final class SignerField extends Struct
 {
+    /** @use HasFactory<SignerFieldFactory> */
     use HasFactory;
 
     /** {@inheritdoc} */
@@ -34,7 +35,7 @@ final class SignerField extends Struct
     /**
      * Set the proper factory for model.
      *
-     * @return SignerFieldFactory<self>
+     * @return SignerFieldFactory
      */
     protected static function newFactory(): SignerFieldFactory
     {

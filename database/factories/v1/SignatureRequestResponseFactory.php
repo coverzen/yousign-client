@@ -3,19 +3,19 @@
 namespace Coverzen\Components\YousignClient\Database\Factories\v1;
 
 use Coverzen\Components\YousignClient\Structs\Soa\v1\SignatureRequestResponse;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class SignatureRequestResponseFactory.
  *
- * @template TModel of SignatureRequestResponse
- * @extends AbstractFactory<TModel>
+ * @extends Factory<SignatureRequestResponse>
  */
-final class SignatureRequestResponseFactory extends AbstractFactory
+final class SignatureRequestResponseFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<TModel>
+     * @var class-string<SignatureRequestResponse>
      */
     protected $model = SignatureRequestResponse::class;
 
@@ -29,12 +29,12 @@ final class SignatureRequestResponseFactory extends AbstractFactory
             'source' => 'public_api',
             'status' => 'draft',
             'name' => $this->faker->sentence(),
-            'created_at' => $this->faker->dateTimeThisYear->format('Y-m-d\TH:i:sP'),
+            'created_at' => $this->faker->dateTimeThisYear()->format('Y-m-d\TH:i:sP'),
             'email_custom_note' => null,
             'ordered_signers' => false,
             'timezone' => $this->faker->timezone(),
             'reminder_settings' => null,
-            'expiration_date' => $this->faker->dateTimeThisYear->format('Y-m-d\TH:i:sP'),
+            'expiration_date' => $this->faker->dateTimeThisYear()->format('Y-m-d\TH:i:sP'),
             'delivery_mode' => 'none',
             'documents' => [],
             'signers' => [],
@@ -42,7 +42,7 @@ final class SignatureRequestResponseFactory extends AbstractFactory
             'branding_id' => null,
             'custom_experience_id' => null,
             'sender' => null,
-            'workspace_id' => $this->faker->uuid,
+            'workspace_id' => $this->faker->uuid(),
             'audit_trail_locale' => 'en',
             'signers_allowed_to_decline' => false,
             'bulk_send_batch_id' => null,

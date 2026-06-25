@@ -10,12 +10,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @property string|null $id
  * @property string|null $type
- * @property array|null $settings
+ * @property array<string,mixed>|null $settings
  * @property bool $optional
  * @property array<int,string> $signer_ids
  */
 final class AddConsentResponse extends Struct
 {
+    /** @use HasFactory<AddConsentResponseFactory> */
     use HasFactory;
 
     /** {@inheritdoc} */
@@ -40,7 +41,7 @@ final class AddConsentResponse extends Struct
     /**
      * Set the proper factory for the model.
      *
-     * @return AddConsentResponseFactory<self>
+     * @return AddConsentResponseFactory
      */
     protected static function newFactory(): AddConsentResponseFactory
     {

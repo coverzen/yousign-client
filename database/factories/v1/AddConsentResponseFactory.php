@@ -4,19 +4,19 @@ namespace Coverzen\Components\YousignClient\Database\Factories\v1;
 
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentRequest;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\AddConsentResponse;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class AddConsentResponseFactory.
  *
- * @template TModel of AddConsentResponse
- * @extends AbstractFactory<TModel>
+ * @extends Factory<AddConsentResponse>
  */
-final class AddConsentResponseFactory extends AbstractFactory
+final class AddConsentResponseFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<TModel>
+     * @var class-string<AddConsentResponse>
      */
     protected $model = AddConsentResponse::class;
 

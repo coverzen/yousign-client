@@ -3,15 +3,12 @@
 namespace Coverzen\Components\YousignClient\Libs\Soa\v1;
 
 use Coverzen\Components\YousignClient\YousignClientServiceProvider;
-use Exception;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response as ClientResponse;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
-use RuntimeException;
-use function is_array;
+use Throwable;
 
 /**
  * Class Soa.
@@ -39,42 +36,21 @@ abstract class Soa
     protected const EXPONENTIAL_BACKEOFF_BASE = 2;
 
     /**
-     * The full config for the SOA lib.
-     *
-     * @var array<array-key,mixed>|mixed|null
-     */
-    protected mixed $config;
-
-    /**
-     * Yousign SOA lib constructor.
-     */
-    public function __construct()
-    {
-        $this->config = Config::get(YousignClientServiceProvider::CONFIG_KEY);
-
-        if (!is_array($this->config)) {
-            throw new RuntimeException('Yousign configuration is not set.');
-        }
-    }
-
-    /**
      * @param int $attempt
-     *
-     * @psalm-suppress PossiblyNullArgument
      *
      * @return int
      */
     protected function calculateBackoff(int $attempt): int
     {
-        return self::EXPONENTIAL_BACKEOFF_BASE ** ($attempt - 1) * Arr::get($this->config, 'retry_sleep', 1);
+        return self::EXPONENTIAL_BACKEOFF_BASE ** ($attempt - 1) * Config::integer(YousignClientServiceProvider::CONFIG_KEY . '.retry_sleep');
     }
 
     /**
-     * @param Exception $exception
+     * @param Throwable $exception
      *
      * @return bool
      */
-    protected function manageRetry(Exception $exception): bool
+    protected function manageRetry(Throwable $exception): bool
     {
         return $exception instanceof ConnectionException;
     }

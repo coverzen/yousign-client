@@ -9,15 +9,14 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * Class GetConsentsResponseFactory.
  *
- * @template TModel of GetConsentsResponse
- * @extends Factory<TModel>
+ * @extends Factory<GetConsentsResponse>
  */
-final class GetConsentsResponseFactory extends AbstractFactory
+final class GetConsentsResponseFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<TModel>
+     * @var class-string<GetConsentsResponse>
      */
     protected $model = GetConsentsResponse::class;
 
@@ -28,14 +27,16 @@ final class GetConsentsResponseFactory extends AbstractFactory
     {
         return [
             'data' => [
-                'id' => $this->faker->uuid(),
-                'type' => AddConsentRequest::DEFAULT_TYPE,
-                'settings' => [
-                    'text' => $this->faker->sentence(),
-                ],
-                'optional' => $this->faker->boolean(),
-                'signer_ids' => [
-                    $this->faker->uuid(),
+                [
+                    'id' => $this->faker->uuid(),
+                    'type' => AddConsentRequest::DEFAULT_TYPE,
+                    'settings' => [
+                        'text' => $this->faker->sentence(),
+                    ],
+                    'optional' => $this->faker->boolean(),
+                    'signer_ids' => [
+                        $this->faker->uuid(),
+                    ],
                 ],
             ],
         ];

@@ -42,6 +42,7 @@ return $config->setUsingCache(true)
                       '@Symfony' => true,
                       '@Symfony:risky' => true,
                       '@PHPUnit100Migration:risky' => true,
+                      'declare_strict_types' => true,
                       'blank_line_after_opening_tag' => false,
                       'combine_consecutive_unsets' => true,
                       'concat_space' => [

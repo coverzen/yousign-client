@@ -4,19 +4,19 @@ namespace Coverzen\Components\YousignClient\Database\Factories\v1;
 
 use Coverzen\Components\YousignClient\Enums\v1\CancelSignatureReason;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\CancelSignatureRequest;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class CancelSignatureRequestFactory.
  *
- * @template TModel of CancelSignatureRequest
- * @extends AbstractFactory<TModel>
+ * @extends Factory<CancelSignatureRequest>
  */
-final class CancelSignatureRequestFactory extends AbstractFactory
+final class CancelSignatureRequestFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<TModel>
+     * @var class-string<CancelSignatureRequest>
      */
     protected $model = CancelSignatureRequest::class;
 
@@ -26,7 +26,7 @@ final class CancelSignatureRequestFactory extends AbstractFactory
     public function definition(): array
     {
         return [
-            'reason' => $this->faker->randomEnumValue(CancelSignatureReason::class),
+            'reason' => $this->faker->randomElement(CancelSignatureReason::class),
             'custom_note' => $this->faker->sentence(),
         ];
     }

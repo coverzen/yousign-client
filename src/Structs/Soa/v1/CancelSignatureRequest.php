@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 final class CancelSignatureRequest extends Struct
 {
+    /** @use HasFactory<CancelSignatureRequestFactory> */
     use HasFactory;
 
     /** {@inheritdoc} */
@@ -28,7 +29,7 @@ final class CancelSignatureRequest extends Struct
     ];
 
     /**
-     * @param array<array-key,mixed> $attributes
+     * @param array<string,mixed> $attributes
      *
      * @return void
      */
@@ -36,13 +37,13 @@ final class CancelSignatureRequest extends Struct
     {
         parent::__construct($attributes);
 
-        $this->reason = CancelSignatureReason::contractualization_aborted();
+        $this->reason = CancelSignatureReason::contractualization_aborted;
     }
 
     /**
      * Set the proper factory for the model.
      *
-     * @return CancelSignatureRequestFactory<self>
+     * @return CancelSignatureRequestFactory
      */
     protected static function newFactory(): CancelSignatureRequestFactory
     {

@@ -8,15 +8,14 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * Class GetAuditTrailDetailResponseFactory.
  *
- * @template TModel of GetAuditTrailDetailResponse
- * @extends Factory<TModel>
+ * @extends Factory<GetAuditTrailDetailResponse>
  */
-final class GetAuditTrailDetailResponseFactory extends AbstractFactory
+final class GetAuditTrailDetailResponseFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<TModel>
+     * @var class-string<GetAuditTrailDetailResponse>
      */
     protected $model = GetAuditTrailDetailResponse::class;
 
@@ -30,8 +29,8 @@ final class GetAuditTrailDetailResponseFactory extends AbstractFactory
             'signature_request' => [
                 'id' => $this->faker->uuid(),
                 'name' => $this->faker->sentence(),
-                'sent_at' => $this->faker->dateTimeThisYear->format('Y-m-d\TH:i:sP'),
-                'expired_at' => $this->faker->dateTimeThisYear->format('Y-m-d\TH:i:sP'),
+                'sent_at' => $this->faker->dateTimeThisYear()->format('Y-m-d\TH:i:sP'),
+                'expired_at' => $this->faker->dateTimeThisYear()->format('Y-m-d\TH:i:sP'),
             ],
             'organization' => [
                 'id' => $this->faker->uuid(),
@@ -49,24 +48,26 @@ final class GetAuditTrailDetailResponseFactory extends AbstractFactory
                 'email_address' => $this->faker->email(),
                 'phone_number' => $this->faker->phoneNumber(),
                 'ip_address' => $this->faker->sentence(),
-                'consent_given_at' => $this->faker->dateTimeThisYear->format('Y-m-d\TH:i:sP'),
-                'signature_process_completed_at' => $this->faker->dateTimeThisYear->format('Y-m-d\TH:i:sP'),
+                'consent_given_at' => $this->faker->dateTimeThisYear()->format('Y-m-d\TH:i:sP'),
+                'signature_process_completed_at' => $this->faker->dateTimeThisYear()->format('Y-m-d\TH:i:sP'),
                 'context' => $this->faker->sentence(),
             ],
             'authentication' => [
                 'mode' => $this->faker->sentence(),
                 'code' => $this->faker->sentence(),
-                'validated_at' => $this->faker->dateTimeThisYear->format('Y-m-d\TH:i:sP'),
+                'validated_at' => $this->faker->dateTimeThisYear()->format('Y-m-d\TH:i:sP'),
             ],
             'documents' => [
-                'id' => $this->faker->uuid(),
-                'name' => $this->faker->sentence(),
-                'mime_type' => $this->faker->sentence(),
-                'initial_mime_type' => $this->faker->sentence(),
-                'initial_name' => $this->faker->sentence(),
-                'initial_storage_id' => $this->faker->uuid(),
-                'initial_hash' => $this->faker->sentence(),
-                'sentence' => [],
+                [
+                    'id' => $this->faker->uuid(),
+                    'name' => $this->faker->sentence(),
+                    'mime_type' => $this->faker->sentence(),
+                    'initial_mime_type' => $this->faker->sentence(),
+                    'initial_name' => $this->faker->sentence(),
+                    'initial_storage_id' => $this->faker->uuid(),
+                    'initial_hash' => $this->faker->sentence(),
+                    'signatures' => [],
+                ],
             ],
             'signer_consents' => [
                 [

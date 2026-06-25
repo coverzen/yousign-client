@@ -10,14 +10,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class AddSignerRequest.
  *
- * @property array $info
+ * @property array<string,mixed> $info
  * @property SignatureLevel|null $signature_level
  * @property SignatureAuthenticationMode|null $signature_authentication_mode
  * @property array<int,SignerField>|null $fields
- * @property-read array|null $payload
+ * @property-read array<string,mixed>|null $payload
  */
 final class AddSignerRequest extends Request
 {
+    /** @use HasFactory<AddSignerRequestFactory> */
     use HasFactory;
 
     /** {@inheritdoc} */
@@ -31,7 +32,7 @@ final class AddSignerRequest extends Request
     /** {@inheritdoc} */
     protected $casts = [
         'signature_level' => SignatureLevel::class,
-        'signature_authentication_mode' => SignatureAuthenticationMode::class . ':nullable',
+        'signature_authentication_mode' => SignatureAuthenticationMode::class,
     ];
 
     /** {@inheritdoc} */
@@ -45,7 +46,7 @@ final class AddSignerRequest extends Request
     /**
      * Set the proper factory for model.
      *
-     * @return AddSignerRequestFactory<self>
+     * @return AddSignerRequestFactory
      */
     protected static function newFactory(): AddSignerRequestFactory
     {

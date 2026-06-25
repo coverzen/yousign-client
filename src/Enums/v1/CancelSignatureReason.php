@@ -2,15 +2,12 @@
 
 namespace Coverzen\Components\YousignClient\Enums\v1;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
- * Class CancelSignatureReason.
- *
- * @method static self contractualization_aborted()
- * @method static self errors_in_document()
- * @method static self other()
+ * Enum CancelSignatureReason.
  */
-final class CancelSignatureReason extends Enum
+enum CancelSignatureReason: string
 {
+    case contractualization_aborted = 'contractualization_aborted';
+    case errors_in_document = 'errors_in_document';
+    case other = 'other';
 }

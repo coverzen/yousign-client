@@ -12,10 +12,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string|null $file_content
  * @property string|null $file_name
  * @property DocumentNature $nature
- * @property-read array $payload
+ * @property-read array<string,mixed> $payload
  */
 final class UploadDocumentRequest extends Request
 {
+    /** @use HasFactory<UploadDocumentRequestFactory> */
     use HasFactory;
 
     /** {@inheritdoc} */
@@ -33,7 +34,7 @@ final class UploadDocumentRequest extends Request
     /**
      * Set the proper factory for model.
      *
-     * @return UploadDocumentRequestFactory<self>
+     * @return UploadDocumentRequestFactory
      */
     protected static function newFactory(): UploadDocumentRequestFactory
     {

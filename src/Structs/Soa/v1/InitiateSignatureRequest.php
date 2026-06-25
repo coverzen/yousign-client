@@ -15,11 +15,12 @@ use Illuminate\Support\Facades\Config;
  * @property DeliveryMode $delivery_mode
  * @property bool $ordered_signers
  * @property string|null $timezone
- * @property array|null $email_notification
+ * @property array<string,mixed>|null $email_notification
  * @property string|null $custom_experience_id
  */
 final class InitiateSignatureRequest extends Request
 {
+    /** @use HasFactory<InitiateSignatureRequestFactory> */
     use HasFactory;
 
     /** {@inheritdoc} */
@@ -45,7 +46,7 @@ final class InitiateSignatureRequest extends Request
     ];
 
     /**
-     * @param array<array-key,mixed> $attributes
+     * @param array<string,mixed> $attributes
      *
      * @return void
      */
@@ -53,14 +54,14 @@ final class InitiateSignatureRequest extends Request
     {
         parent::__construct($attributes);
 
-        $this->delivery_mode = DeliveryMode::none();
+        $this->delivery_mode = DeliveryMode::none;
         $this->custom_experience_id = Config::get(YousignClientServiceProvider::CONFIG_KEY . '.custom_experience_id');
     }
 
     /**
      * Set the proper factory for the model.
      *
-     * @return InitiateSignatureRequestFactory<self>
+     * @return InitiateSignatureRequestFactory
      */
     protected static function newFactory(): InitiateSignatureRequestFactory
     {

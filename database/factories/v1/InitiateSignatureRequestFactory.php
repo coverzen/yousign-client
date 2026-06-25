@@ -4,19 +4,19 @@ namespace Coverzen\Components\YousignClient\Database\Factories\v1;
 
 use Coverzen\Components\YousignClient\Enums\v1\DeliveryMode;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class InitiateSignatureRequestFactory.
  *
- * @template TModel of InitiateSignatureRequest
- * @extends AbstractFactory<TModel>
+ * @extends Factory<InitiateSignatureRequest>
  */
-final class InitiateSignatureRequestFactory extends AbstractFactory
+final class InitiateSignatureRequestFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<TModel>
+     * @var class-string<InitiateSignatureRequest>
      */
     protected $model = InitiateSignatureRequest::class;
 
@@ -27,7 +27,7 @@ final class InitiateSignatureRequestFactory extends AbstractFactory
     {
         return [
             'name' => $this->faker->name(),
-            'delivery_mode' => $this->faker->randomEnumValue(DeliveryMode::class),
+            'delivery_mode' => $this->faker->randomElement(DeliveryMode::class),
             'ordered_signers' => $this->faker->boolean(),
             'timezone' => $this->faker->timezone(),
             'email_notification' => [
