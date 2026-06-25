@@ -1,3 +1,21 @@
+# [3.0.0](https://github.com/coverzen/yousign-client/compare/v2.2.0...v3.0.0) (2026-06-25)
+
+
+* feat!: migrate to native PHP enums and support Laravel 12/13 ([ca3091d](https://github.com/coverzen/yousign-client/commit/ca3091d8fa655b0250a55512df5feb335fbd4677))
+* refactor!: simplify factories and type enum fields on response structs ([8f86733](https://github.com/coverzen/yousign-client/commit/8f867333ec5f047976e5f931e0e76364372611d4))
+
+
+### BREAKING CHANGES
+
+* enum fields on response structs (status, delivery_mode,
+signature_level, signature_authentication_mode) now return BackedEnum
+instances instead of strings.
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+* enums are now native PHP enums (use Enum::case instead of
+Enum::case()), spatie/laravel-enum is removed, and Laravel 11 / PHP < 8.3 are
+no longer supported (illuminate/support ^12.0||^13.0).
+
 # [2.2.0](https://github.com/coverzen/yousign-client/compare/v2.1.0...v2.2.0) (2025-03-14)
 
 
