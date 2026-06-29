@@ -7,6 +7,7 @@ use Coverzen\Components\YousignClient\Exceptions\Structs\v1\StructSaveException;
 use Coverzen\Components\YousignClient\Structs\Soa\v1\InitiateSignatureRequest;
 use Coverzen\Components\YousignClient\YousignClientServiceProvider;
 use Illuminate\Support\Facades\Config;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * Class InitiateSignatureRequestTest.
@@ -17,6 +18,9 @@ final class InitiateSignatureRequestTest extends TestCase
 {
     /** @var string */
     private const FAKE_CUSTOM_EXPERIENCE_ID = 'fake-custom-experience-id';
+
+    /** @var string */
+    private const FAKE_EXTERNAL_ID = 'internal-process-uuid';
 
     /**
      * @test
@@ -223,5 +227,35 @@ final class InitiateSignatureRequestTest extends TestCase
         } else {
             $this->assertArrayNotHasKey('custom_experience_id', $initiateSignatureRequest->payload);
         }
+    }
+
+    /**
+     * @return void
+     */
+    #[Test]
+    public function it_includes_external_id_in_payload_when_set(): void
+    {
+        /** @var InitiateSignatureRequest $initiateSignatureRequest */
+        $initiateSignatureRequest = new InitiateSignatureRequest(['external_id' => self::FAKE_EXTERNAL_ID]);
+
+        $this->assertSame(self::FAKE_EXTERNAL_ID, $initiateSignatureRequest->external_id);
+
+        $this->assertArrayHasKey('external_id', $initiateSignatureRequest->payload);
+        $this->assertSame(self::FAKE_EXTERNAL_ID, $initiateSignatureRequest->payload['external_id']);
+    }
+
+    /**
+     * @return void
+     */
+    #[Test]
+    public function it_omits_external_id_from_payload_when_not_set(): void
+    {
+        /** @var InitiateSignatureRequest $initiateSignatureRequest */
+        $initiateSignatureRequest = InitiateSignatureRequest::factory()
+                                                            ->make();
+
+        $this->assertNull($initiateSignatureRequest->external_id);
+
+        $this->assertArrayNotHasKey('external_id', $initiateSignatureRequest->payload);
     }
 }
