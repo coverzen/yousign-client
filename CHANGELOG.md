@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/coverzen/yousign-client/compare/v3.0.0...v3.1.0) (2026-06-29)
+
+
+### Features
+
+* add external_id to InitiateSignatureRequest ([0ac5f69](https://github.com/coverzen/yousign-client/commit/0ac5f698eb08d2f25332649ff4da464d9d0a2d34))
+
 # [3.0.0](https://github.com/coverzen/yousign-client/compare/v2.2.0...v3.0.0) (2026-06-25)
 
 
