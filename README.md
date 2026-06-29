@@ -228,6 +228,7 @@ assigning properties. Enum fields accept native enum instances.
 | `ordered_signers`    | `bool`                      | Defaults to `false`.                          |
 | `timezone`           | `string\|null`              | e.g. `Europe/Rome`.                           |
 | `email_notification` | `array<string,mixed>\|null` | Optional email notification settings.         |
+| `external_id`        | `string\|null`              | Your correlation id, echoed back in webhooks. |
 
 > `custom_experience_id` is injected automatically from config (`YOUSIGN_CUSTOM_EXPERIENCE_ID`) when set.
 

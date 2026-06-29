@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Config;
  * @property string|null $timezone
  * @property array<string,mixed>|null $email_notification
  * @property string|null $custom_experience_id
+ * @property string|null $external_id
  */
 final class InitiateSignatureRequest extends Request
 {
@@ -30,6 +31,7 @@ final class InitiateSignatureRequest extends Request
         'ordered_signers',
         'timezone',
         'email_notification',
+        'external_id',
     ];
 
     /** {@inheritdoc} */
