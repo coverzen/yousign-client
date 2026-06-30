@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * Class UploadDocumentRequest.
  *
  * @property string|null $file_content
- * @property string|null $file_name
+ * @property string $file_name
  * @property DocumentNature $nature
  * @property-read array<string,mixed> $payload
  */
@@ -22,6 +22,11 @@ final class UploadDocumentRequest extends Request
     /** {@inheritdoc} */
     protected $casts = [
         'nature' => DocumentNature::class,
+    ];
+
+    /** {@inheritdoc} */
+    protected array $rules = [
+        'file_name' => ['required', 'string'],
     ];
 
     /** {@inheritdoc} */

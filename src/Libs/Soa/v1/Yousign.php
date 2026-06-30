@@ -123,6 +123,10 @@ class Yousign extends Soa
             throw new RuntimeException('File content is required.');
         }
 
+        if (!$uploadDocumentRequest->file_name) {
+            throw new RuntimeException('File name is required.');
+        }
+
         /**
          * The client is cloned so that the `attach()` method doesn't change headers for all the following requests.
          *
