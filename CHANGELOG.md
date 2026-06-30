@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/coverzen/yousign-client/compare/v3.1.0...v3.2.0) (2026-06-30)
+
+
+### Features
+
+* require file_name on document upload (fail-fast) ([d14a0f7](https://github.com/coverzen/yousign-client/commit/d14a0f7d426356080937cfd3e7a1c2897ece68f3))
+
 # [3.1.0](https://github.com/coverzen/yousign-client/compare/v3.0.0...v3.1.0) (2026-06-29)
 
 
