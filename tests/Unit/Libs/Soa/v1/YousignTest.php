@@ -32,6 +32,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\ExpectationFailedException;
+use RuntimeException;
 use function implode;
 
 #[CoversClass(Yousign::class)]
@@ -277,6 +278,28 @@ final class YousignTest extends TestCase
             $expectedUploadDocumentResponse->toArray(),
             $actualUploadDocumentResponse->toArray()
         );
+    }
+
+    /**
+     * @return void
+     */
+    #[Test]
+    public function it_throws_an_exception_when_file_name_is_missing(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('File name is required.');
+
+        Http::preventStrayRequests();
+
+        /** @var UploadDocumentRequest $uploadDocumentRequest */
+        $uploadDocumentRequest = UploadDocumentRequest::factory()
+                                                      ->make(
+                                                          [
+                                                              'file_name' => null,
+                                                          ]
+                                                      );
+
+        (new Yousign())->uploadDocument(self::SIGNATURE_ID, $uploadDocumentRequest);
     }
 
     /**
