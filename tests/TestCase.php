@@ -3,7 +3,9 @@
 namespace Coverzen\Components\YousignClient\Tests;
 
 use Coverzen\Components\YousignClient\YousignClientServiceProvider;
+use Illuminate\Http\Client\Events\ResponseReceived;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 /**
@@ -16,6 +18,7 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         Config::set('app.faker_locale', 'it_IT');
+        Event::fake(ResponseReceived::class);
     }
 
     /**
