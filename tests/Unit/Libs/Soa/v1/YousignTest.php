@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -300,6 +301,26 @@ final class YousignTest extends TestCase
                                                       );
 
         (new Yousign())->uploadDocument(self::SIGNATURE_ID, $uploadDocumentRequest);
+    }
+
+    /**
+     * @return void
+     */
+    #[Test]
+    public function it_validates_the_signer_before_sending_the_request(): void
+    {
+        /** @var AddSignerRequest $addSignerRequest */
+        $addSignerRequest = AddSignerRequest::factory()
+                                            ->make();
+
+        /** @phpstan-ignore assign.propertyType */
+        $addSignerRequest->info = Arr::except($addSignerRequest->info, ['locale']);
+
+        $this->expectException(ValidationException::class);
+
+        (new Yousign())->addSigner(self::SIGNATURE_ID, $addSignerRequest);
+
+        Http::assertNothingSent();
     }
 
     /**
