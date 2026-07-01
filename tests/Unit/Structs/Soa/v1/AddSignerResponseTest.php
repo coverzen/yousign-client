@@ -60,6 +60,24 @@ final class AddSignerResponseTest extends TestCase
     }
 
     /**
+     * Yousign returns a signer with no signing link while the request is still a
+     * draft; the link is only minted on activation. The fake must mirror that.
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function it_has_no_signing_link_before_activation(): void
+    {
+        /** @var AddSignerResponse $addSignerResponse */
+        $addSignerResponse = AddSignerResponse::factory()
+                                              ->make();
+
+        $this->assertNull($addSignerResponse->signature_link);
+        $this->assertNull($addSignerResponse->signature_link_expiration_date);
+    }
+
+    /**
      * @test
      * @covers \Coverzen\Components\YousignClient\Structs\Soa\v1\UploadDocumentRequest::factory
      *
