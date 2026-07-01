@@ -1,3 +1,10 @@
+# [3.4.0](https://github.com/coverzen/yousign-client/compare/v3.3.1...v3.4.0) (2026-07-01)
+
+
+### Features
+
+* validate signer info before sending the add-signer request ([7834ede](https://github.com/coverzen/yousign-client/commit/7834ede268668f9cf02ac0e86a257a3f6b6edc9f))
+
 ## [3.3.1](https://github.com/coverzen/yousign-client/compare/v3.3.0...v3.3.1) (2026-07-01)
 
 
