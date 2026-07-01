@@ -21,6 +21,7 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use RuntimeException;
 use Throwable;
 use function base64_decode;
@@ -169,10 +170,13 @@ class Yousign extends Soa
      * @param string $signatureRequestId
      * @param AddSignerRequest $addSignerRequest
      *
+     * @throws ValidationException
      * @return AddSignerResponse
      */
     public function addSigner(string $signatureRequestId, AddSignerRequest $addSignerRequest): AddSignerResponse
     {
+        $addSignerRequest->validate();
+
         $url = implode(
             self::URL_SEPARATOR,
             [

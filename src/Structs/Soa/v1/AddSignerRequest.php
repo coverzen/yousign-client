@@ -3,9 +3,11 @@
 namespace Coverzen\Components\YousignClient\Structs\Soa\v1;
 
 use Coverzen\Components\YousignClient\Database\Factories\v1\AddSignerRequestFactory;
+use Coverzen\Components\YousignClient\Enums\v1\Locale;
 use Coverzen\Components\YousignClient\Enums\v1\SignatureAuthenticationMode;
 use Coverzen\Components\YousignClient\Enums\v1\SignatureLevel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class AddSignerRequest.
@@ -51,5 +53,20 @@ final class AddSignerRequest extends Request
     protected static function newFactory(): AddSignerRequestFactory
     {
         return AddSignerRequestFactory::new();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function validationRules(): array
+    {
+        return [
+            'info' => ['required', 'array'],
+            'info.first_name' => ['required', 'string'],
+            'info.last_name' => ['required', 'string'],
+            'info.email' => ['required', 'email'],
+            'info.phone_number' => ['nullable', 'string'],
+            'info.locale' => ['required', new Enum(Locale::class)],
+        ];
     }
 }
