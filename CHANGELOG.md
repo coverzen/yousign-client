@@ -1,3 +1,10 @@
+# [3.3.0](https://github.com/coverzen/yousign-client/compare/v3.2.0...v3.3.0) (2026-07-01)
+
+
+### Features
+
+* log Yousign request/response on a dedicated channel ([0b7da75](https://github.com/coverzen/yousign-client/commit/0b7da75eaced23dd1e6ffc6525cea55ed51a29b1))
+
 # [3.2.0](https://github.com/coverzen/yousign-client/compare/v3.1.0...v3.2.0) (2026-06-30)
 
 
