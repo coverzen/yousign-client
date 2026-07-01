@@ -1,3 +1,10 @@
+## [3.3.1](https://github.com/coverzen/yousign-client/compare/v3.3.0...v3.3.1) (2026-07-01)
+
+
+### Bug Fixes
+
+* AddSignerResponse fake has no signing link before activation ([8c8941d](https://github.com/coverzen/yousign-client/commit/8c8941d5e9c2c0a0527a9a03e1a1f93928a9a2fa))
+
 # [3.3.0](https://github.com/coverzen/yousign-client/compare/v3.2.0...v3.3.0) (2026-07-01)
 
 
